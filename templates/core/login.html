@@ -1,0 +1,27 @@
+{% extends "core/layout.html" %}
+
+{% block content %}
+    SIGN IN
+    <form action="">
+        {% csrf_token %}
+
+    </form>
+    <br>
+    NEW KITTEN
+    <form method="post" action="/auth/users/create/">
+        {% csrf_token %}
+        <label>
+            username
+            <input name="username" type="text">
+        </label>
+        <label>
+            password
+            <input name="password" type="password">
+        </label>
+        <label>
+            email
+            <input name="email" type="text">
+        </label>
+        <button type="submit">OK</button>
+    </form>
+{% endblock %}

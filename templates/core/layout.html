@@ -1,0 +1,49 @@
+{% load staticfiles %}
+{% load core_extras %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="title" content="{{ title }}">
+
+    <title>{{ title }}</title>
+
+    <!-- jquery todo download -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+
+<body>
+
+{# todo remove ???? #}
+<!-- recreating csrf_token -->
+<form style="display: none;">{% csrf_token %}</form>
+
+<script type="text/javascript">
+    window.initJsScript = "{{ init_js_script }}";
+</script>
+
+{% if show_header %}
+    {% include "core/partials/header.html" %}
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+{% if show_footer %}
+    {% include "core/partials/footer.html" %}
+{% endif %}
+
+<!-- js files -->
+{% if minify_front %}
+    {# todo minified files #}
+    {# <script src="{% static '/core/dist/core.min.js' %}{% timecache %}"></script>#}
+{% else %}
+    {% for link in client_js.web %}
+        <script src="{% static link %}{% timecache %}"></script>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

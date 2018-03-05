@@ -1,0 +1,6 @@
+
+# Enviroments:
+
+- DEBUG
+- PRODUCTION
+- MINIFY_FRONT
