@@ -152,5 +152,9 @@ FRONTEND_SETTINGS = {
     "client_css": {}
 }
 
+SIXPACK_SETTINGS = {
+    'host': os.environ.get('SIXPACK_HOST', '127.0.0.1:5000'),
+    'timeout': 0.5
+}
 
 # TODO logging
