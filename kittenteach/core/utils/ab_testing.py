@@ -5,6 +5,9 @@ import requests
 
 from kittenteach.core.utils.utils import singleton
 from kittenteach.settings import SIXPACK_SETTINGS
+from slugify import Slugify
+
+c_slugify = Slugify(separator='_', to_lower=True)
 
 
 def get_client_ip(request):
@@ -37,7 +40,7 @@ class SixpackClient:
         if not (0 <= float(traffic_fraction) <= 1):
             raise ValueError('Bad traffic_fraction specified (should be a number between 0 and 1')
 
-        client_id = request.COOKIES.get(self.__cookie_fmt.format(experiment_name))
+        client_id = request.COOKIES.get(self.get_cookie_name(experiment_name))
         if client_id is None:
             client_id = uuid4()
             new_user = True
@@ -50,7 +53,7 @@ class SixpackClient:
         params = {
             'client_id': client_id,
             'experiment': experiment_name,
-            'alternatives': alternatives,
+            'alternatives': list(alternatives),
             'prefetch': prefetch,
             'traffic_fraction': traffic_fraction,
             # to detect bot
@@ -62,17 +65,31 @@ class SixpackClient:
             params['force'] = force
 
         response = self.get_response('/participate', params)
+
         if response['status'] == 'failed':
-            response['alternative'] = {'name': alternatives[0]}
+            default_alt_name = list(alternatives)[0]
+            try:
+                default_alt_value = alternatives[default_alt_name]
+            except TypeError:
+                default_alt_value = None
+
+            response['alternative'] = {'name': default_alt_name, 'value': default_alt_value}
         else:
+            try:
+                alt_value = alternatives[response['alternative']['name']]
+            except TypeError:
+                alt_value = None
+
             response['new_user'] = new_user
+            response['alternative']['value'] = alt_value
+
         return response
 
     def convert(self, request, experiment_name, *, kpi=None):
         if not self.name_is_valid(experiment_name):
             raise ValueError('Bad experiment name')
 
-        client_id = request.COOKIES.get(self.__cookie_fmt.format(experiment_name))
+        client_id = request.COOKIES.get(self.get_cookie_name(experiment_name))
         user_agent = request.META.get('HTTP_USER_AGENT')
         ip_address = get_client_ip(request)
 
@@ -85,7 +102,7 @@ class SixpackClient:
 
         if kpi:
             if not self.name_is_valid(kpi):
-                raise ValueError('Bad KPI name: {0}'.format(kpi))
+                raise ValueError(f'Bad KPI name: {kpi}')
             params['kpi'] = kpi
 
         return self.get_response('/convert', params)
@@ -126,4 +143,7 @@ class SixpackClient:
         experiment_name = sixpack_response['experiment']['name']
         client_id = sixpack_response['client_id']
 
-        response.set_cookie(self.__cookie_fmt.format(experiment_name), client_id)
+        response.set_cookie(self.get_cookie_name(experiment_name), client_id)
+
+    def get_cookie_name(self, experiment_name):
+        return self.__cookie_fmt.format(c_slugify(experiment_name))
