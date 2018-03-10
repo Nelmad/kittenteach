@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kittenteach.settings")
+prod_mode = os.getenv("PRODUCTION", "").lower() == 'true'
+settings = "kittenteach.settings.prod" if prod_mode else "kittenteach.settings.dev"
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
 application = get_wsgi_application()
