@@ -36,14 +36,9 @@
 {% endif %}
 
 <!-- js files -->
-{% if minify_front %}
-    {# todo minified files #}
-    {# <script src="{% static '/core/dist/core.min.js' %}{% timecache %}"></script>#}
-{% else %}
-    {% for link in client_js.web %}
-        <script src="{% static link %}{% timecache %}"></script>
-    {% endfor %}
-{% endif %}
+{% for link in client_js %}
+    <script src="{% static link %}{% timecache %}"></script>
+{% endfor %}
 
 </body>
 </html>

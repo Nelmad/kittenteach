@@ -1,4 +1,4 @@
-from kittenteach import settings
+from django.conf import settings
 
 
 def base(request):

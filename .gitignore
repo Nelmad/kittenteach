@@ -1,4 +1,5 @@
 .idea/
+conf/
 
 virtualenv
 
@@ -58,3 +59,4 @@ target/
 #
 node_modules/
 *.sqlite3
+conf/

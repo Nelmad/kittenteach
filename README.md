@@ -1,7 +1,5 @@
 
-# Enviroments:
+# Environments:
 
-- DEBUG
 - PRODUCTION
-- MINIFY_FRONT
-- SIXPACK_HOST
+- DATA_DIR
