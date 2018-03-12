@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from kittenteach.api.serializers import UserSerializer, StudentSerializer, TeacherSerializer
-from kittenteach.core.models import Student, Teacher
+from kittenteach.api.serializers import UserSerializer, StudentSerializer, TeacherSerializer, SubjectSerializer
 from kittenteach.api.viewsets import ProfileViewSet
+from kittenteach.core.models import Student, Teacher, Subject
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -22,6 +22,11 @@ class StudentViewSet(ProfileViewSet):
 class TeacherViewSet(ProfileViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
 
 
 def auth(request):

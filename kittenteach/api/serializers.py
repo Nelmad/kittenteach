@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from kittenteach.api.validators import UserValidator
-from kittenteach.core.models import Student, Teacher
+from kittenteach.core.models import Student, Teacher, Balance, Subject
 
 
 class UserSerializer(serializers.ModelSerializer, UserValidator):
@@ -38,7 +38,7 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-        student, created = Teacher.objects.update_or_create(user=new_user)
+        student, created = Student.objects.update_or_create(user=new_user)
         return student
 
 
@@ -54,3 +54,28 @@ class TeacherSerializer(serializers.HyperlinkedModelSerializer):
         new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         teacher, created = Teacher.objects.update_or_create(user=new_user)
         return teacher
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ('id', 'name')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
+class BalanceSerializer(serializers.ModelSerializer):
+    # student = StudentSerializer(required=True)
+    # teacher = TeacherSerializer(required=True)
+
+    class Meta:
+        model = Balance
+        fields = ('id', 'balance', 'student', 'teacher')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    pass

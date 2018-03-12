@@ -9,6 +9,7 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'students', views.StudentViewSet)
 router.register(r'teachers', views.TeacherViewSet)
+router.register(r'subjects', views.SubjectViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
