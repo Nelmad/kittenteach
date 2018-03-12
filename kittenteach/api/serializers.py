@@ -8,7 +8,7 @@ from kittenteach.core.models import Student, Teacher
 class UserSerializer(serializers.ModelSerializer, UserValidator):
     class Meta:
         model = User
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'username')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name')
         extra_kwargs = {
             'id': {'read_only': True},
             'password': {'write_only': True},
@@ -34,6 +34,12 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
         fields = ('url', 'user')
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        student, created = Teacher.objects.update_or_create(user=new_user)
+        return student
 
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
