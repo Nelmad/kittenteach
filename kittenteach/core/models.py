@@ -20,8 +20,8 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=PROTECT)
-    students = models.ManyToManyField(Student, related_name='teachers')
-    subjects = models.ManyToManyField(Subject, related_name='subjects')
+    students = models.ManyToManyField(Student, related_name='teachers', blank=True)
+    subjects = models.ManyToManyField(Subject, related_name='subjects', blank=True)
 
     class Meta:
         db_table = 'teachers'

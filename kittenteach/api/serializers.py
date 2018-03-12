@@ -1,21 +1,56 @@
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
+
 from kittenteach.core.models import Student, Teacher
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'password': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        email = validated_data.pop('email').lower()
+        password = validated_data.pop('password')
+
+        # set email and username the same
+        user = User(
+            email=email,
+            username=email
+        )
+        user.set_password(password)
+        user.save()
+        return user
+
+    def validate_email(self, value):
+        value = value.lower()
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(_("Email field must be unique."), code='unique')
+        return value
 
 
 class StudentSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(required=True)
+
     class Meta:
         model = Student
-        fields = ('username', 'email')
+        fields = ('url', 'user')
 
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(required=True)
+
     class Meta:
         model = Teacher
-        fields = ('username', 'email')
+        fields = ('url', 'user', 'subjects')
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        teacher, created = Teacher.objects.update_or_create(user=new_user)
+        return teacher

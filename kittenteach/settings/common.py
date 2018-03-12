@@ -119,7 +119,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    str(PROJECT_PACKAGE.joinpath('static')),
+    str(BASE_DIR.joinpath('static')),
 ]
 
 REST_FRAMEWORK = {
