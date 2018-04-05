@@ -1,10 +1,11 @@
+import abc
 import re
 from uuid import uuid4
 
 import requests
+from django.conf import settings
 
 from kittenteach.core.utils.utils import singleton
-from kittenteach.settings import SIXPACK_SETTINGS
 from slugify import Slugify
 
 c_slugify = Slugify(separator='_', to_lower=True)
@@ -15,17 +16,39 @@ def get_client_ip(request):
     return x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
 
 
+class ABClient(abc.ABC):
+    cookie_fmt = 'client_id_{}'
+
+    @abc.abstractmethod
+    def participate(self, *args):
+        pass
+
+    @abc.abstractmethod
+    def convert(self, *args):
+        pass
+
+    @abc.abstractmethod
+    def check_cookie(self, *args):
+        pass
+
+    @abc.abstractmethod
+    def set_cookie(self, *args):
+        pass
+
+    def get_cookie_name(self, experiment_name):
+        return self.cookie_fmt.format(c_slugify(experiment_name))
+
+
 @singleton
-class SixpackClient:
+class SixpackClient(ABClient):
     def __init__(self, host=None, *, timeout=None):
-        self.host = host or SIXPACK_SETTINGS.get('host')
+        self.host = str(host if host is not None else settings.SIXPACK_SETTINGS.get('host'))
         if not self.host.startswith(("http://", "https://")):
             self.host = f"http://{self.host}"
 
-        self.timeout = float(timeout or SIXPACK_SETTINGS.get('timeout'))
+        self.timeout = float(timeout if timeout is not None else settings.SIXPACK_SETTINGS.get('timeout'))
 
         self.__valid_name_re = re.compile(r"^[a-z0-9][a-z0-9\-_ ]*$", re.I)
-        self.__cookie_fmt = "client_id_{}"
 
     def participate(self, request, experiment_name, *, alternatives, force=None, traffic_fraction=1, prefetch=False):
         if not self.name_is_valid(experiment_name):
@@ -63,6 +86,7 @@ class SixpackClient:
 
         if force is not None and force in alternatives:
             params['force'] = force
+            params['record_force'] = True
 
         response = self.get_response('/participate', params)
 
@@ -102,7 +126,7 @@ class SixpackClient:
 
         if kpi:
             if not self.name_is_valid(kpi):
-                raise ValueError(f'Bad KPI name: {kpi}')
+                raise ValueError('Bad KPI name: {0}'.format(kpi))
             params['kpi'] = kpi
 
         return self.get_response('/convert', params)
@@ -140,10 +164,12 @@ class SixpackClient:
             self.set_cookie(response, sixpack_response)
 
     def set_cookie(self, response, sixpack_response):
-        experiment_name = sixpack_response['experiment']['name']
-        client_id = sixpack_response['client_id']
+        experiment = sixpack_response.get('experiment')
 
-        response.set_cookie(self.get_cookie_name(experiment_name), client_id)
+        if experiment is not None:
+            experiment_name = experiment['name']
+            client_id = sixpack_response['client_id']
 
-    def get_cookie_name(self, experiment_name):
-        return self.__cookie_fmt.format(c_slugify(experiment_name))
+            response.set_cookie(self.get_cookie_name(experiment_name), client_id)
+
+# TODO add optimizely if free
