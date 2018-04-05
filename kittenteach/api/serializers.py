@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 
 from kittenteach.api.validators import UserValidator
@@ -47,7 +48,7 @@ class TeacherSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Teacher
-        fields = ('url', 'user', 'subjects')
+        fields = ('url', 'user', 'students', 'subjects')
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -79,3 +80,22 @@ class BalanceSerializer(serializers.ModelSerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
     pass
+
+
+class StudentCreateSerializer(serializers.ModelSerializer):
+    user = UserCreateSerializer(required=True)
+
+    class Meta:
+        model = Student
+        fields = ('user',)
+
+    def validate(self, attrs):
+        print('validate')
+        print(attrs)
+        # todo check unique email and etc
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        student, created = Student.objects.update_or_create(user=new_user)
+        return student
