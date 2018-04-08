@@ -11,10 +11,40 @@ class UserCreateSerializer(serializers.ModelSerializer, validators.UserCreateVal
     class Meta:
         model = User
         fields = ('email', 'password', 'first_name', 'last_name')
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {
+            'password': {
+                'required': True,
+                'write_only': True,
+                'error_messages': {
+                    'required': 'Password field is required.',
+                    'blank': 'Password field should not be blank.',
+                }
+            },
+            'email': {
+                'required': True,
+                'error_messages': {
+                    'required': 'Email field is required.',
+                    'blank': 'Email field should not be blank.',
+                }
+            },
+            'first_name': {
+                'required': True,
+                'error_messages': {
+                    'required': 'First name field is required.',
+                    'blank': 'First name field should not be blank.',
+                }
+            },
+            'last_name': {
+                'required': True,
+                'error_messages': {
+                    'required': 'Last name field is required.',
+                    'blank': 'Last name field should not be blank.',
+                }
+            }
+        }
 
     def create(self, validated_data):
-        email = validated_data.pop('email')
+        email = validated_data.pop('email', '')
         password = validated_data.pop('password')
 
         # set email and username the same
@@ -25,7 +55,7 @@ class UserCreateSerializer(serializers.ModelSerializer, validators.UserCreateVal
 
 
 class StudentCreateSerializer(serializers.ModelSerializer):
-    user = UserCreateSerializer(required=True)
+    user = UserCreateSerializer(required=True, error_messages={'required': 'User field is required.'})
 
     class Meta:
         model = models.Student
@@ -39,7 +69,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
 
 
 class TeacherCreateSerializer(serializers.ModelSerializer):
-    user = UserCreateSerializer(required=True)
+    user = UserCreateSerializer(required=True, error_messages={'required': 'User field is required.'})
 
     class Meta:
         model = models.Teacher
