@@ -1,33 +1,27 @@
-from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import generics, permissions
 
-from kittenteach.api.serializers import UserSerializer, StudentSerializer, TeacherSerializer, SubjectSerializer
-from kittenteach.api.viewsets import ProfileViewSet
-from kittenteach.core.models import Student, Teacher, Subject
+from kittenteach.api import serializers
+from kittenteach.core import models
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+# Student Views
+class StudentCreateView(generics.CreateAPIView):
     """
-    API endpoint that allows users to be viewed.
+    Student create endpoint
     """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = serializers.StudentCreateSerializer
+    queryset = models.Student.objects.all()
+    permission_classes = [permissions.AllowAny]
 
 
-class StudentViewSet(ProfileViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+# Teacher Views
+class TeacherCreateView(generics.CreateAPIView):
+    """
+    Teacher create endpoint
+    """
+    serializer_class = serializers.TeacherCreateSerializer
+    queryset = models.Teacher.objects.all()
+    permission_classes = [permissions.AllowAny]
 
 
-class TeacherViewSet(ProfileViewSet):
-    queryset = Teacher.objects.all()
-    serializer_class = TeacherSerializer
 
-
-class SubjectViewSet(viewsets.ModelViewSet):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
-
-
-def auth(request):
-    pass
