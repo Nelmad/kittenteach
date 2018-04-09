@@ -16,7 +16,7 @@ try:
         SECRETS = json.load(handle)
 except IOError:
     SECRETS = {
-        'secret_key': 'a',
+        'secret_key': 'secret_key',
         'superfeedr_creds': ['any@email.com', 'some_string'],
     }
 
@@ -31,7 +31,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser',
 
     'kittenteach.core.apps.CoreConfig'
 ]
@@ -132,6 +131,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 SIXPACK_SETTINGS = {

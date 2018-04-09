@@ -12,10 +12,10 @@ class UserCreateValidator:
 
     def validate_first_name(self, value):
         if not value:
-            raise serializers.ValidationError(_("First name field must not be empty"))
-        return value
+            raise serializers.ValidationError(_("First name field should not be blank."))
+        return str(value)
 
     def validate_last_name(self, value):
         if not value:
-            raise serializers.ValidationError(_("Last name field must not be empty"))
-        return value
+            raise serializers.ValidationError(_("Last name field should not be blank."))
+        return str(value)
