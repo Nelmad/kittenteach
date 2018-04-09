@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions
 
-from kittenteach.api import serializers
+from kittenteach.api import serializers, pagination
 from kittenteach.core import models
 
 
@@ -49,6 +49,7 @@ class StudentListView(generics.ListAPIView):
     # TODO get students list available only for teachers
     # permission_classes = [permissions.IsAuthenticated]
     permission_classes = [permissions.AllowAny]
+    pagination_class = pagination.LimitOffsetPagination
 
 
 class TeacherListView(generics.ListAPIView):
@@ -58,3 +59,4 @@ class TeacherListView(generics.ListAPIView):
     serializer_class = serializers.TeacherListSerializer
     queryset = models.Teacher.objects.all()
     permission_classes = [permissions.AllowAny]
+    pagination_class = pagination.LimitOffsetPagination

@@ -83,43 +83,54 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
-    # TODO read only
     class Meta:
         model = User
         fields = ('first_name', 'last_name')
+        extra_kwargs = {
+            'first_name': {'read_only': True},
+            'last_name': {'read_only': True},
+        }
 
 
-class StudentDetailsSerializer(serializers.HyperlinkedModelSerializer):
+class StudentDetailsSerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Student
+        fields = ('user', 'teachers')
+
+
+class TeacherDetailsSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Teacher
+        fields = ('user', 'students')
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name')
+        extra_kwargs = {
+            'first_name': {'read_only': True},
+            'last_name': {'read_only': True},
+        }
+
+
+class StudentListSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserListSerializer(read_only=True)
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='student-details')
 
     class Meta:
         model = models.Student
         fields = ('url', 'user')
 
 
-class TeacherDetailsSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserDetailsSerializer(read_only=True)
+class TeacherListSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserListSerializer(read_only=True)
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-details')
 
     class Meta:
         model = models.Teacher
         fields = ('url', 'user')
-
-
-class StudentListSerializer(serializers.ModelSerializer):
-    user = UserDetailsSerializer(read_only=True)
-
-    class Meta:
-        model = models.Student
-        fields = ('user',)
-
-
-class TeacherListSerializer(serializers.ModelSerializer):
-    user = UserDetailsSerializer(read_only=True)
-
-    class Meta:
-        model = models.Teacher
-        fields = ('user',)
-
-
-# TODO specify url
-# TODO pagination for lists
