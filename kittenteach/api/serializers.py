@@ -81,54 +81,45 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         student = models.Teacher.objects.create(user=new_user)
         return student
 
-# class StudentSerializer(serializers.HyperlinkedModelSerializer):
-#     user = UserSerializer(required=True)
-#
-#     class Meta:
-#         model = Student
-#         fields = ('url', 'user')
-#
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-#         student, created = Student.objects.update_or_create(user=new_user)
-#         return student
-#
-#
-# class TeacherSerializer(serializers.HyperlinkedModelSerializer):
-#     user = UserSerializer(required=True)
-#
-#     class Meta:
-#         model = Teacher
-#         fields = ('url', 'user', 'subjects')
-#
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         new_user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-#         teacher, created = Teacher.objects.update_or_create(user=new_user)
-#         return teacher
-#
-#
-# class SubjectSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Subject
-#         fields = ('id', 'name')
-#         extra_kwargs = {
-#             'id': {'read_only': True}
-#         }
-#
-#
-# class BalanceSerializer(serializers.ModelSerializer):
-#     # student = StudentSerializer(required=True)
-#     # teacher = TeacherSerializer(required=True)
-#
-#     class Meta:
-#         model = Balance
-#         fields = ('id', 'balance', 'student', 'teacher')
-#         extra_kwargs = {
-#             'id': {'read_only': True}
-#         }
-#
-#
-# class GroupSerializer(serializers.ModelSerializer):
-#     pass
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    # TODO read only
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name')
+
+
+class StudentDetailsSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Student
+        fields = ('url', 'user')
+
+
+class TeacherDetailsSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Teacher
+        fields = ('url', 'user')
+
+
+class StudentListSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Student
+        fields = ('user',)
+
+
+class TeacherListSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.Teacher
+        fields = ('user',)
+
+
+# TODO specify url
+# TODO pagination for lists
