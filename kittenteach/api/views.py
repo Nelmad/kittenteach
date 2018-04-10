@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 
 from kittenteach.api import serializers
 from kittenteach.core import models
@@ -46,6 +46,8 @@ class StudentListView(generics.ListAPIView):
     """
     serializer_class = serializers.StudentListSerializer
     queryset = models.Student.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__first_name', 'user__last_name')
     # TODO get students list available only for teachers
     # permission_classes = [permissions.IsAuthenticated]
     permission_classes = [permissions.AllowAny]
@@ -57,4 +59,6 @@ class TeacherListView(generics.ListAPIView):
     """
     serializer_class = serializers.TeacherListSerializer
     queryset = models.Teacher.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__first_name', 'user__last_name')
     permission_classes = [permissions.AllowAny]
