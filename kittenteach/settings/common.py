@@ -22,6 +22,14 @@ except IOError:
 
 SECRET_KEY = str(SECRETS['secret_key'])
 
+ROOT_URLCONF = 'kittenteach.urls'
+WSGI_APPLICATION = 'kittenteach.wsgi.application'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    str(BASE_DIR.joinpath('static')),
+]
+
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +53,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'kittenteach.urls'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'kittenteach.api.pagination.LimitOffsetPagination'
+}
 
 TEMPLATES = [
     {
@@ -64,8 +83,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'kittenteach.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -100,50 +117,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = False
-
 USE_L10N = False
-
 USE_TZ = False
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    str(BASE_DIR.joinpath('static')),
-]
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    # ]
-
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'kittenteach.api.pagination.LimitOffsetPagination'
-}
-
-SIXPACK_SETTINGS = {
-    'host': SECRETS.get('sixpack_host', '127.0.0.1:5000'),
-    'timeout': 0.5
-}
 
 SESSION_COOKIE_HTTPONLY = True  # TODO ???
 
@@ -175,4 +154,10 @@ LOGGING = {
             'propagate': False,
         },
     }
+}
+
+# Custom
+SIXPACK_SETTINGS = {
+    'host': SECRETS.get('sixpack_host', '127.0.0.1:5000'),
+    'timeout': 0.5
 }
