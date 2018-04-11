@@ -22,18 +22,18 @@ class TeacherCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class StudentDetailsView(generics.RetrieveAPIView):
+class StudentRetrieveView(generics.RetrieveAPIView):
     """
-    Student details endpoint
+    Student retrieve endpoint
     """
     serializer_class = serializers.StudentDetailsSerializer
     queryset = models.Student.objects.all()
     permission_classes = [permissions.AllowAny]
 
 
-class TeacherDetailsView(generics.RetrieveAPIView):
+class TeacherRetrieveView(generics.RetrieveAPIView):
     """
-    Teacher details endpoint
+    Teacher retrieve endpoint
     """
     serializer_class = serializers.TeacherDetailsSerializer
     queryset = models.Teacher.objects.all()
