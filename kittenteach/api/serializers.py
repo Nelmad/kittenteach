@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
 from kittenteach.api import validators
@@ -12,33 +13,36 @@ class UserCreateSerializer(serializers.ModelSerializer, validators.UserCreateVal
         model = User
         fields = ('email', 'password', 'first_name', 'last_name')
         extra_kwargs = {
+            'email': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Email field is required.'),
+                    'blank': _('Email field should not be blank.'),
+                }
+            },
             'password': {
                 'required': True,
                 'write_only': True,
                 'error_messages': {
-                    'required': 'Password field is required.',
-                    'blank': 'Password field should not be blank.',
-                }
-            },
-            'email': {
-                'required': True,
-                'error_messages': {
-                    'required': 'Email field is required.',
-                    'blank': 'Email field should not be blank.',
+                    'required': _('Password field is required.'),
+                    'blank': _('Password field should not be blank.'),
                 }
             },
             'first_name': {
                 'required': True,
+                'allow_blank': False,
                 'error_messages': {
-                    'required': 'First name field is required.',
-                    'blank': 'First name field should not be blank.',
+                    'required': _('First name field is required.'),
+                    'blank': _('First name field should not be blank.'),
                 }
             },
             'last_name': {
                 'required': True,
+                'allow_blank': False,
                 'error_messages': {
-                    'required': 'Last name field is required.',
-                    'blank': 'Last name field should not be blank.',
+                    'required': _('Last name field is required.'),
+                    'blank': _('Last name field should not be blank.'),
                 }
             }
         }
@@ -134,3 +138,5 @@ class TeacherListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Teacher
         fields = ('url', 'user')
+# TODO teachers and students search <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# TODO subject create
