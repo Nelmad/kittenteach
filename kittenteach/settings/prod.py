@@ -15,6 +15,7 @@ FRONTEND_SETTINGS = {
     "client_css": {}
 }
 
+# "secure" cookie - browsers may ensure that the cookie is only sent with an HTTPS connection
 CSRF_COOKIE_SECURE = True
 
 LOGGING['handlers']['telegram-error'] = {

@@ -13,8 +13,10 @@ MINIFY_FRONT = False
 FRONTEND_SETTINGS = {
     "client_js": {
         # lib
+        "/core/js/lib/js.cookie.js",
 
         # custom
+        "/core/js/csrf.js",
         "/core/js/main.js",
         "/core/js/home.js",
         "/core/js/init.js"
