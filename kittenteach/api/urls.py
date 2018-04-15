@@ -1,11 +1,10 @@
 from django.conf.urls import url
-from rest_framework.authtoken import views as authtoken_views
 
 from . import views
 
 urlpatterns = [
     # auth
-    url(r'^auth$', authtoken_views.ObtainAuthToken.as_view(), name='token-auth'),
+    url(r'^auth$', views.ObtainAuthToken.as_view(), name='token-auth'),
 
     # students
     url(r'^students/create$', views.StudentCreateView.as_view(), name='student-create'),

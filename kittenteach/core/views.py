@@ -8,9 +8,9 @@ def index(request):
     template = loader.get_template('core/home.html')
 
     context = {
+        'title': 'home page',
         'show_header': True,
         'show_footer': True,
-        'title': "home page",
         'init_js_script': 'Home'
     }
 

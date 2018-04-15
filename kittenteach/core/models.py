@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-
 from django.db.models import CASCADE, SET_NULL, PROTECT
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken import models as authtoken_models
 
 User = get_user_model()
 
@@ -95,4 +94,4 @@ class Payment(models.Model):
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
-        Token.objects.create(user=instance)
+        authtoken_models.Token.objects.create(user=instance)

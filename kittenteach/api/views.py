@@ -1,7 +1,28 @@
+from django.contrib.auth import user_logged_in
 from rest_framework import generics, permissions, filters
+from rest_framework.authtoken import models as authtoken_models
+from rest_framework.authtoken import views as authtoken_views
+from rest_framework.response import Response
 
 from kittenteach.api import serializers
 from kittenteach.core import models
+
+
+class ObtainAuthToken(authtoken_views.ObtainAuthToken):
+    """
+    Obtain auth-token for user
+    """
+    serializer_class = serializers.AuthTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data['user']
+        token, created = authtoken_models.Token.objects.get_or_create(user=user)
+
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
+        return Response({'token': token.key})
 
 
 class StudentCreateView(generics.CreateAPIView):

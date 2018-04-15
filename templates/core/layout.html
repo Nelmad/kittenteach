@@ -19,6 +19,10 @@
 
 <script type="text/javascript">
     window.initJsScript = "{{ init_js_script }}";
+    window.csrf = {
+        headerName: "{{ csrf_header_name }}",
+        cookieName: "{{ csrf_cookie_name }}"
+    };
 </script>
 
 {% if show_header %}
@@ -33,13 +37,6 @@
 {% endif %}
 
 <!-- js files -->
-<script>
-    window.csrf = {
-        headerName: "{{ csrf_header_name }}",
-        cookieName: "{{ csrf_cookie_name }}"
-    };
-</script>
-
 {% for link in client_js %}
     <script src="{% static link %}{% timecache %}"></script>
 {% endfor %}

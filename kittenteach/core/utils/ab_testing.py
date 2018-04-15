@@ -5,15 +5,10 @@ from uuid import uuid4
 import requests
 from django.conf import settings
 
-from kittenteach.core.utils.utils import singleton
+from kittenteach.core.utils.utils import singleton, get_client_ip
 from slugify import Slugify
 
 c_slugify = Slugify(separator='_', to_lower=True)
-
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    return x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
 
 
 class ABClient(abc.ABC):
