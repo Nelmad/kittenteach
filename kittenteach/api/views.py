@@ -43,6 +43,15 @@ class TeacherCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class SubjectCreateView(generics.CreateAPIView):
+    """
+    Student create endpoint
+    """
+    serializer_class = serializers.SubjectCreateSerializer
+    queryset = models.Student.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
 class StudentRetrieveView(generics.RetrieveAPIView):
     """
     Student retrieve endpoint
@@ -58,6 +67,15 @@ class TeacherRetrieveView(generics.RetrieveAPIView):
     """
     serializer_class = serializers.TeacherDetailsSerializer
     queryset = models.Teacher.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+class SubjectRetrieveView(generics.RetrieveAPIView):
+    """
+    Subject retrieve endpoint
+    """
+    serializer_class = serializers.SubjectDetailsSerializer
+    queryset = models.Subject.objects.all()
     permission_classes = [permissions.AllowAny]
 
 
@@ -82,4 +100,15 @@ class TeacherListView(generics.ListAPIView):
     queryset = models.Teacher.objects.all()
     filter_backends = (filters.SearchFilter,)
     search_fields = ('user__first_name', 'user__last_name')
+    permission_classes = [permissions.AllowAny]
+
+
+class SubjectListView(generics.ListAPIView):
+    """
+    Subject list endpoint
+    """
+    serializer_class = serializers.SubjectListSerializer
+    queryset = models.Subject.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
     permission_classes = [permissions.AllowAny]

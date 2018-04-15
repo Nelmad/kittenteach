@@ -68,6 +68,7 @@ class UserCreateSerializer(serializers.ModelSerializer, validators.UserCreateVal
             },
             'password': {
                 'required': True,
+                'allow_blank': False,
                 'write_only': True,
                 'trim_whitespace': False,
                 'error_messages': {
@@ -132,6 +133,22 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         return student
 
 
+class SubjectCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subject
+        fields = ('name',)
+        extra_kwargs = {
+            'name': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Name field is required.'),
+                    'blank': _('Name field should not be blank.'),
+                }
+            }
+        }
+
+
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -148,6 +165,12 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Student
         fields = ('user', 'teachers')
+
+
+class SubjectDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subject
+        fields = ('name', 'teachers')
 
 
 class TeacherDetailsSerializer(serializers.ModelSerializer):
@@ -185,4 +208,10 @@ class TeacherListSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Teacher
         fields = ('url', 'user')
 
-# TODO subject create
+
+class SubjectListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='subject-details')
+
+    class Meta:
+        model = models.Subject
+        fields = ('url', 'name')

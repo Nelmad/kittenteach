@@ -1,20 +1,25 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 urlpatterns = [
     # auth
-    url(r'^auth$', views.ObtainAuthToken.as_view(), name='token-auth'),
+    re_path(r'^auth/?$', views.ObtainAuthToken.as_view(), name='token-auth'),
 
     # students
-    url(r'^students/create$', views.StudentCreateView.as_view(), name='student-create'),
-    url(r'^students/(?P<pk>[0-9]+)$', views.StudentRetrieveView.as_view(), name='student-details'),
-    url(r'^students$', views.StudentListView.as_view(), name='students-list'),
+    re_path(r'^students/create/?$', views.StudentCreateView.as_view(), name='student-create'),
+    re_path(r'^students/(?P<pk>\d+)/?$', views.StudentRetrieveView.as_view(), name='student-details'),
+    re_path(r'^students/?$', views.StudentListView.as_view(), name='students-list'),
 
     # teachers
-    url(r'^teachers/create$', views.TeacherCreateView.as_view(), name='teacher-create'),
-    url(r'^teachers/(?P<pk>[0-9]+)$', views.TeacherRetrieveView.as_view(), name='teacher-details'),
-    url(r'^teachers$', views.TeacherListView.as_view(), name='teachers-list'),
+    re_path(r'^teachers/create/?$', views.TeacherCreateView.as_view(), name='teacher-create'),
+    re_path(r'^teachers/(?P<pk>\d+)/?$', views.TeacherRetrieveView.as_view(), name='teacher-details'),
+    re_path(r'^teachers/?$', views.TeacherListView.as_view(), name='teachers-list'),
+
+    # subjects
+    re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
+    re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),
+    re_path(r'^subjects/?$', views.SubjectListView.as_view(), name='subjects-list'),
 
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
