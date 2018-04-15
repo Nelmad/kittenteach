@@ -11,6 +11,7 @@ def index(request):
         'show_header': True,
         'show_footer': True,
         'title': "home page",
+        'init_js_script': 'Home'
     }
 
     return HttpResponse(template.render(context, request))
@@ -22,7 +23,6 @@ def dashboard(request):
 
 
 def login(request):
-    # general access for unlogined
     template = loader.get_template('core/login.html')
 
     context = {

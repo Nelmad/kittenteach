@@ -11,8 +11,8 @@ MINIFY_FRONT = True
 
 # todo
 FRONTEND_SETTINGS = {
-    "client_js": {},
-    "client_css": {}
+    "client_js": [],
+    "client_css": []
 }
 
 # "secure" cookie - browsers may ensure that the cookie is only sent with an HTTPS connection

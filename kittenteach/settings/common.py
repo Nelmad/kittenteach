@@ -78,7 +78,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                'kittenteach.core.content_processors.base'
+                'kittenteach.core.context_processors.base',
+                'kittenteach.core.context_processors.csrf',
             ],
         },
     },

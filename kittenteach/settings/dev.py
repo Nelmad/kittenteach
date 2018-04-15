@@ -11,7 +11,7 @@ MINIFY_FRONT = False
 
 # todo
 FRONTEND_SETTINGS = {
-    "client_js": {
+    "client_js": [
         # lib
         "/core/js/lib/js.cookie.js",
 
@@ -20,8 +20,8 @@ FRONTEND_SETTINGS = {
         "/core/js/main.js",
         "/core/js/home.js",
         "/core/js/init.js"
-    },
-    "client_css": {}
+    ],
+    "client_css": []
 }
 
 CSRF_COOKIE_SECURE = False

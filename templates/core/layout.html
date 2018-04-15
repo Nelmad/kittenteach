@@ -35,8 +35,8 @@
 <!-- js files -->
 <script>
     window.csrf = {
-        headerName: "{{ csrf_header_name|default:'X-CSRFToken' }}",
-        cookieName: "{{ csrf_cookie_name|default:'csrftoken' }}"
+        headerName: "{{ csrf_header_name }}",
+        cookieName: "{{ csrf_cookie_name }}"
     };
 </script>
 
