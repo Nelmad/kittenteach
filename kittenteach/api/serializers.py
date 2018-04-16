@@ -136,7 +136,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 class TeacherUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
-        fields = ('subjects',)
+        fields = ('subjects', 'students')
 
     # def update(self, instance, validated_data):
     #     print('SERIALIZER UPDATE')
@@ -158,6 +158,33 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
         }
 
 
+class StudentItemSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='student-details')
+
+    class Meta:
+        model = models.Student
+        fields = ('url',)
+
+
+class SubjectItemSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='subject-details')
+
+    class Meta:
+        model = models.Subject
+        fields = ('url', 'name')
+        extra_kwargs = {
+            'name': {'read_only': True},
+        }
+
+
+class TeacherItemSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-details')
+
+    class Meta:
+        model = models.Teacher
+        fields = ('url',)
+
+
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -170,6 +197,7 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
 class StudentDetailsSerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(read_only=True)
+    teachers = TeacherItemSerializer(read_only=True, many=True)
 
     class Meta:
         model = models.Student
@@ -184,10 +212,12 @@ class SubjectDetailsSerializer(serializers.ModelSerializer):
 
 class TeacherDetailsSerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(read_only=True)
+    subjects = SubjectItemSerializer(read_only=True, many=True)
+    students = StudentItemSerializer(read_only=True, many=True)
 
     class Meta:
         model = models.Teacher
-        fields = ('user', 'students')
+        fields = ('user', 'students', 'subjects')
 
 
 class UserListSerializer(serializers.ModelSerializer):
