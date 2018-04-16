@@ -13,6 +13,7 @@ urlpatterns = [
 
     # teachers
     re_path(r'^teachers/create/?$', views.TeacherCreateView.as_view(), name='teacher-create'),
+    re_path(r'^teachers/update/?$', views.TeacherUpdateView.as_view(), name='teacher-update'),
     re_path(r'^teachers/(?P<pk>\d+)/?$', views.TeacherRetrieveView.as_view(), name='teacher-details'),
     re_path(r'^teachers/?$', views.TeacherListView.as_view(), name='teachers-list'),
 

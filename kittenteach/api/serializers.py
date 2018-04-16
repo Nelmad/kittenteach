@@ -133,6 +133,15 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         return student
 
 
+class TeacherUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Teacher
+        fields = ('subjects',)
+
+    # def update(self, instance, validated_data):
+    #     print('SERIALIZER UPDATE')
+
+
 class SubjectCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject

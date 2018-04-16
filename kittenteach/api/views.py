@@ -1,4 +1,5 @@
 from django.contrib.auth import user_logged_in
+from django.http import Http404
 from rest_framework import generics, permissions, filters
 from rest_framework.authtoken import models as authtoken_models
 from rest_framework.authtoken import views as authtoken_views
@@ -112,3 +113,18 @@ class SubjectListView(generics.ListAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
     permission_classes = [permissions.AllowAny]
+
+
+class TeacherUpdateView(generics.UpdateAPIView):
+    """
+    Teacher update endpoint
+    """
+    serializer_class = serializers.TeacherUpdateSerializer
+    queryset = models.Teacher.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        try:
+            return self.request.user.teacher
+        except models.Teacher.DoesNotExist:
+            raise Http404
