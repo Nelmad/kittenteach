@@ -47,6 +47,23 @@ class TeacherCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class TeacherGroupCreateView(generics.CreateAPIView):
+    """
+    Create group for authorized teacher
+    """
+    serializer_class = serializers.TeacherGroupCreateSerializer
+    queryset = models.Group.objects.all()
+    permissions = [permissions.IsAuthenticated]  # TODO teacher only
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['teacher'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            super().create(request, *args, **kwargs)
+
+
 class SubjectCreateView(generics.CreateAPIView):
     """
     Student create endpoint
@@ -164,7 +181,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
             raise Http404
 
 
-class TeacherGroupListView(generics.ListAPIView):
+class TeacherGroupsListView(generics.ListAPIView):
     """
 
     """
@@ -177,3 +194,12 @@ class TeacherGroupListView(generics.ListAPIView):
             return teacher.groups
         except models.Teacher.DoesNotExist:
             raise Http404
+
+
+class SubjectTeachersListView(generics.ListAPIView):
+    """
+    Get teachers of certain subject
+    """
+    # serializer_class = serializers  # TODO
+    filter_backends = (filters.SearchFilter,)
+

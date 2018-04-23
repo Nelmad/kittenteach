@@ -19,12 +19,14 @@ urlpatterns = [
     re_path(r'^teachers/remove/?$', views.TeacherSafeRemoveView.as_view(), name='teacher-remove'),
 
     # teacher groups
-    re_path(r'^teachers/groups/?$', views.TeacherGroupListView.as_view(), name='teacher-group-list'),
+    re_path(r'^teachers/groups/?$', views.TeacherGroupsListView.as_view(), name='teacher-groups-list'),
     re_path(r'^teachers/groups/(?P<pk>\d+)/?$', views.TeacherGroupDetailsView.as_view(), name='teacher-group-details'),
+    re_path(r'^teachers/groups/create?$', views.TeacherGroupCreateView.as_view(), name='teacher-groups-create'),
 
     # subjects
     re_path(r'^subjects/?$', views.SubjectListView.as_view(), name='subjects-list'),
     re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),
+    re_path(r'^subjects/(?P<pk>\d+)/teachers/?$', views.SubjectTeachersListView.as_view(), name='subject-teachers'),
     re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
 
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

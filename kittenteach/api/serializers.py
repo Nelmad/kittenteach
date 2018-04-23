@@ -151,14 +151,14 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
         }
 
 
-class GroupCreateSerializer(serializers.ModelSerializer):
+class TeacherGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Group
         fields = ('name', 'teacher', 'subject', 'students')
         extra_kwargs = {
             'name': {
                 'required': True,
-                'allow_blank': False,
+                # 'allow_blank': False,
                 'error_messages': {
                     'required': _('Name field is required.'),
                     'blank': _('Name field should not be blank.'),
@@ -166,7 +166,7 @@ class GroupCreateSerializer(serializers.ModelSerializer):
             },
             'teacher': {
                 'required': True,
-                'allow_blank': False,
+                # 'allow_blank': False,
                 'error_messages': {
                     'required': _('Teacher field is required.'),
                     'blank': _('Teacher field should not be blank.'),
@@ -174,14 +174,14 @@ class GroupCreateSerializer(serializers.ModelSerializer):
             },
             'subject': {
                 'required': True,
-                'allow_blank': False,
+                # 'allow_blank': False,
                 'error_messages': {
                     'required': _('Subject field is required.'),
                     'blank': _('Subject field should not be blank.'),
                 }
             },
             'students': {
-                'allow_blank': False,
+                # 'allow_blank': False,
                 'error_messages': {
                     'blank': _('Subject field should not be blank.'),
                 }
@@ -223,7 +223,7 @@ class TeacherSafeRemoveSerializer(serializers.ModelSerializer):
                 field = getattr(instance, attr)
                 field.remove(*value)  # remove values to list instead of set
             # else:
-                # setattr(instance, attr, value)
+            # setattr(instance, attr, value)
         instance.save()
 
         return instance
@@ -319,7 +319,6 @@ class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
 class TeacherGroupListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Group
-
 
 
 class UserListSerializer(serializers.ModelSerializer):
