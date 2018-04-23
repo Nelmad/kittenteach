@@ -11,11 +11,12 @@ $.KittenTeach.Auth = {
                     var $target = $(e.target);
 
                     if ($target.is(that.submitButton) || $target.parents(that.submitButton.selector).length > 0) {
-                        that.signUp();
+                        that.validate();
                     }
                 });
             },
             signUp: function () {
+                var that = this;
                 $.ajax({
                     url: '/api/' + this.role + '/create',
                     type: 'post',
@@ -24,17 +25,27 @@ $.KittenTeach.Auth = {
                         'Content-Type': 'application/json'
                     },
                     dataType: 'json',
-                    success: function (data) {
-                        // redirect
-                        // set token to local storage
-                    },
-                    error: function (data) {
-                        // validation errors
-                    }
+                    success: that.onSignUpSuccess,
+                    error: that.onSignUpError
                 });
             },
             validate: function () {
+                this.onValidationSuccess();
+            },
 
+            onValidationSuccess: function () {
+                this.signUp();
+            },
+            onValidationError: function () {
+                // validation errors
+            },
+
+            onSignUpSuccess: function (data) {
+                // redirect
+                // set token to local storage
+            },
+            onSignUpError: function (data) {
+                // sign up errors
             }
         };
 
@@ -48,11 +59,12 @@ $.KittenTeach.Auth = {
                     var $target = $(e.target);
 
                     if ($target.is(that.submitButton) || $target.parents(that.submitButton.selector).length > 0) {
-                        that.signIn();
+                        that.validate();
                     }
                 });
             },
             signIn: function () {
+                var that = this;
                 $.ajax({
                     url: '/api/auth',
                     type: 'post',
@@ -64,17 +76,26 @@ $.KittenTeach.Auth = {
                         'Content-Type': 'application/json'
                     },
                     dataType: 'json',
-                    success: function (data) {
-                        // redirect
-                        // set token to local storage
-                    },
-                    error: function (data) {
-                        // validation errors
-                    }
+                    success: that.onSignInSuccess,
+                    error: that.onSignInError
                 });
             },
             validate: function () {
+                this.onValidationSuccess();
+            },
 
+            onValidationSuccess: function () {
+                this.signIn();
+            },
+            onValidationError: function () {
+                // validation errors
+            },
+
+            onSignInSuccess: function (data) {
+
+            },
+            onSignInError: function (data) {
+                // sign in errors
             }
         };
 
