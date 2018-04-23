@@ -2,26 +2,37 @@
 
 {% block content %}
     SIGN IN
-    <form action="">
-        {% csrf_token %}
-
+    <form id="login-form" action="#">
+        <label>
+            email
+            <input name="email" type="text">
+        </label>
+        <label>
+            password
+            <input name="password" type="password">
+        </label>
+        <button id="login-btn" type="button">OK</button>
     </form>
     <br>
+
     NEW KITTEN
-    <form method="post" action="/auth/users/create/">
-        {% csrf_token %}
+    <form id="registration-form" action="#">
         <label>
-            username
-            <input name="username" type="text">
+            email
+            <input name="email" type="text">
         </label>
         <label>
             password
             <input name="password" type="password">
         </label>
         <label>
-            email
-            <input name="email" type="text">
+            first name
+            <input name="first-name" type="text">
         </label>
-        <button type="submit">OK</button>
+        <label>
+            last name
+            <input name="last-name" type="text">
+        </label>
+        <button id="registration-btn" type="button">OK</button>
     </form>
 {% endblock %}

@@ -19,6 +19,8 @@ FRONTEND_SETTINGS = {
         "/core/js/csrf.js",
         "/core/js/main.js",
         "/core/js/home.js",
+        "/core/js/validators.js",
+        "/core/js/auth.js",
         "/core/js/init.js"
     ],
     "client_css": []

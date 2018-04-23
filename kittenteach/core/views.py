@@ -17,18 +17,19 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-@login_required(login_url="login")
+@login_required
 def dashboard(request):
     pass
 
 
 def login(request):
+    # TODO redirect if authenticated
     template = loader.get_template('core/login.html')
-
     context = {
         'show_header': True,
         'show_footer': False,
-        'title': "registration",
+        'title': '',
+        'init_js_script': 'Auth',
     }
 
     return HttpResponse(template.render(context, request))

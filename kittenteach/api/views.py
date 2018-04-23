@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.contrib.auth import user_logged_in
 from django.http import Http404
 from rest_framework import generics, permissions, filters
@@ -22,6 +23,8 @@ class ObtainAuthToken(authtoken_views.ObtainAuthToken):
         user = serializer.validated_data['user']
         token, created = authtoken_models.Token.objects.get_or_create(user=user)
 
+        # TODO check if inactive
+        auth.login(request, user)  # TODO
         user_logged_in.send(sender=user.__class__, request=request, user=user)
         return Response({'token': token.key})
 
