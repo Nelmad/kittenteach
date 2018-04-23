@@ -33,7 +33,7 @@ class Teacher(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
-    teacher = models.ForeignKey(Teacher, on_delete=CASCADE)
+    teacher = models.ForeignKey(Teacher, related_name='groups', on_delete=CASCADE)
     subject = models.ForeignKey(Subject, null=True, on_delete=SET_NULL)
     students = models.ManyToManyField(Student)
 

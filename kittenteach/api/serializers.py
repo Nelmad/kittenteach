@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_framework.compat import authenticate
+from rest_framework.serializers import raise_errors_on_nested_writes
+from rest_framework.utils import model_meta
 
 from kittenteach.api import validators
 from kittenteach.core import models
@@ -133,15 +135,6 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         return student
 
 
-class TeacherUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Teacher
-        fields = ('subjects', 'students')
-
-    # def update(self, instance, validated_data):
-    #     print('SERIALIZER UPDATE')
-
-
 class SubjectCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
@@ -156,6 +149,84 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
                 }
             }
         }
+
+
+class GroupCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ('name', 'teacher', 'subject', 'students')
+        extra_kwargs = {
+            'name': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Name field is required.'),
+                    'blank': _('Name field should not be blank.'),
+                }
+            },
+            'teacher': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Teacher field is required.'),
+                    'blank': _('Teacher field should not be blank.'),
+                }
+            },
+            'subject': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Subject field is required.'),
+                    'blank': _('Subject field should not be blank.'),
+                }
+            },
+            'students': {
+                'allow_blank': False,
+                'error_messages': {
+                    'blank': _('Subject field should not be blank.'),
+                }
+            }
+        }
+
+
+class TeacherSafeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Teacher
+        fields = ('subjects', 'students')
+
+    def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.add(*value)  # add values to list instead of set
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
+class TeacherSafeRemoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Teacher
+        fields = ('subjects', 'students')
+
+    def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.remove(*value)  # remove values to list instead of set
+            # else:
+                # setattr(instance, attr, value)
+        instance.save()
+
+        return instance
 
 
 class StudentItemSerializer(serializers.ModelSerializer):
@@ -185,6 +256,14 @@ class TeacherItemSerializer(serializers.ModelSerializer):
         fields = ('url',)
 
 
+class TeacherGroupItemSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-details')
+
+    class Meta:
+        model = models.Group
+        fields = ('url',)
+
+
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -205,19 +284,42 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
 
 
 class SubjectDetailsSerializer(serializers.ModelSerializer):
+    teachers = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-details', many=True)
+
     class Meta:
         model = models.Subject
         fields = ('name', 'teachers')
+        extra_kwargs = {
+            'name': {'read_only': True},
+        }
 
 
 class TeacherDetailsSerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(read_only=True)
     subjects = SubjectItemSerializer(read_only=True, many=True)
     students = StudentItemSerializer(read_only=True, many=True)
+    groups = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-list', many=True)
 
     class Meta:
         model = models.Teacher
-        fields = ('user', 'students', 'subjects')
+        fields = ('user', 'students', 'subjects', 'groups')
+
+
+class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ('name', 'teacher', 'subject', 'students')
+        extra_kwargs = {
+            'name': {'read_only': True},
+            'teacher': {'read_only': True},
+            'subject': {'read_only': True},
+        }
+
+
+class TeacherGroupListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+
 
 
 class UserListSerializer(serializers.ModelSerializer):

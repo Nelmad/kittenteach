@@ -118,16 +118,62 @@ class SubjectListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class TeacherUpdateView(generics.UpdateAPIView):
+class TeacherSafeUpdateView(generics.UpdateAPIView):
     """
-    Teacher update endpoint
+    Teacher safe update endpoint
+    Updates existing many2many fields values with given
+    For other fields sets value (default behavior)
     """
-    serializer_class = serializers.TeacherUpdateSerializer
-    queryset = models.Teacher.objects.all()
+    serializer_class = serializers.TeacherSafeUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         try:
             return self.request.user.teacher
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class TeacherSafeRemoveView(generics.UpdateAPIView):
+    """
+    Teacher safe remove endpoint
+    Removes given values from many2many fields
+    """
+    serializer_class = serializers.TeacherSafeRemoveSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        try:
+            return self.request.user.teacher
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class TeacherGroupDetailsView(generics.RetrieveAPIView):
+    """
+
+    """
+    serializer_class = serializers.TeacherGroupDetailsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            return teacher.groups
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class TeacherGroupListView(generics.ListAPIView):
+    """
+
+    """
+    serializer_class = serializers.TeacherGroupListSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            return teacher.groups
         except models.Teacher.DoesNotExist:
             raise Http404
