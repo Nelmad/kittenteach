@@ -1,12 +1,14 @@
 from django.contrib import auth
 from django.contrib.auth import user_logged_in
 from django.http import Http404
-from rest_framework import generics, permissions, filters
+from rest_framework import generics, permissions
+from rest_framework import filters as rest_filters
 from rest_framework.authtoken import models as authtoken_models
 from rest_framework.authtoken import views as authtoken_views
 from rest_framework.response import Response
+from django_filters import rest_framework as d_filters
 
-from kittenteach.api import serializers
+from kittenteach.api import serializers, filters
 from kittenteach.core import models
 
 
@@ -106,7 +108,7 @@ class StudentListView(generics.ListAPIView):
     """
     serializer_class = serializers.StudentListSerializer
     queryset = models.Student.objects.all()
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (rest_filters.SearchFilter,)
     search_fields = ('user__first_name', 'user__last_name')
     # TODO get students list available only for teachers
     # permission_classes = [permissions.IsAuthenticated]
@@ -119,8 +121,10 @@ class TeacherListView(generics.ListAPIView):
     """
     serializer_class = serializers.TeacherListSerializer
     queryset = models.Teacher.objects.all()
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (rest_filters.SearchFilter, d_filters.DjangoFilterBackend)
+    # filter_class = filters.TeacherFilterSet  # TODO custom filter set
     search_fields = ('user__first_name', 'user__last_name')
+    filter_fields = ('subjects__name',)
     permission_classes = [permissions.AllowAny]
 
 
@@ -130,7 +134,7 @@ class SubjectListView(generics.ListAPIView):
     """
     serializer_class = serializers.SubjectListSerializer
     queryset = models.Subject.objects.all()
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (rest_filters.SearchFilter,)
     search_fields = ('name',)
     permission_classes = [permissions.AllowAny]
 
@@ -194,12 +198,3 @@ class TeacherGroupsListView(generics.ListAPIView):
             return teacher.groups
         except models.Teacher.DoesNotExist:
             raise Http404
-
-
-class SubjectTeachersListView(generics.ListAPIView):
-    """
-    Get teachers of certain subject
-    """
-    # serializer_class = serializers  # TODO
-    filter_backends = (filters.SearchFilter,)
-
