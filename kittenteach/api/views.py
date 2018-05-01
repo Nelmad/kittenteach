@@ -1,14 +1,14 @@
 from django.contrib import auth
 from django.contrib.auth import user_logged_in
 from django.http import Http404
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions as rest_permissions
 from rest_framework import filters as rest_filters
 from rest_framework.authtoken import models as authtoken_models
 from rest_framework.authtoken import views as authtoken_views
 from rest_framework.response import Response
 from django_filters import rest_framework as d_filters
 
-from kittenteach.api import serializers, filters
+from kittenteach.api import serializers, permissions, filters
 from kittenteach.core import models
 
 
@@ -37,7 +37,7 @@ class StudentCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.StudentCreateSerializer
     queryset = models.Student.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class TeacherCreateView(generics.CreateAPIView):
@@ -46,7 +46,7 @@ class TeacherCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.TeacherCreateSerializer
     queryset = models.Teacher.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class TeacherGroupCreateView(generics.CreateAPIView):
@@ -55,7 +55,7 @@ class TeacherGroupCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.TeacherGroupCreateSerializer
     queryset = models.Group.objects.all()
-    permissions = [permissions.IsAuthenticated]  # TODO teacher only
+    rest_permissions = [permissions.IsTeacher]
 
     def create(self, request, *args, **kwargs):
         try:
@@ -72,7 +72,7 @@ class SubjectCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.SubjectCreateSerializer
     queryset = models.Student.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsTeacher]
 
 
 class StudentRetrieveView(generics.RetrieveAPIView):
@@ -81,7 +81,7 @@ class StudentRetrieveView(generics.RetrieveAPIView):
     """
     serializer_class = serializers.StudentDetailsSerializer
     queryset = models.Student.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class TeacherRetrieveView(generics.RetrieveAPIView):
@@ -90,7 +90,7 @@ class TeacherRetrieveView(generics.RetrieveAPIView):
     """
     serializer_class = serializers.TeacherDetailsSerializer
     queryset = models.Teacher.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class SubjectRetrieveView(generics.RetrieveAPIView):
@@ -99,7 +99,7 @@ class SubjectRetrieveView(generics.RetrieveAPIView):
     """
     serializer_class = serializers.SubjectDetailsSerializer
     queryset = models.Subject.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class StudentListView(generics.ListAPIView):
@@ -111,8 +111,8 @@ class StudentListView(generics.ListAPIView):
     filter_backends = (rest_filters.SearchFilter,)
     search_fields = ('user__first_name', 'user__last_name')
     # TODO get students list available only for teachers
-    # permission_classes = [permissions.IsAuthenticated]
-    permission_classes = [permissions.AllowAny]
+    # permission_classes = [permissions.IsTeacher]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class TeacherListView(generics.ListAPIView):
@@ -125,7 +125,7 @@ class TeacherListView(generics.ListAPIView):
     # filter_class = filters.TeacherFilterSet  # TODO custom filter set
     search_fields = ('user__first_name', 'user__last_name')
     filter_fields = ('subjects__name',)
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class SubjectListView(generics.ListAPIView):
@@ -136,7 +136,7 @@ class SubjectListView(generics.ListAPIView):
     queryset = models.Subject.objects.all()
     filter_backends = (rest_filters.SearchFilter,)
     search_fields = ('name',)
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [rest_permissions.AllowAny]
 
 
 class TeacherSafeUpdateView(generics.UpdateAPIView):
@@ -146,7 +146,7 @@ class TeacherSafeUpdateView(generics.UpdateAPIView):
     For other fields sets value (default behavior)
     """
     serializer_class = serializers.TeacherSafeUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [rest_permissions.IsAuthenticated]
 
     def get_object(self):
         try:
@@ -161,7 +161,7 @@ class TeacherSafeRemoveView(generics.UpdateAPIView):
     Removes given values from many2many fields
     """
     serializer_class = serializers.TeacherSafeRemoveSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [rest_permissions.IsAuthenticated]
 
     def get_object(self):
         try:
@@ -175,7 +175,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
 
     """
     serializer_class = serializers.TeacherGroupDetailsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [rest_permissions.IsAuthenticated]
 
     def get_queryset(self):
         try:
@@ -190,7 +190,7 @@ class TeacherGroupsListView(generics.ListAPIView):
 
     """
     serializer_class = serializers.TeacherGroupListSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [rest_permissions.IsAuthenticated]
 
     def get_queryset(self):
         try:
