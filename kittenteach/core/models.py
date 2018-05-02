@@ -8,6 +8,14 @@ from rest_framework.authtoken import models as authtoken_models
 User = get_user_model()
 
 
+class School(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    address = models.TextField(blank=True)
+
+    class Meta:
+        db_table = 'schools'
+
+
 class Subject(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
@@ -26,6 +34,8 @@ class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=PROTECT)
     students = models.ManyToManyField(Student, related_name='teachers', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
+    schools = models.ManyToManyField(School, related_name='teachers', blank=True)
+    address = models.TextField(blank=True)
 
     class Meta:
         db_table = 'teachers'
