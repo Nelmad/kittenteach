@@ -17,6 +17,27 @@ var initMessage = "" +
 
 function initialize() {
     console.log(initMessage);
+
+    // init header
+    var quickSearch = $('#quick-search');
+    var quickSearchInput = quickSearch.find('.header-search__input');
+
+    quickSearch.on('click', function (e) {
+        var $target = $(e.target);
+
+        if ($target.is('.header-search__image') || $target.parents('.header-search__image').length > 0) {
+            quickSearch.toggleClass('header-controls__search--active');
+            quickSearchInput.focus();
+        }
+    });
+
+    quickSearchInput.on('input focusout', function (e) {
+        if (e.type === 'input') {
+            // todo quick search
+        } else if (e.type === 'focusout') {
+            quickSearch.removeClass('header-controls__search--active');
+        }
+    });
 }
 
 $(function () {
