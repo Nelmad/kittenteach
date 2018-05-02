@@ -7,7 +7,7 @@ ALLOWED_HOSTS = [
 
 ] + SECRETS.get('allowed_hosts', [])
 
-MINIFY_FRONT = True
+MINIFY_FRONT = os.getenv('MINIFY_FRONT', 'True').lower() == 'true'
 
 # todo
 FRONTEND_SETTINGS = {

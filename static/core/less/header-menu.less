@@ -1,0 +1,45 @@
+.header-menu {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 54px;
+
+  font-weight: bold;
+
+  background-color: #00979d;
+
+  .header-menu__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    text-transform: uppercase;
+    transition: background .6s;
+
+    a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    span {
+      padding: 0 9px;
+    }
+
+    &:hover {
+      background-color: #7fcbcd;
+      color: #005c5f;
+
+      span {
+        color: #005c5f;
+      }
+    }
+  }
+
+  .header-menu__text {
+    color: #FFFFFF;
+    transition: background .6s;
+    white-space: nowrap;
+  }
+}

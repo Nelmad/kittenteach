@@ -10,6 +10,14 @@
     <title>{{ title }}</title>
 
     <script src="{% static '/core/js/lib/jquery.min.js' %}"></script>
+
+    <!-- stylesheet -->
+    {% if minify_front %}
+        <link rel="stylesheet" type="text/css" href="{% static '/core/dist/core.min.css' %}{% timecache %}"/>
+    {% else %}
+        <link rel="stylesheet/less" type="text/css" href="{% static '/core/less/core.less' %}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" type="text/javascript"></script>
+    {% endif %}
 </head>
 
 
