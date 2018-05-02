@@ -1,6 +1,6 @@
 from .common import *
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [

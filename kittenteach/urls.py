@@ -16,7 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import include
 
+from kittenteach.core import views as kittenteach_views
+
+
 urlpatterns = [
     url(r'^api/', include('kittenteach.api.urls')),
     url(r'^', include('kittenteach.core.urls')),
 ]
+
+handler404 = kittenteach_views.handler404
