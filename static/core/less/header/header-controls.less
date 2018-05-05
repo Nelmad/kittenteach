@@ -7,7 +7,6 @@
     display: inline-flex;
     align-items: center;
 
-    font-weight: bold;
     text-transform: uppercase;
     transition: background .3s;
 
@@ -39,6 +38,7 @@
   }
 
   .header-controls__search {
+    position: relative;
     width: 20px;
     align-items: center;
     display: inline-flex;
@@ -46,8 +46,7 @@
     vertical-align: middle;
 
     input {
-      width: 0;
-      padding-left: 0;
+      display: none;
     }
   }
 
@@ -55,9 +54,7 @@
     width: 255px;
 
     input {
-      transition: .2s;
-      width: 255px;
-      padding-left: 40px;
+      display: block;
     }
   }
 }

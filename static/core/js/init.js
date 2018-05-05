@@ -26,18 +26,19 @@ function initialize() {
         var $target = $(e.target);
 
         if ($target.is('.header-search__image') || $target.parents('.header-search__image').length > 0) {
-            quickSearch.toggleClass('header-controls__search--active');
+            $(this).toggleClass('header-controls__search--active');
             quickSearchInput.focus();
         }
     });
 
-    quickSearchInput.on('input focusout', function (e) {
-        if (e.type === 'input') {
-            // todo quick search
-        } else if (e.type === 'focusout') {
-            quickSearch.removeClass('header-controls__search--active');
-        }
+    quickSearchInput.on('input', function (e) {
+        // todo quick search
+        console.log($(this).val());
     });
+
+    quickSearchInput.on('focusout', function (e) {
+        quickSearch.removeClass('header-controls__search--active');
+    })
 }
 
 $(function () {
