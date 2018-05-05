@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "plugin:vue/recommended",
+    "eslint:recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "rules": {
+      "indent": ["error", 2],
+//      "linebreak-style": ["error", "unix"],
+      "quotes": ["error", "single"],
+      "no-console": "off"
+  },
+  "globals": {
+    "moment": true,
+    "gettext": true,
+    "$eventBus": true,
+    "$": true
+  }
+}

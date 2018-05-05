@@ -12,6 +12,7 @@ $.ajaxSetup({
       // Send the token only if the method warrants CSRF protection
       // Using the CSRFToken value acquired earlier
       xhr.setRequestHeader(window.csrf.headerName, csrftoken);
+      // TODO payload[window.csrf.tokenName] = $.cookie('csrftoken');
     }
   }
 });

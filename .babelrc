@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "stage-2",
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 versions", "safari >= 7"]
+      }
+    }]
+  ],
+  "plugins": [
+    ["transform-runtime", {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "babel-runtime"
+    }],
+    ["transform-object-assign"]
+  ]
+}
