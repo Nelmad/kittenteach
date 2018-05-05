@@ -163,3 +163,23 @@ SIXPACK_SETTINGS = {
     'host': SECRETS.get('sixpack_host', '127.0.0.1:5000'),
     'timeout': 0.5
 }
+
+
+def get_frontend_settings(minify):
+    if minify:
+        frontend_settings = {
+            "client_js": [
+                '/core/build/app.min.js'
+            ],
+            "client_css": [
+                '/core/dist/core.min.css'
+            ]
+        }
+    else:
+        with open('frontend-settings.json') as handle:
+            frontend_settings = json.load(handle)
+
+        frontend_settings['client_js'].append('/core/build/app.js')
+        frontend_settings['client_css'].append('/core/less/core.less')
+
+    return frontend_settings

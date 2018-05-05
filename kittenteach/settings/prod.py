@@ -9,11 +9,7 @@ ALLOWED_HOSTS = [
 
 MINIFY_FRONT = os.getenv('MINIFY_FRONT', 'True').lower() == 'true'
 
-# todo
-FRONTEND_SETTINGS = {
-    "client_js": [],
-    "client_css": []
-}
+FRONTEND_SETTINGS = get_frontend_settings(MINIFY_FRONT)
 
 # "secure" cookie - browsers may ensure that the cookie is only sent with an HTTPS connection
 CSRF_COOKIE_SECURE = True

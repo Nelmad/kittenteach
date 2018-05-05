@@ -13,4 +13,5 @@ def csrf(request):
     return {
         'csrf_header_name': settings.CSRF_HEADER_NAME,
         'csrf_cookie_name': settings.CSRF_COOKIE_NAME,
+        'csrf_token_name': 'csrfmiddlewaretoken',
     }
