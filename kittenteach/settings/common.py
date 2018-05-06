@@ -180,6 +180,5 @@ def get_frontend_settings(minify):
             frontend_settings = json.load(handle)
 
         frontend_settings['client_js'].append('/core/build/app.js')
-        frontend_settings['client_css'].append('/core/less/core.less')
 
     return frontend_settings

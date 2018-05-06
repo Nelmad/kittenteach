@@ -14,9 +14,9 @@ window.onload = function () {
       template: '<HomePage/>'
     })
   }
-  if (document.querySelector('#v-quick-search')) {
+  if (document.querySelector('#v-quick-search-page')) {
     new Vue({
-      el: '#v-quick-search',
+      el: '#v-quick-search-page',
       components: {QuickSearchPage},
       template: '<QuickSearchPage/>'
     })

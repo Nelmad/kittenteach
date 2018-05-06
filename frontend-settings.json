@@ -11,5 +11,8 @@
   ],
   "client_css": [
 
+  ],
+  "client_less": [
+    "/core/less/core.less"
   ]
 }

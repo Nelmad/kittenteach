@@ -10,8 +10,15 @@ const
     path = require('path');
 
 
+let frontendSettings = JSON.parse(fs.readFileSync('frontend-settings.json', 'utf8'));
+
 gulp.task('core-less', function () {
-    return gulp.src('./static/core/less/core.less')
+    let lessList = frontendSettings['client_less'];
+    for (let i = 0; i < lessList.length; i++) {
+        lessList[i] = './static' + lessList[i];
+    }
+
+    return gulp.src(lessList)
         .pipe(less({
             paths: [path.join(__dirname, 'less', 'includes')]
         }))
@@ -24,7 +31,7 @@ gulp.task('core-less', function () {
 });
 
 gulp.task('core-js', function () {
-    let jsList = JSON.parse(fs.readFileSync('frontend-settings.json', 'utf8'))['client_js'];
+    let jsList = frontendSettings['client_js'];
     for (let i = 0; i < jsList.length; i++) {
         jsList[i] = './static' + jsList[i];
     }

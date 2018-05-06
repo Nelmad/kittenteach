@@ -2,7 +2,8 @@
 
 <header class="header">
     <div class="header__logo">
-        <a href="/"><img src="http://via.placeholder.com/120x120"></a>
+        {# TODO CUT LOGO #}
+        <a href="/"><img src="{% static '/core/img/main-logo-full.svg' %}"></a>
     </div>
     <nav class="header__menu-content">
         <ul class="header__menu header-menu">
@@ -22,7 +23,7 @@
                 </div>
                 <input class="header-search__input" type="text" title="search" placeholder="search">
             </div>
-            <div class="header-controls__btn">
+            <div class="header-controls__btn header-controls__btn--margin">
                 <a href="/login"><span class="header-controls__text">sign in</span></a>
             </div>
         </div>

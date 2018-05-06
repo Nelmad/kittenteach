@@ -16,10 +16,13 @@
 
     <!-- stylesheet -->
     {% for link in client_css %}
-        <link rel="stylesheet/less" type="text/css" href="{% static link %}{% timecache %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static link %}{% timecache %}" />
     {% endfor %}
 
-    {% if not minify_front %}
+    {% if client_less %}
+        {% for link in client_less %}
+            <link rel="stylesheet/less" type="text/css" href="{% static link %}{% timecache %}"/>
+        {% endfor %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" type="text/javascript"></script>
     {% endif %}
 </head>
