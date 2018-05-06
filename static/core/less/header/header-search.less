@@ -1,3 +1,6 @@
+@search-bg-color: #005C5F;
+@search-color: #FFFFFF;
+
 .header-search {
   .header-search__image {
     display: flex;
@@ -18,10 +21,10 @@
 
     font-weight: 400;
     font-size: 14px;
-    color: #FFFFFF;
+    color: @search-color;
     line-height: 0;
 
-    background-color: #005c5f;
+    background-color: @search-bg-color;
     border: none;
     outline: none;
 
@@ -30,23 +33,23 @@
     }
 
     &::placeholder {
-      color: #FFFFFF;
+      color: @search-color;
       text-transform: uppercase;
     }
     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-      color: #FFFFFF;
+      color: @search-color;
       text-transform: uppercase;
     }
     &::-moz-placeholder { /* Firefox 19+ */
-      color: #FFFFFF;
+      color: @search-color;
       text-transform: uppercase;
     }
     &:-ms-input-placeholder { /* IE 10+ */
-      color: #FFFFFF;
+      color: @search-color;
       text-transform: uppercase;
     }
     &:-moz-placeholder { /* Firefox 18- */
-      color: #FFFFFF;
+      color: @search-color;
       text-transform: uppercase;
     }
   }

@@ -1,3 +1,8 @@
+@error-title-bg-color: #00979D;
+@error-title-color: #FFFFFF;
+
+@error-description-color: @error-title-bg-color;
+@error-description-color-hover: #005C5F;
 
 .error {
   font-family: "Roboto", sans-serif;
@@ -23,7 +28,7 @@
 
   .error__title {
     display: inline-block;
-    background-color: #00979d;
+    background-color: @error-title-bg-color;
     margin: 0 0 150px;
     max-width: 400px;
     padding: 15px 25px;
@@ -31,7 +36,7 @@
 
     font-size: 28px;
     text-align: left;
-    color: white;
+    color: @error-title-color;
   }
 
   .error__description {
@@ -40,11 +45,11 @@
     line-height: 30px;
 
     a {
-      color: #00979d;
+      color: @error-description-color;
       text-decoration: none;
 
       &:hover {
-        color: #005c5f;
+        color: @error-description-color-hover;
       }
     }
   }

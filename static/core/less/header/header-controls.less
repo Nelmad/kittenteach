@@ -1,6 +1,14 @@
+@header-controls-bg-color: #00979D;
+@header-controls-color: #FFFFFF;
+
+@header-controls-bg-color-hover: #7FCBCD;
+@header-controls-color-hover: #005C5F;
+
+@header-controls-transition: .3s;
+
 .header-controls {
   height: 54px;
-  background-color: #00979d;
+  background-color: @header-controls-bg-color;
 
   .header-controls__btn {
     height: 100%;
@@ -8,7 +16,9 @@
     align-items: center;
 
     text-transform: uppercase;
-    transition: background .3s;
+
+    -webkit-transition: @header-controls-transition;
+    transition: @header-controls-transition;
 
     a {
       height: 100%;
@@ -22,11 +32,11 @@
     }
 
     &:hover {
-      background-color: #7fcbcd;
-      color: #005c5f;
+      background-color: @header-controls-bg-color-hover;
+      color: @header-controls-color-hover;
 
       span {
-        color: #005c5f;
+        color: @header-controls-color-hover;
       }
     }
   }
@@ -36,8 +46,9 @@
   }
 
   .header-controls__text {
-    color: #FFFFFF;
-    transition: background .3s;
+    color: @header-controls-color;
+    -webkit-transition: @header-controls-transition;
+    transition: @header-controls-transition;
     white-space: nowrap;
   }
 

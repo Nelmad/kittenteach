@@ -1,0 +1,65 @@
+@subscribe-form-input-bg-color: #FFFFFF;
+@subscribe-form-input-color: #434F54;
+
+.subscribe-form {
+
+  .subscribe-form__row {
+    display: flex;
+    margin-top: 10px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .subscribe-form__label {
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 19px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .subscribe-form__input {
+    height: 43px;
+    width: 500px;
+    padding-left: 10px;
+
+    border: none;
+    outline: none;
+
+    background-color: @subscribe-form-input-bg-color;
+    color: @subscribe-form-input-color;
+
+    &:focus {
+
+    }
+
+    &::placeholder {
+      color: @subscribe-form-input-color;
+      text-transform: uppercase;
+    }
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: @subscribe-form-input-color;
+      text-transform: uppercase;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      color: @subscribe-form-input-color;
+      text-transform: uppercase;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      color: @subscribe-form-input-color;
+      text-transform: uppercase;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      color: @subscribe-form-input-color;
+      text-transform: uppercase;
+    }
+  }
+
+  .subscribe-form__btn {
+    height: 43px;
+    min-width: 100px;
+  }
+}

@@ -1,0 +1,49 @@
+@footer-go-top-bg-color: #FFFFFF;
+@footer-go-top-bg-color-hover: #F1C40F;
+
+.footer-go-top {
+  position: relative;
+  height: 40px;
+  width: 40px;
+
+  &:hover {
+    .footer-go-top__arrow {
+      background-color: @footer-go-top-bg-color-hover;
+    }
+  }
+
+  .footer-go-top__arrow {
+    position: absolute;
+    background-color: @footer-go-top-bg-color;
+    width: 4px;
+
+    border-radius: 2px;
+
+    &.footer-go-top__arrow--left {
+      height: 21px;
+
+      top: 3px;
+      left: 11px;
+
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    &.footer-go-top__arrow--right {
+      height: 21px;
+
+      top: 3px;
+      left: 25px;
+
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+
+    &.footer-go-top__arrow--center {
+      height: 30px;
+
+      top: 5px;
+      left: 18px;
+    }
+  }
+}
