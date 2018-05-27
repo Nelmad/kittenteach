@@ -1,38 +1,43 @@
 {% extends "core/layout.html" %}
 
 {% block content %}
-    SIGN IN
-    <form id="login-form" action="#">
-        <label>
-            email
-            <input name="email" type="text">
-        </label>
-        <label>
-            password
-            <input name="password" type="password">
-        </label>
-        <button id="login-btn" type="button">OK</button>
-    </form>
-    <br>
-
-    NEW KITTEN
-    <form id="registration-form" action="#">
-        <label>
-            email
-            <input name="email" type="text">
-        </label>
-        <label>
-            password
-            <input name="password" type="password">
-        </label>
-        <label>
-            first name
-            <input name="first-name" type="text">
-        </label>
-        <label>
-            last name
-            <input name="last-name" type="text">
-        </label>
-        <button id="registration-btn" type="button">OK</button>
-    </form>
+    <section class="container">
+        <div id="v-login-page">
+        </div>
+    </section>
+{##}
+{#        SIGN IN#}
+{#        <form id="login-form" action="#">#}
+{#            <label>#}
+{#                email#}
+{#                <input name="email" type="text">#}
+{#            </label>#}
+{#            <label>#}
+{#                password#}
+{#                <input name="password" type="password">#}
+{#            </label>#}
+{#            <button id="login-btn" type="button">OK</button>#}
+{#        </form>#}
+{#        <br>#}
+{##}
+{#        NEW KITTEN#}
+{#        <form id="registration-form" action="#">#}
+{#            <label>#}
+{#                email#}
+{#                <input name="email" type="text">#}
+{#            </label>#}
+{#            <label>#}
+{#                password#}
+{#                <input name="password" type="password">#}
+{#            </label>#}
+{#            <label>#}
+{#                first name#}
+{#                <input name="first-name" type="text">#}
+{#            </label>#}
+{#            <label>#}
+{#                last name#}
+{#                <input name="last-name" type="text">#}
+{#            </label>#}
+{#            <button id="registration-btn" type="button">OK</button>#}
+{#        </form>#}
 {% endblock %}

@@ -35,6 +35,7 @@ class Teacher(models.Model):
     students = models.ManyToManyField(Student, related_name='teachers', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
     schools = models.ManyToManyField(School, related_name='teachers', blank=True)
+    created_schools = models.ForeignKey(School, related_name='creator', on_delete=CASCADE)
     address = models.TextField(blank=True)
 
     class Meta:

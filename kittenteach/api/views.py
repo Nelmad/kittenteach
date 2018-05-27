@@ -175,7 +175,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
 
     """
     serializer_class = serializers.TeacherGroupDetailsSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_queryset(self):
         try:
@@ -190,7 +190,7 @@ class TeacherGroupsListView(generics.ListAPIView):
 
     """
     serializer_class = serializers.TeacherGroupListSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_queryset(self):
         try:
