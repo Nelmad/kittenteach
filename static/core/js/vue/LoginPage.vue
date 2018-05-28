@@ -8,14 +8,28 @@
       class="registration">
 
       <div
-        v-if="registration.step == 1">
+        v-if="registration.step == 1"
+        class="registration__roles-container">
         <button
-          @click="chooseRegistrationRole('teacher')">
-          Teacher
-        </button>
-        <button
+          type="button"
+          class="registration__btn registration__btn--image registration__btn--margin"
           @click="chooseRegistrationRole('student')">
-          Student
+          <img
+            :src="`${staticUrl}core/img/roles/student.svg`"
+            alt="Student"
+          >
+          <span class="registration__roles-description">Student</span>
+        </button>
+
+        <button
+          type="button"
+          class="registration__btn registration__btn--image registration__btn--margin"
+          @click="chooseRegistrationRole('teacher')">
+          <img
+            :src="`${staticUrl}core/img/roles/teacher.svg`"
+            alt="Teacher"
+          >
+          <span class="registration__roles-description">Teacher</span>
         </button>
       </div>
 
@@ -61,6 +75,7 @@
           <div class="registration__row">
             <button
               type="button"
+              class="registration__btn registration__btn--primary"
               @click="registrationHandler">
               {{ registrationButtonText }}
             </button>
@@ -151,6 +166,7 @@ export default {
         password: ''
       },
       isLoading: false,
+      staticUrl: window.static,
       results: '' // TODO for test
     }
   },
@@ -220,12 +236,13 @@ export default {
             last_name: this.registration.lastName
           }
         }).then(res => {
+          this.isLoading = false
           this.results = res.data
 
           this.switchLogin()
 
-          this.isLoading = false
           this.registration.email = ''
+          this.registration.password = ''
           this.registration.firstName = ''
           this.registration.lastName = ''
         }).catch((error) => {
@@ -233,9 +250,10 @@ export default {
           if (error.response) {
             this.results = error.response.data
           }
-        })
 
-        this.registration.password = ''
+          this.registration.password = ''
+          this.registration.step = 2
+        })
       }
     },
 
@@ -248,14 +266,17 @@ export default {
       }).then(res => {
         this.isLoading = false
         this.results = res.data
+
+        this.login.email = ''
+        this.login.password = ''
       }).catch((error) => {
         this.isLoading = false
         if (error.response) {
           this.results = error.response.data
         }
-      })
 
-      this.login.password = ''
+        this.login.password = ''
+      })
     },
 
     // TODO move to helpers
