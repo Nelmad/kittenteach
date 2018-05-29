@@ -34,9 +34,9 @@ urlpatterns = [
     re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
 
     # schools
-    re_path(r'^schools/?$', lambda: '', name='schools-list'),  # TODO <<<<
-    re_path(r'^schools/(?P<pk>\d+)/?$', lambda: '', name='school-details'),  # TODO <<<<
-    re_path(r'^schools/create/?$', lambda: '', name='school-create'),  # TODO <<<<
-    re_path(r'^schools/update/?$', lambda: '', name='school-update'),  # TODO <<<<
-    re_path(r'^schools/remove/?$', lambda: '', name='school-remove'),  # TODO <<<<
+    re_path(r'^schools/?$', views.SchoolsListView.as_view(), name='schools-list'),  # TODO <<<<
+    re_path(r'^schools/(?P<pk>\d+)/?$', views.SchoolDetailsView.as_view(), name='school-details'),  # TODO <<<<
+    re_path(r'^schools/create/?$', views.SchoolCreateView.as_view(), name='school-create'),  # TODO <<<<
+    re_path(r'^schools/update/?$', views.SchoolSafeUpdateView.as_view(), name='school-update'),  # TODO <<<<
+    re_path(r'^schools/remove/?$', views.SchoolSafeRemoveView.as_view(), name='school-remove'),  # TODO <<<<
 ]

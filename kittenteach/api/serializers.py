@@ -189,6 +189,36 @@ class TeacherGroupCreateSerializer(serializers.ModelSerializer):
         }
 
 
+class SchoolCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.School
+        fields = ('name', 'address', 'creator')
+        extra_kwargs = {
+            'name': {
+                'required': True,
+                # 'allow_blank': False,
+                'error_messages': {
+                    'required': _('Name field is required.'),
+                    'blank': _('Name field should not be blank.'),
+                }
+            },
+            'creator': {
+                'required': True,
+                # 'allow_blank': False,
+                'error_messages': {
+                    'required': _('Creator field is required.'),
+                    'blank': _('Creator field should not be blank.'),
+                }
+            },
+            'address': {
+                # 'allow_blank': False,
+                'error_messages': {
+                    'blank': _('Address field should not be blank.'),
+                }
+            }
+        }
+
+
 class TeacherSafeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
@@ -209,10 +239,50 @@ class TeacherSafeUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
+class SchoolSafeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.School
+        fields = ('teachers',)
+
+    def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.add(*value)  # add values to list instead of set
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
 class TeacherSafeRemoveSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
         fields = ('subjects', 'students')
+
+    def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.remove(*value)  # remove values to list instead of set
+            # else:
+            # setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
+class SchoolSafeRemoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Teacher
+        fields = ('teachers',)
 
     def update(self, instance, validated_data):
         raise_errors_on_nested_writes('update', self, validated_data)
@@ -316,6 +386,17 @@ class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
         }
 
 
+class SchoolDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.School
+        fields = ('name', 'address', 'creator')
+        extra_kwargs = {
+            'name': {'read_only': True},
+            'address': {'read_only': True},
+            'creator': {'read_only': True},
+        }
+
+
 class TeacherGroupListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Group
@@ -355,3 +436,11 @@ class SubjectListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Subject
         fields = ('url', 'name')
+
+
+class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='school-details')
+
+    class Meta:
+        model = models.School
+        fields = ('url', 'name', 'address')
