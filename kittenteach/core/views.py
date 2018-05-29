@@ -44,3 +44,14 @@ def handler404(request):
     }
 
     return HttpResponse(template.render(context, request))
+
+
+def test404(request):
+    template = loader.get_template('core/errors/404.html')
+    context = {
+        'show_header': True,
+        'show_footer': False,
+        'title': 'Page not found',
+    }
+
+    return HttpResponse(template.render(context, request))

@@ -16,15 +16,27 @@ urlpatterns = [
     re_path(r'^teachers/(?P<pk>\d+)/?$', views.TeacherRetrieveView.as_view(), name='teacher-details'),
     re_path(r'^teachers/create/?$', views.TeacherCreateView.as_view(), name='teacher-create'),
     re_path(r'^teachers/update/?$', views.TeacherSafeUpdateView.as_view(), name='teacher-update'),
-    re_path(r'^teachers/remove/?$', views.TeacherSafeRemoveView.as_view(), name='teacher-remove'),
+    re_path(r'^teachers/remove/?$', views.TeacherSafeRemoveView.as_view(), name='teacher-remove'),  # TODO <<<<
 
     # authorized teacher groups
     re_path(r'^teachers/groups/?$', views.TeacherGroupsListView.as_view(), name='teacher-groups-list'),
     re_path(r'^teachers/groups/(?P<pk>\d+)/?$', views.TeacherGroupDetailsView.as_view(), name='teacher-group-details'),
-    re_path(r'^teachers/groups/create?$', views.TeacherGroupCreateView.as_view(), name='teacher-groups-create'),
+    re_path(r'^teachers/groups/create/?$', views.TeacherGroupCreateView.as_view(), name='teacher-group-create'),
+
+    # schedule
+    re_path(r'^teachers/lessons-templates/?$', lambda: '', name='templates-list'),  # TODO <<<<
+    # re_path(r'^teachers/lessons-templates/(?P<pk>\d+)/?$', lambda: '', name='template-details'),
+    re_path(r'^teachers/lessons-templates/create/?$', lambda: '', name='template-create'),  # TODO <<<<
 
     # subjects
     re_path(r'^subjects/?$', views.SubjectListView.as_view(), name='subjects-list'),
-    re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),  # TODO subject slug field instead of pk
+    re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),  # TODO <<<< # TODO subject slug field instead of pk
     re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
+
+    # schools
+    re_path(r'^schools/?$', lambda: '', name='schools-list'),  # TODO <<<<
+    re_path(r'^schools/(?P<pk>\d+)/?$', lambda: '', name='school-details'),  # TODO <<<<
+    re_path(r'^schools/create/?$', lambda: '', name='school-create'),  # TODO <<<<
+    re_path(r'^schools/update/?$', lambda: '', name='school-update'),  # TODO <<<<
+    re_path(r'^schools/remove/?$', lambda: '', name='school-remove'),  # TODO <<<<
 ]
