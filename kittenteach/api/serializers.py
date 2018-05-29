@@ -181,6 +181,7 @@ class TeacherGroupCreateSerializer(serializers.ModelSerializer):
                 }
             },
             'students': {
+                'required': False,
                 # 'allow_blank': False,
                 'error_messages': {
                     'blank': _('Subject field should not be blank.'),
@@ -397,11 +398,6 @@ class SchoolDetailsSerializer(serializers.ModelSerializer):
         }
 
 
-class TeacherGroupListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Group
-
-
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -419,6 +415,15 @@ class StudentListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Student
         fields = ('url', 'user')
+
+
+class TeacherGroupListSerializer(serializers.ModelSerializer):
+    subject = SubjectItemSerializer(read_only=True)
+    students = StudentListSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.Group
+        fields = ('name', 'subject', 'students')
 
 
 class TeacherListSerializer(serializers.HyperlinkedModelSerializer):

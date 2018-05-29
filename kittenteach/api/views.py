@@ -63,7 +63,7 @@ class TeacherGroupCreateView(generics.CreateAPIView):
         except models.Teacher.DoesNotExist:
             raise Http404
         else:
-            super().create(request, *args, **kwargs)
+            return super().create(request, *args, **kwargs)
 
 
 class SubjectCreateView(generics.CreateAPIView):
@@ -195,7 +195,7 @@ class TeacherGroupsListView(generics.ListAPIView):
     def get_queryset(self):
         try:
             teacher = self.request.user.teacher
-            return teacher.groups
+            return teacher.groups.all()
         except models.Teacher.DoesNotExist:
             raise Http404
 
