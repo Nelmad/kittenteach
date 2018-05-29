@@ -17,6 +17,11 @@ class IsTeacher(permissions.BasePermission):
             return True
 
 
+class IsSchoolCreator(permissions.BasePermission):  # TODO
+    def has_object_permission(self, request, view, obj):
+        return obj.creator == request.user
+
+
 class IsStudent(permissions.BasePermission):
     def has_permission(self, request, view):
         try:

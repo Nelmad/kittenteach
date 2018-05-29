@@ -1,0 +1,74 @@
+.registration {
+
+  .registration__form-wrapper {
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  .registration__form {
+
+  }
+
+  .registration__row {
+    &.registration__row--center {
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .registration__col {
+
+  }
+
+  .registration__roles-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .registration__btn {
+    margin: 0;
+    padding: 0;
+
+    &.registration__btn--image {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      height: auto;
+      padding: 10px;
+
+      background-color: white;
+      border: none;
+
+      &:hover {
+        background-color: #f2f2f2;
+      }
+
+      img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    &.registration__btn--margin {
+      margin: 0 15px;
+    }
+
+    &.registration__btn--primary {
+
+    }
+  }
+
+  .registration__roles-description {
+    text-align: center;
+    font-size: 20px;
+  }
+}

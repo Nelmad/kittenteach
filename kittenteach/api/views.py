@@ -146,7 +146,7 @@ class TeacherSafeUpdateView(generics.UpdateAPIView):
     For other fields sets value (default behavior)
     """
     serializer_class = serializers.TeacherSafeUpdateSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_object(self):
         try:
@@ -161,7 +161,7 @@ class TeacherSafeRemoveView(generics.UpdateAPIView):
     Removes given values from many2many fields
     """
     serializer_class = serializers.TeacherSafeRemoveSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_object(self):
         try:
@@ -175,7 +175,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
 
     """
     serializer_class = serializers.TeacherGroupDetailsSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_queryset(self):
         try:
@@ -190,7 +190,7 @@ class TeacherGroupsListView(generics.ListAPIView):
 
     """
     serializer_class = serializers.TeacherGroupListSerializer
-    permission_classes = [rest_permissions.IsAuthenticated]
+    permission_classes = [permissions.IsTeacher]
 
     def get_queryset(self):
         try:
@@ -198,3 +198,74 @@ class TeacherGroupsListView(generics.ListAPIView):
             return teacher.groups
         except models.Teacher.DoesNotExist:
             raise Http404
+
+
+class SchoolDetailsView(generics.RetrieveAPIView):
+    """
+
+    """
+    serializer_class = serializers.SchoolDetailsSerializer
+    queryset = models.School.objects.all()
+    permission_classes = [rest_permissions.AllowAny]
+
+
+class SchoolsListView(generics.ListAPIView):
+    """
+
+    """
+    serializer_class = serializers.SchoolListSerializer
+    queryset = models.School.objects.all()
+    filter_backends = (rest_filters.SearchFilter,)
+    search_fields = ('name',)
+    permission_classes = [rest_permissions.AllowAny]
+
+
+class SchoolCreateView(generics.CreateAPIView):
+    """
+    School create for authorized teacher
+    """
+    serializer_class = serializers.SchoolCreateSerializer
+    queryset = models.Student.objects.all()
+    permission_classes = [permissions.IsTeacher]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['creator'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            super().create(request, *args, **kwargs)
+
+
+class SchoolSafeUpdateView(generics.UpdateAPIView):  # TODO update rules
+    """
+    School safe update endpoint
+    Updates existing many2many fields values with given
+    For other fields sets value (default behavior)
+    """
+    serializer_class = serializers.TeacherSafeUpdateSerializer
+    queryset = models.School.objects.all()
+    permission_classes = [permissions.IsTeacher, permissions.IsSchoolCreator]
+
+    # def get_object(self):
+    #     try:
+    #         return self.request.user.teacher
+    #     except models.Teacher.DoesNotExist:
+    #         raise Http404
+
+
+class SchoolSafeRemoveView(generics.UpdateAPIView):  # TODO remove rules
+    """
+    School safe remove endpoint
+    Removes given values from many2many fields
+    """
+    serializer_class = serializers.SchoolSafeRemoveSerializer
+    queryset = models.School.objects.all()
+    permission_classes = [permissions.IsTeacher, permissions.IsSchoolCreator]
+
+    # def get_object(self):
+    #     try:
+    #         return self.request.user.teacher
+    #     except models.Teacher.DoesNotExist:
+    #         raise Http404
+

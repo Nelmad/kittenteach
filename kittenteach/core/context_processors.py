@@ -5,7 +5,8 @@ def base(request):
     return {
         'client_js': settings.FRONTEND_SETTINGS.get('client_js'),
         'client_css': settings.FRONTEND_SETTINGS.get('client_css'),
-        'client_less': settings.FRONTEND_SETTINGS.get('client_less')
+        'client_less': settings.FRONTEND_SETTINGS.get('client_less'),
+        'static': settings.STATIC_URL
     }
 
 
