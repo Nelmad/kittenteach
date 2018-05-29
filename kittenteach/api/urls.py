@@ -30,7 +30,7 @@ urlpatterns = [
 
     # subjects
     re_path(r'^subjects/?$', views.SubjectListView.as_view(), name='subjects-list'),
-    re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),  # TODO <<<< # TODO subject slug field instead of pk
+    re_path(r'^subjects/(?P<pk>\d+)/?$', views.SubjectRetrieveView.as_view(), name='subject-details'),  # TODO subject slug field instead of pk
     re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
 
     # schools

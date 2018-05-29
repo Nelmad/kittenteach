@@ -71,7 +71,7 @@ class SubjectCreateView(generics.CreateAPIView):
     Student create endpoint
     """
     serializer_class = serializers.SubjectCreateSerializer
-    queryset = models.Student.objects.all()
+    queryset = models.Subject.objects.all()
     permission_classes = [permissions.IsTeacher]
 
 
@@ -225,7 +225,7 @@ class SchoolCreateView(generics.CreateAPIView):
     School create for authorized teacher
     """
     serializer_class = serializers.SchoolCreateSerializer
-    queryset = models.Student.objects.all()
+    queryset = models.School.objects.all()
     permission_classes = [permissions.IsTeacher]
 
     def create(self, request, *args, **kwargs):
