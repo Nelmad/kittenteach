@@ -327,77 +327,6 @@ class TeacherItemSerializer(serializers.ModelSerializer):
         fields = ('url',)
 
 
-class TeacherGroupItemSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-details')
-
-    class Meta:
-        model = models.Group
-        fields = ('url',)
-
-
-class UserDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name')
-        extra_kwargs = {
-            'first_name': {'read_only': True},
-            'last_name': {'read_only': True},
-        }
-
-
-class StudentDetailsSerializer(serializers.ModelSerializer):
-    user = UserDetailsSerializer(read_only=True)
-    teachers = TeacherItemSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = models.Student
-        fields = ('user', 'teachers')
-
-
-class SubjectDetailsSerializer(serializers.ModelSerializer):
-    teachers = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-details', many=True)
-
-    class Meta:
-        model = models.Subject
-        fields = ('name', 'teachers')
-        extra_kwargs = {
-            'name': {'read_only': True},
-        }
-
-
-class TeacherDetailsSerializer(serializers.ModelSerializer):
-    user = UserDetailsSerializer(read_only=True)
-    subjects = SubjectItemSerializer(read_only=True, many=True)
-    students = StudentItemSerializer(read_only=True, many=True)
-    groups = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-list', many=True)
-
-    class Meta:
-        model = models.Teacher
-        fields = ('user', 'students', 'subjects', 'groups')
-
-
-class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Group
-        fields = ('name', 'teacher', 'subject', 'students')
-        extra_kwargs = {
-            'name': {'read_only': True},
-            'teacher': {'read_only': True},
-            'subject': {'read_only': True},
-        }
-
-
-class SchoolDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.School
-        fields = ('name', 'address', 'creator')
-        extra_kwargs = {
-            'name': {'read_only': True},
-            'address': {'read_only': True},
-            'creator': {'read_only': True},
-        }
-
-
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -449,3 +378,77 @@ class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.School
         fields = ('url', 'name', 'address')
+
+
+class TeacherGroupItemSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-details')
+
+    class Meta:
+        model = models.Group
+        fields = ('url',)
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name')
+        extra_kwargs = {
+            'first_name': {'read_only': True},
+            'last_name': {'read_only': True},
+        }
+
+
+class StudentDetailsSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+    teachers = TeacherItemSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.Student
+        fields = ('user', 'teachers')
+
+
+class SubjectDetailsSerializer(serializers.ModelSerializer):
+    teachers = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-details', many=True)
+
+    class Meta:
+        model = models.Subject
+        fields = ('name', 'teachers')
+        extra_kwargs = {
+            'name': {'read_only': True},
+        }
+
+
+class TeacherDetailsSerializer(serializers.ModelSerializer):
+    user = UserDetailsSerializer(read_only=True)
+    subjects = SubjectItemSerializer(read_only=True, many=True)
+    students = StudentItemSerializer(read_only=True, many=True)
+    groups = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-list', many=True)
+
+    class Meta:
+        model = models.Teacher
+        fields = ('user', 'students', 'subjects', 'groups')
+
+
+class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
+    teacher = TeacherListSerializer(read_only=True)
+    subject = SubjectListSerializer(read_only=True)
+    students = StudentListSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.Group
+        fields = ('name', 'teacher', 'subject', 'students')
+        extra_kwargs = {
+            'name': {'read_only': True}
+        }
+
+
+class SchoolDetailsSerializer(serializers.ModelSerializer):
+    creator = TeacherListSerializer(read_only=True)
+
+    class Meta:
+        model = models.School
+        fields = ('name', 'address', 'creator')
+        extra_kwargs = {
+            'name': {'read_only': True},
+            'address': {'read_only': True},
+        }
