@@ -228,12 +228,32 @@ class SchoolCreateSerializer(serializers.ModelSerializer):
         }
 
 
-class TeacherSafeUpdateSerializer(serializers.ModelSerializer):
+class TeacherSafeUpdateSerializer(serializers.ModelSerializer):  # TODO Base class for safe update
     class Meta:
         model = models.Teacher
         fields = ('subjects', 'students')
 
     def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.add(*value)  # add values to list instead of set
+            else:
+                setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
+class TeacherGroupSafeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ('students',)
+
+    def update(self, instance, validated_data):  # TODO update from My Students, not from all existing
         raise_errors_on_nested_writes('update', self, validated_data)
         info = model_meta.get_field_info(instance)
 
@@ -272,6 +292,26 @@ class TeacherSafeRemoveSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
         fields = ('subjects', 'students')
+
+    def update(self, instance, validated_data):
+        raise_errors_on_nested_writes('update', self, validated_data)
+        info = model_meta.get_field_info(instance)
+
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                field = getattr(instance, attr)
+                field.remove(*value)  # remove values to list instead of set
+            # else:
+            # setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
+class TeacherGroupSafeRemoveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ('students',)
 
     def update(self, instance, validated_data):
         raise_errors_on_nested_writes('update', self, validated_data)
