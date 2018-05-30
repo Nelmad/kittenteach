@@ -68,11 +68,19 @@ class TeacherGroupCreateView(generics.CreateAPIView):
 
 class SubjectCreateView(generics.CreateAPIView):
     """
-    Student create endpoint
+    Create subject for authorized teacher
     """
     serializer_class = serializers.SubjectCreateSerializer
     queryset = models.Subject.objects.all()
     permission_classes = [permissions.IsTeacher]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['creator'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            return super().create(request, *args, **kwargs)
 
 
 class StudentRetrieveView(generics.RetrieveAPIView):
@@ -180,7 +188,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
     def get_queryset(self):
         try:
             teacher = self.request.user.teacher
-            return teacher.groups
+            return teacher.groups.all()
         except models.Teacher.DoesNotExist:
             raise Http404
 
@@ -268,4 +276,38 @@ class SchoolSafeRemoveView(generics.UpdateAPIView):  # TODO remove rules
     #         return self.request.user.teacher
     #     except models.Teacher.DoesNotExist:
     #         raise Http404
+
+
+class LessonTemplateListView(generics.ListAPIView):
+    """
+
+    """
+    serializer_class = serializers.LessonTemplateListSerializer
+    queryset = models.LessonTemplate.objects.all()
+    permission_classes = [permissions.IsTeacher]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            return teacher.lessons_templates or []
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class LessonTemplateCreateView(generics.CreateAPIView):
+    """
+      Create lesson template for authorized teacher
+      """
+    serializer_class = serializers.LessonTemplateCreateSerializer
+    queryset = models.LessonTemplate.objects.all()
+    rest_permissions = [permissions.IsTeacher]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['teacher'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            return super().create(request, *args, **kwargs)
+
 

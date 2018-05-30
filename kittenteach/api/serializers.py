@@ -138,7 +138,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 class SubjectCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
-        fields = ('name',)
+        fields = ('name', 'creator')
         extra_kwargs = {
             'name': {
                 'required': True,
@@ -146,6 +146,14 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
                 'error_messages': {
                     'required': _('Name field is required.'),
                     'blank': _('Name field should not be blank.'),
+                }
+            },
+            'creator': {
+                'required': True,
+                'allow_blank': False,
+                'error_messages': {
+                    'required': _('Creator field is required.'),
+                    'blank': _('Creator field should not be blank.'),
                 }
             }
         }
@@ -347,12 +355,13 @@ class StudentListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TeacherGroupListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-details')
     subject = SubjectItemSerializer(read_only=True)
     students = StudentListSerializer(read_only=True, many=True)
 
     class Meta:
         model = models.Group
-        fields = ('name', 'subject', 'students')
+        fields = ('url', 'name', 'subject', 'students')
 
 
 class TeacherListSerializer(serializers.HyperlinkedModelSerializer):
@@ -451,4 +460,48 @@ class SchoolDetailsSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'name': {'read_only': True},
             'address': {'read_only': True},
+        }
+
+
+class LessonTemplateListSerializer(serializers.ModelSerializer):
+    group = TeacherGroupDetailsSerializer(read_only=True)
+
+    class Meta:
+        model = models.LessonTemplate
+        fields = ('group', 'weekday', 'time')
+        extra_kwargs = {
+            'weekday': {'read_only': True},
+            'time': {'read_only': True},
+        }
+
+
+class LessonTemplateCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LessonTemplate
+        fields = ('group', 'weekday', 'time')
+        extra_kwargs = {
+            'group': {
+                'required': True,
+                # 'allow_blank': False,
+                'error_messages': {
+                    'required': _('Group field is required.'),
+                    'blank': _('Group field should not be blank.'),
+                }
+            },
+            'weekday': {
+                'required': True,
+                # 'allow_blank': False,
+                'error_messages': {
+                    'required': _('Weekday field is required.'),
+                    'blank': _('Weekday field should not be blank.'),
+                }
+            },
+            'time': {
+                'required': True,
+                # 'allow_blank': False,
+                'error_messages': {
+                    'required': _('Time field is required.'),
+                    'blank': _('Time field should not be blank.'),
+                }
+            }
         }

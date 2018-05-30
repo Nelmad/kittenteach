@@ -22,11 +22,12 @@ urlpatterns = [
     re_path(r'^teachers/groups/?$', views.TeacherGroupsListView.as_view(), name='teacher-groups-list'),
     re_path(r'^teachers/groups/(?P<pk>\d+)/?$', views.TeacherGroupDetailsView.as_view(), name='teacher-group-details'),
     re_path(r'^teachers/groups/create/?$', views.TeacherGroupCreateView.as_view(), name='teacher-group-create'),
+    # TODO groups update/remove students list
 
     # schedule
-    re_path(r'^teachers/lessons-templates/?$', lambda: '', name='templates-list'),  # TODO <<<<
+    re_path(r'^teachers/lessons-templates/?$', views.LessonTemplateListView.as_view(), name='templates-list'),  # TODO <<<<
     # re_path(r'^teachers/lessons-templates/(?P<pk>\d+)/?$', lambda: '', name='template-details'),
-    re_path(r'^teachers/lessons-templates/create/?$', lambda: '', name='template-create'),  # TODO <<<<
+    re_path(r'^teachers/lessons-templates/create/?$', views.LessonTemplateCreateView.as_view(), name='template-create'),  # TODO <<<<
 
     # subjects
     re_path(r'^subjects/?$', views.SubjectListView.as_view(), name='subjects-list'),

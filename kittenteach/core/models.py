@@ -19,6 +19,7 @@ class School(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    creator = models.ForeignKey('Teacher', related_name='created_subjects', null=True, on_delete=SET_NULL)
 
     class Meta:
         db_table = 'subjects'
@@ -36,6 +37,8 @@ class Teacher(models.Model):
     students = models.ManyToManyField(Student, related_name='teachers', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
     schools = models.ManyToManyField(School, related_name='teachers', blank=True)
+    lessons_templates = models.ForeignKey('LessonTemplate', related_name='teacher', null=True, blank=True,
+                                          on_delete=CASCADE)
     address = models.TextField(blank=True)
 
     class Meta:
