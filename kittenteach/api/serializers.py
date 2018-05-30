@@ -431,7 +431,7 @@ class TeacherDetailsSerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(read_only=True)
     subjects = SubjectItemSerializer(read_only=True, many=True)
     students = StudentItemSerializer(read_only=True, many=True)
-    groups = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-list', many=True)
+    groups = serializers.HyperlinkedIdentityField(read_only=True, view_name='teacher-group-details', many=True)
 
     class Meta:
         model = models.Teacher
@@ -478,7 +478,7 @@ class LessonTemplateListSerializer(serializers.ModelSerializer):
 class LessonTemplateCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LessonTemplate
-        fields = ('group', 'weekday', 'time')
+        fields = ('group', 'weekday', 'time', 'teacher')
         extra_kwargs = {
             'group': {
                 'required': True,
@@ -502,6 +502,13 @@ class LessonTemplateCreateSerializer(serializers.ModelSerializer):
                 'error_messages': {
                     'required': _('Time field is required.'),
                     'blank': _('Time field should not be blank.'),
+                }
+            },
+            'teacher': {
+                'required': True,
+                'error_messages': {
+                    'required': _('Teacher field is required.'),
+                    'blank': _('Teacher field should not be blank.'),
                 }
             }
         }

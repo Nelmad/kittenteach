@@ -289,7 +289,8 @@ class LessonTemplateListView(generics.ListAPIView):
     def get_queryset(self):
         try:
             teacher = self.request.user.teacher
-            return teacher.lessons_templates or []
+            query_set = teacher.lessons_templates or models.LessonTemplate.objects.none()
+            return query_set.all()
         except models.Teacher.DoesNotExist:
             raise Http404
 

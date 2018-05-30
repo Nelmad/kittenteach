@@ -37,8 +37,6 @@ class Teacher(models.Model):
     students = models.ManyToManyField(Student, related_name='teachers', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
     schools = models.ManyToManyField(School, related_name='teachers', blank=True)
-    lessons_templates = models.ForeignKey('LessonTemplate', related_name='teacher', null=True, blank=True,
-                                          on_delete=CASCADE)
     address = models.TextField(blank=True)
 
     class Meta:
@@ -60,6 +58,7 @@ class LessonTemplate(models.Model):
     group = models.ForeignKey(Group, on_delete=CASCADE)
     weekday = models.IntegerField()
     time = models.TimeField()
+    teacher = models.ForeignKey(Teacher, related_name='lessons_templates', null=True, on_delete=CASCADE)
 
     class Meta:
         db_table = 'lessons_templates'
