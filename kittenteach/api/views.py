@@ -63,16 +63,24 @@ class TeacherGroupCreateView(generics.CreateAPIView):
         except models.Teacher.DoesNotExist:
             raise Http404
         else:
-            super().create(request, *args, **kwargs)
+            return super().create(request, *args, **kwargs)
 
 
 class SubjectCreateView(generics.CreateAPIView):
     """
-    Student create endpoint
+    Create subject for authorized teacher
     """
     serializer_class = serializers.SubjectCreateSerializer
-    queryset = models.Student.objects.all()
+    queryset = models.Subject.objects.all()
     permission_classes = [permissions.IsTeacher]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['creator'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            return super().create(request, *args, **kwargs)
 
 
 class StudentRetrieveView(generics.RetrieveAPIView):
@@ -180,7 +188,7 @@ class TeacherGroupDetailsView(generics.RetrieveAPIView):
     def get_queryset(self):
         try:
             teacher = self.request.user.teacher
-            return teacher.groups
+            return teacher.groups.all()
         except models.Teacher.DoesNotExist:
             raise Http404
 
@@ -195,7 +203,31 @@ class TeacherGroupsListView(generics.ListAPIView):
     def get_queryset(self):
         try:
             teacher = self.request.user.teacher
-            return teacher.groups
+            return teacher.groups.all()
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class TeacherGroupSafeUpdateView(generics.UpdateAPIView):
+    serializer_class = serializers.TeacherGroupSafeUpdateSerializer
+    permission_classes = [permissions.IsTeacher]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            return teacher.groups.all()
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class TeacherGroupSafeRemoveView(generics.UpdateAPIView):
+    serializer_class = serializers.TeacherGroupSafeRemoveSerializer
+    permission_classes = [permissions.IsTeacher]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            return teacher.groups.all()
         except models.Teacher.DoesNotExist:
             raise Http404
 
@@ -225,7 +257,7 @@ class SchoolCreateView(generics.CreateAPIView):
     School create for authorized teacher
     """
     serializer_class = serializers.SchoolCreateSerializer
-    queryset = models.Student.objects.all()
+    queryset = models.School.objects.all()
     permission_classes = [permissions.IsTeacher]
 
     def create(self, request, *args, **kwargs):
@@ -234,7 +266,7 @@ class SchoolCreateView(generics.CreateAPIView):
         except models.Teacher.DoesNotExist:
             raise Http404
         else:
-            super().create(request, *args, **kwargs)
+            return super().create(request, *args, **kwargs)
 
 
 class SchoolSafeUpdateView(generics.UpdateAPIView):  # TODO update rules
@@ -243,15 +275,16 @@ class SchoolSafeUpdateView(generics.UpdateAPIView):  # TODO update rules
     Updates existing many2many fields values with given
     For other fields sets value (default behavior)
     """
-    serializer_class = serializers.TeacherSafeUpdateSerializer
-    queryset = models.School.objects.all()
-    permission_classes = [permissions.IsTeacher, permissions.IsSchoolCreator]
+    serializer_class = serializers.SchoolSafeUpdateSerializer
+    permission_classes = [permissions.IsTeacher]
 
-    # def get_object(self):
-    #     try:
-    #         return self.request.user.teacher
-    #     except models.Teacher.DoesNotExist:
-    #         raise Http404
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            query_set = teacher.created_schools or models.School.objects.none()
+            return query_set.all()
+        except models.Teacher.DoesNotExist:
+            raise Http404
 
 
 class SchoolSafeRemoveView(generics.UpdateAPIView):  # TODO remove rules
@@ -260,12 +293,47 @@ class SchoolSafeRemoveView(generics.UpdateAPIView):  # TODO remove rules
     Removes given values from many2many fields
     """
     serializer_class = serializers.SchoolSafeRemoveSerializer
-    queryset = models.School.objects.all()
-    permission_classes = [permissions.IsTeacher, permissions.IsSchoolCreator]
+    permission_classes = [permissions.IsTeacher]
 
-    # def get_object(self):
-    #     try:
-    #         return self.request.user.teacher
-    #     except models.Teacher.DoesNotExist:
-    #         raise Http404
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            query_set = teacher.created_schools or models.School.objects.none()
+            return query_set.all()
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class LessonTemplateListView(generics.ListAPIView):
+    """
+
+    """
+    serializer_class = serializers.LessonTemplateListSerializer
+    permission_classes = [permissions.IsTeacher]
+
+    def get_queryset(self):
+        try:
+            teacher = self.request.user.teacher
+            query_set = teacher.lessons_templates or models.LessonTemplate.objects.none()
+            return query_set.all()
+        except models.Teacher.DoesNotExist:
+            raise Http404
+
+
+class LessonTemplateCreateView(generics.CreateAPIView):
+    """
+      Create lesson template for authorized teacher
+      """
+    serializer_class = serializers.LessonTemplateCreateSerializer
+    queryset = models.LessonTemplate.objects.all()
+    rest_permissions = [permissions.IsTeacher]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            request.data['teacher'] = request.user.teacher.pk
+        except models.Teacher.DoesNotExist:
+            raise Http404
+        else:
+            return super().create(request, *args, **kwargs)
+
 

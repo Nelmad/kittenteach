@@ -11,6 +11,7 @@ User = get_user_model()
 class School(models.Model):
     name = models.CharField(max_length=255, unique=True)
     address = models.TextField(blank=True)
+    creator = models.ForeignKey('Teacher', related_name='created_schools', null=True, on_delete=SET_NULL)
 
     class Meta:
         db_table = 'schools'
@@ -18,6 +19,7 @@ class School(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    creator = models.ForeignKey('Teacher', related_name='created_subjects', null=True, on_delete=SET_NULL)
 
     class Meta:
         db_table = 'subjects'
@@ -35,7 +37,6 @@ class Teacher(models.Model):
     students = models.ManyToManyField(Student, related_name='teachers', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
     schools = models.ManyToManyField(School, related_name='teachers', blank=True)
-    created_schools = models.ForeignKey(School, related_name='creator', null=True, on_delete=CASCADE)
     address = models.TextField(blank=True)
 
     class Meta:
@@ -57,6 +58,7 @@ class LessonTemplate(models.Model):
     group = models.ForeignKey(Group, on_delete=CASCADE)
     weekday = models.IntegerField()
     time = models.TimeField()
+    teacher = models.ForeignKey(Teacher, related_name='lessons_templates', null=True, on_delete=CASCADE)
 
     class Meta:
         db_table = 'lessons_templates'
