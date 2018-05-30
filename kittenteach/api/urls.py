@@ -36,9 +36,9 @@ urlpatterns = [
     re_path(r'^subjects/create/?$', views.SubjectCreateView.as_view(), name='subject-create'),
 
     # schools
-    re_path(r'^schools/?$', views.SchoolsListView.as_view(), name='schools-list'),  # TODO <<<<
-    re_path(r'^schools/(?P<pk>\d+)/?$', views.SchoolDetailsView.as_view(), name='school-details'),  # TODO <<<<
-    re_path(r'^schools/create/?$', views.SchoolCreateView.as_view(), name='school-create'),  # TODO <<<<
-    re_path(r'^schools/(?P<pk>\d+)/update/?$', views.SchoolSafeUpdateView.as_view(), name='school-update'),  # TODO <<<<
+    re_path(r'^schools/?$', views.SchoolsListView.as_view(), name='schools-list'),
+    re_path(r'^schools/(?P<pk>\d+)/?$', views.SchoolDetailsView.as_view(), name='school-details'),  # TODO school slug field instead of pk
+    re_path(r'^schools/create/?$', views.SchoolCreateView.as_view(), name='school-create'),
+    re_path(r'^schools/(?P<pk>\d+)/update/?$', views.SchoolSafeUpdateView.as_view(), name='school-update'),
     re_path(r'^schools/(?P<pk>\d+)/remove/?$', views.SchoolSafeRemoveView.as_view(), name='school-remove'),  # TODO <<<<
 ]

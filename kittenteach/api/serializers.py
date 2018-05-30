@@ -423,10 +423,11 @@ class SubjectListSerializer(serializers.HyperlinkedModelSerializer):
 
 class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(read_only=True, view_name='school-details')
+    creator = TeacherItemSerializer(read_only=True)
 
     class Meta:
         model = models.School
-        fields = ('url', 'name', 'address')
+        fields = ('url', 'name', 'address', 'creator')
 
 
 class TeacherGroupItemSerializer(serializers.ModelSerializer):
@@ -493,10 +494,11 @@ class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
 
 class SchoolDetailsSerializer(serializers.ModelSerializer):
     creator = TeacherListSerializer(read_only=True)
+    teachers = TeacherListSerializer(read_only=True, many=True)
 
     class Meta:
         model = models.School
-        fields = ('name', 'address', 'creator')
+        fields = ('name', 'address', 'creator', 'teachers')
         extra_kwargs = {
             'name': {'read_only': True},
             'address': {'read_only': True},
