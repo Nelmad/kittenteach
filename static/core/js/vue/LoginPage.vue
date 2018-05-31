@@ -1,7 +1,19 @@
 <template lang="html">
   <div :style="{ marginTop: `${marginTop}px` }">
-    <p style="text-align: center">{{ results }}</p>
     <h2 class="login-title">{{ pageTitle }}</h2>
+
+    <div
+      v-if="errorMessages && errorMessages.length > 0"
+      class="login-error error">
+      <ul class="error__list error-list error-list--tooltip">
+        <li
+          v-for="(errorMessage, index) in errorMessages"
+          :key="index"
+          class="error-list__item">
+          {{ errorMessage }}
+        </li>
+      </ul>
+    </div>
 
     <div
       v-if="registration.show"
@@ -79,9 +91,8 @@
             <button
               type="button"
               class="registration__btn registration__btn--primary"
-              @click="registrationHandler"
-            >
-              Sign Up
+              @click="registrationHandler">
+              Create Account
             </button>
           </div>
         </form>
@@ -92,8 +103,7 @@
         <p class="registration__text registration__text--middle">I wanna
           <a
             href="javascript:"
-            @click="switchLogin"
-          >
+            @click="switchLogin">
             use an existing account.
           </a>
         </p>
@@ -137,8 +147,7 @@
         <p class="login__text login__text--small">I forgot
           <a
             href="javascript:"
-            @click="forgotPasswordHandler"
-          >
+            @click="forgotPasswordHandler">
             my password.
           </a>
         </p>
@@ -147,8 +156,7 @@
         <p class="login__text login__text--middle">I don't have a
           <a
             href="javascript:"
-            @click="switchRegistration"
-          >
+            @click="switchRegistration">
             KittenTeach account.
           </a>
         </p>
@@ -183,7 +191,7 @@ export default {
       },
       isLoading: false,
       marginTop: 170,
-      results: '' // TODO for test
+      errorMessages: []
     }
   },
 
@@ -211,14 +219,14 @@ export default {
     },
 
     switchRegistration() {
-      this.results = ''
+      this.errorMessages.length = 0
       this.registration.show = true
       this.registration.step = 1
       this.marginTop = 120
     },
 
     switchLogin() {
-      this.results = ''
+      this.errorMessages.length = 0
       this.registration.show = false
       this.marginTop = 170
     },
@@ -233,6 +241,7 @@ export default {
       if (this.registration.step == 2) {
         let role = this.registration.role.toLocaleLowerCase()
         let url = `/api/${role}s/create`
+
         this.isLoading = true
 
         axios.post(url, {
@@ -244,7 +253,9 @@ export default {
           }
         }).then(res => {
           this.isLoading = false
-          this.results = res.data
+          this.errorMessages.length = 0
+          console.log(res)
+          // this.results = res.data
 
           this.switchLogin()
 
@@ -252,10 +263,14 @@ export default {
           this.registration.password = ''
           this.registration.firstName = ''
           this.registration.lastName = ''
-        }).catch((error) => {
+        }).catch(error => {
+          let errorData = error.response.data
           this.isLoading = false
-          if (error.response) {
-            this.results = error.response.data
+
+          if (errorData) {
+            this.errorMessages = Object.values(errorData['user']).map(e => e[0])
+          } else {
+            this.errorMessages = ['Something went wrong...']
           }
 
           this.registration.password = ''
@@ -272,14 +287,20 @@ export default {
         password: this.login.password
       }).then(res => {
         this.isLoading = false
-        this.results = res.data
+        this.errorMessages.length = 0
+        console.log(res)
+        // this.results = res.data // TODO
 
         this.login.email = ''
         this.login.password = ''
-      }).catch((error) => {
+      }).catch(error => {
+        let errorData = error.response.data
         this.isLoading = false
-        if (error.response) {
-          this.results = error.response.data
+
+        if (errorData) {
+          this.errorMessages = Object.values(errorData).map(e => e[0])
+        } else {
+          this.errorMessages = ['Something went wrong...']
         }
 
         this.login.password = ''

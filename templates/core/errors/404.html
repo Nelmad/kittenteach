@@ -3,16 +3,16 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="error">
-        <div class="error__content">
-            <h1 class="error__title">
+    <div class="error-page">
+        <div class="error-page__content">
+            <h1 class="error-page__title">
                 Ooups.. It seems that page is not found
             </h1>
-            <picture class="error__image">
+            <picture class="error-page__image">
                 <img src="{% static '/core/img/errors/404-cat.svg' %}" alt="">
             </picture>
         </div>
-        <p class="error__description">To report a broken link, please <a href="mailto:support@kittenteach.com">drop a line to support@kittenteach.com</a>
+        <p class="error-page__description">To report a broken link, please <a href="mailto:support@kittenteach.com">drop a line to support@kittenteach.com</a>
             <br>
             Go back to the <a href="/">homepage</a>
         </p>
