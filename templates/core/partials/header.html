@@ -108,10 +108,10 @@
     </div>
     <nav class="header__menu-content">
         <ul class="header__menu header-menu">
-            <li class="header-menu__btn"><a href="/"><span class="header-menu__text">home</span></a></li>
-            <li class="header-menu__btn"><a href="/"><span class="header-menu__text">schools</span></a></li>
-            <li class="header-menu__btn"><a href="/"><span class="header-menu__text">teachers</span></a></li>
-            <li class="header-menu__btn"><a href="/"><span class="header-menu__text">subjects</span></a></li>
+            <li class="header-menu__btn"><a href="{% url 'index' %}"><span class="header-menu__text">home</span></a></li>
+            <li class="header-menu__btn"><a href="{% url 'teachers' %}"><span class="header-menu__text">teachers</span></a></li>
+            <li class="header-menu__btn"><a href="{% url 'subjects' %}"><span class="header-menu__text">subjects</span></a></li>
+            <li class="header-menu__btn"><a href="{% url 'schools' %}"><span class="header-menu__text">schools</span></a></li>
         </ul>
         <div class="header__controls header-controls">
             <div id="quick-search" class="header-controls__search header-search">
@@ -125,7 +125,7 @@
                 <input class="header-controls__search-input header-search__input" type="text" placeholder="search">
             </div>
             <div class="header-controls__btn header-controls__btn--margin">
-                <a href="/login"><span class="header-controls__text">sign in</span></a>
+                <a href="{% url 'login' %}"><span class="header-controls__text">sign in</span></a>
             </div>
         </div>
     </nav>
