@@ -4,6 +4,9 @@
 @header-bg-color-hover: #7FCBCD;
 @header-logo-width: 230px;
 
+@header-main-bg-color: #DFF4F6;
+@header-main-color: #607980;
+
 .header {
   display: flex;
   height: 120px;
@@ -49,12 +52,12 @@
       stroke-miterlimit: 10;
     }
     .st1 {
-      fill:none;
+      fill: none;
       stroke-width: 8px;
       stroke-miterlimit: 10;
     }
     .st2 {
-      stroke-miterlimit:10;
+      stroke-miterlimit: 10;
     }
     .st3 {
       fill: none;
@@ -68,11 +71,11 @@
       .st1 {
         stroke: #FFFFFF;
       }
-      .st2{
-        stroke:#FFFFFF;
+      .st2 {
+        stroke: #FFFFFF;
       }
-      .bg{
-        fill:#FFFFFF;
+      .bg {
+        fill: #FFFFFF;
       }
     }
 
@@ -114,10 +117,39 @@
   }
 
   &.header--main {
-    background-color: #DFF4F6;
+    background-color: @header-main-bg-color;
 
     .header__controls {
-      background-color: #DFF4F6;
+      background-color: @header-main-bg-color;
+
+      .header-controls__search {
+        .header-controls__search-image {
+          svg path {
+            fill: @header-main-color;
+          }
+        }
+
+        .header-controls__search-input {
+          background-color: #60798021;
+          color: @header-main-color;
+
+          &::placeholder {
+            color: @header-main-color;
+          }
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: @header-main-color;
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: @header-main-color;
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: @header-main-color;
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: @header-main-color;
+          }
+        }
+      }
 
       .header-controls__btn {
         &:hover {
@@ -126,12 +158,12 @@
       }
 
       .header-controls__text {
-        color: #607980;
+        color: @header-main-color;
       }
     }
 
     .header__menu {
-      background-color: #DFF4F6;
+      background-color: @header-main-bg-color;
 
       .header-menu__btn {
         &:hover {
@@ -140,7 +172,7 @@
       }
 
       .header-menu__text {
-        color: #607980;
+        color: @header-main-color;
       }
     }
   }

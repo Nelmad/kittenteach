@@ -37,7 +37,9 @@ function initialize() {
     });
 
     quickSearchInput.on('focusout', function (e) {
-        quickSearch.removeClass('header-controls__search--active');
+        if (!$(this).val()) {
+            quickSearch.removeClass('header-controls__search--active');
+        }
     })
 }
 
