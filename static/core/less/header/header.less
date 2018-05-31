@@ -7,12 +7,15 @@
 @header-main-bg-color: #DFF4F6;
 @header-main-color: #607980;
 
+@background-color-transition: background-color .3s;
+
 .header {
   display: flex;
   height: 120px;
   padding: 0 15px;
 
   background-color: @header-bg-color;
+  transition: @background-color-transition;
 
   font-family: "Roboto", sans-serif;
   font-size: 14px;
@@ -110,9 +113,11 @@
     align-self: center;
     align-items: center;
     justify-content: center;
+    transition: @background-color-transition;
   }
 
   .header__controls {
+    transition: @background-color-transition;
     //margin-right: 15px;
   }
 
