@@ -1,6 +1,24 @@
 .temp {
+  &.temp__row {
+    &.temp__row--pb25 {
+      padding-bottom: 25px;
+    }
+
+    &.temp__row--center {
+      margin: 0 auto;
+    }
+  }
+
+
+
+  &.temp__main-image {
+    display: inline-block;
+    max-height: 625px;
+  }
+
   &.temp__home-block {
     width: 100%;
+    line-height: 0;
 
     &.temp__home-block--main {
       text-align: center;
@@ -50,6 +68,7 @@
     max-width: 600px;
     margin: 0 auto 20px;
     padding-top: 50px;
+    font-weight: 500;
 
     color: #607980;
     text-align: center;

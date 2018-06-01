@@ -10,7 +10,7 @@ $.KittenTeach.Home = {
         $logo.addClass('header__logo-svg--dark')
 
         $(window).on('scroll', function (e) {
-          if ($(this).scrollTop() <= 35) {
+          if ($(this).scrollTop() <= 45) {
               if (!topStyleActivated) {
                   $header.addClass('header--main');
                   $logo.removeClass('header__logo-svg--white')

@@ -111,35 +111,35 @@
 
     <div
       v-else-if="forgot.show"
-      class="forgot">
+      class="login">
 
-      <div class="forgot__row">
-        <p>Enter your email address below and we'll send you a link to reset your password.</p>
+      <div class="login__row login__row--mb14 ">
+        <p class="login__text">Enter your email address below and we'll send you a link to reset your password.</p>
       </div>
 
       <form
-        class="forgot__form"
+        class="login__form"
         action="#">
-        <div class="forgot__row">
+        <div class="login__row login__row--mb10">
           <input
-            :placeholder="gettext('Email')"
+            :placeholder="gettext('Email Address')"
             v-model="forgot.email"
-            class="forgot__input"
+            class="login__input"
             type="text"
           >
         </div>
-        <div class="forgot__row">
+        <div class="login__row login__row--mb14">
           <button
             type="button"
-            class="forgot__btn"
+            class="login__btn"
             @click="forgotPasswordHandler">
             Submit
           </button>
         </div>
       </form>
 
-      <div class="forgot__row">
-        <p class="forgot__text forgot__text--middle">Nope, take me
+      <div class="login__row">
+        <p class="login__text login__text--middle">Nope, take me
           <a
             href="javascript:"
             @click="switchLogin">
