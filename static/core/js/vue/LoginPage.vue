@@ -46,29 +46,27 @@
       </div>
 
       <div
-        v-else
+        v-else-if="registration.step == 2"
         class="registration__form-wrapper">
 
         <form
           class="registration__form"
           action="#">
-          <div v-if="registration.step == 2">
-            <div class="registration__row registration__row--mb5">
-              <input
-                :placeholder="gettext('Email')"
-                v-model="registration.email"
-                class="registration__input"
-                type="text"
-              >
-            </div>
-            <div class="registration__row registration__row--mb5">
-              <input
-                :placeholder="gettext('Password')"
-                v-model="registration.password"
-                class="registration__input"
-                type="password"
-              >
-            </div>
+          <div class="registration__row registration__row--mb5">
+            <input
+              :placeholder="gettext('Email')"
+              v-model="registration.email"
+              class="registration__input"
+              type="text"
+            >
+          </div>
+          <div class="registration__row registration__row--mb5">
+            <input
+              :placeholder="gettext('Password')"
+              v-model="registration.password"
+              class="registration__input"
+              type="password"
+            >
           </div>
           <div class="registration__row registration__row--mb5">
             <input
@@ -90,7 +88,7 @@
           <div class="registration__row registration__row--mb8">
             <button
               type="button"
-              class="registration__btn registration__btn--primary"
+              class="registration__btn"
               @click="registrationHandler">
               Create Account
             </button>
@@ -112,42 +110,87 @@
     </div>
 
     <div
+      v-else-if="forgot.show"
+      class="forgot">
+
+      <div class="forgot__row">
+        <p>Enter your email address below and we'll send you a link to reset your password.</p>
+      </div>
+
+      <form
+        class="forgot__form"
+        action="#">
+        <div class="forgot__row">
+          <input
+            :placeholder="gettext('Email')"
+            v-model="forgot.email"
+            class="forgot__input"
+            type="text"
+          >
+        </div>
+        <div class="forgot__row">
+          <button
+            type="button"
+            class="forgot__btn"
+            @click="forgotPasswordHandler">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <div class="forgot__row">
+        <p class="forgot__text forgot__text--middle">Nope, take me
+          <a
+            href="javascript:"
+            @click="switchLogin">
+            back to Login.
+          </a>
+        </p>
+      </div>
+
+    </div>
+
+    <div
       v-else
       class="login">
 
-      <div class="login__row login__row--mb5">
-        <input
-          :placeholder="gettext('Email')"
-          v-model="login.email"
-          class="login__input"
-          type="text"
-          name="email"
-        >
-      </div>
-      <div class="login__row login__row--mb10">
-        <input
-          :placeholder="gettext('Password')"
-          v-model="login.password"
-          class="login__input"
-          type="password"
-          name="password"
-        >
-      </div>
+      <form
+        class="login__form"
+        action="#">
+        <div class="login__row login__row--mb5">
+          <input
+            :placeholder="gettext('Email')"
+            v-model="login.email"
+            class="login__input"
+            type="text"
+            name="email"
+          >
+        </div>
+        <div class="login__row login__row--mb10">
+          <input
+            :placeholder="gettext('Password')"
+            v-model="login.password"
+            class="login__input"
+            type="password"
+            name="password"
+          >
+        </div>
 
-      <div class="login__row login__row--mb8">
-        <button
-          type="button"
-          class="login__btn"
-          @click="loginHandler">
-          Log In
-        </button>
-      </div>
+        <div class="login__row login__row--mb8">
+          <button
+            type="button"
+            class="login__btn"
+            @click="loginHandler">
+            Log In
+          </button>
+        </div>
+      </form>
 
       <div class="login__row login__row--mb10">
         <p class="login__text login__text--small">I forgot
           <a
             href="javascript:"
-            @click="forgotPasswordHandler">
+            @click="switchForgotPassword">
             my password.
           </a>
         </p>
@@ -185,6 +228,10 @@ export default {
         firstName: '',
         lastName: ''
       },
+      forgot: {
+        show: false,
+        email: ''
+      },
       login: {
         email: '',
         password: ''
@@ -213,22 +260,44 @@ export default {
     }
   },
 
+  created() {
+    switch (window.location.hash) {
+    case '#/auth':
+      break
+    case '#/signup':
+      this.switchRegistration()
+      break
+    case '#/forgot':
+      this.switchForgotPassword()
+      break
+    default:
+      this.switchLogin()
+    }
+  },
+
   methods: {
-    forgotPasswordHandler() {
-      console.log('forgot password')
+    switchLogin() {
+      history.pushState(null, null, '#/auth');
+      this.errorMessages.length = 0
+      this.forgot.show = false
+      this.registration.show = false
+      this.marginTop = 170
     },
 
     switchRegistration() {
+      history.pushState(null, null, '#/signup');
       this.errorMessages.length = 0
+      this.forgot.show = false
       this.registration.show = true
       this.registration.step = 1
       this.marginTop = 120
     },
 
-    switchLogin() {
+    switchForgotPassword() {
+      history.pushState(null, null, '#/forgot');
       this.errorMessages.length = 0
+      this.forgot.show = true
       this.registration.show = false
-      this.marginTop = 170
     },
 
     chooseRegistrationRole(role) {
@@ -251,10 +320,10 @@ export default {
             first_name: this.registration.firstName,
             last_name: this.registration.lastName
           }
-        }).then(res => {
+        }).then(result => {
           this.isLoading = false
           this.errorMessages.length = 0
-          console.log(res)
+          console.log(result)
           // this.results = res.data
 
           this.switchLogin()
@@ -285,10 +354,10 @@ export default {
       axios.post('/api/auth', {
         email: this.login.email,
         password: this.login.password
-      }).then(res => {
+      }).then(result => {
         this.isLoading = false
         this.errorMessages.length = 0
-        console.log(res)
+        console.log(result)
         // this.results = res.data // TODO
 
         this.login.email = ''
@@ -305,6 +374,10 @@ export default {
 
         this.login.password = ''
       })
+    },
+
+    forgotPasswordHandler() {
+      console.log('forgot password')
     },
 
     // TODO move to helpers
