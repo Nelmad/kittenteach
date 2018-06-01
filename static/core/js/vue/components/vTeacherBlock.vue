@@ -1,10 +1,11 @@
 <template lang="html">
-  <li>
-    <a
-      :href="teacher.url"
-      class="teachers__block">
-      {{ teacher.user.first_name }}
+  <li class="teachers-list-item">
+    <a :href="teacher.url">
+      link
     </a>
+    <div class="teachers-list-item__description">
+      {{ teacher.user.first_name }} {{ teacher.user.last_name }}
+    </div>
   </li>
 </template>
 

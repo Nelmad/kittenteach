@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div style="min-height: 568px">
 
-    <div class="teachers">
+    <div class="teachers teachers--popular">
       <ul class="teachers__list teachers-list">
         <li
           is="vTeacherBlock"
           v-for="teacher in popularTeachers"
           :key="teacher.url"
-          :teacher="teacher">
+          :teacher="teacher"
+          class="teachers-list__item teachers-list-item">
           {{ teacher.user.first_name }} {{ teacher.user.last_name }}
         </li>
       </ul>
@@ -22,7 +23,8 @@
           is="vTeacherBlock"
           v-for="teacher in teachers"
           :key="teacher.url"
-          :teacher="teacher">
+          :teacher="teacher"
+          class="teachers-list__item">
           {{ teacher.user.first_name }} {{ teacher.user.last_name }}
         </li>
       </ul>
