@@ -1,10 +1,11 @@
 from django.contrib import auth
 from django.contrib.auth import user_logged_in
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from rest_framework import generics, permissions as rest_permissions
 from rest_framework import filters as rest_filters
 from rest_framework.authtoken import models as authtoken_models
 from rest_framework.authtoken import views as authtoken_views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters import rest_framework as d_filters
 
@@ -337,3 +338,7 @@ class LessonTemplateCreateView(generics.CreateAPIView):
             return super().create(request, *args, **kwargs)
 
 
+@api_view(['POST'])
+@permission_classes((rest_permissions.AllowAny,))
+def reset_password(request):
+    return JsonResponse({"message": "Sorry, this functionality is not available yet"}, status=500)

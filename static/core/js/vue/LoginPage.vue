@@ -377,7 +377,28 @@ export default {
     },
 
     forgotPasswordHandler() {
-      console.log('forgot password')
+      this.isLoading = true
+
+      axios.post('/api/reset-password', {
+
+      }).then(result => {
+        this.isLoading = false
+        this.errorMessages.length = 0
+        console.log(result)
+
+        this.forgot.email = ''
+      }).catch(error => {
+        let errorData = error.response.data
+        this.isLoading = false
+
+        if (errorData) {
+          this.errorMessages = [errorData.message]
+        } else {
+          this.errorMessages = ['Something went wrong...']
+        }
+
+        this.forgot.email = ''
+      })
     },
 
     // TODO move to helpers

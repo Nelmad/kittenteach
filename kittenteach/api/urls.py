@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     # auth
     re_path(r'^auth/?$', views.ObtainAuthToken.as_view(), name='token-auth'),
+    re_path(r'^reset-password/?$', views.reset_password, name='reset-password'),
 
     # students
     re_path(r'^students/?$', views.StudentListView.as_view(), name='students-list'),
