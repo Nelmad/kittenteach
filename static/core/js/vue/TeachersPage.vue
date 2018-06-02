@@ -1,5 +1,7 @@
 <template>
-  <div style="min-height: 568px">
+  <div
+    class="teachers"
+    style="min-height: 568px">
 
     <div class="teachers teachers--popular">
       <div class="teachers__title-block teachers-title-block teachers-title-block--primary">
@@ -8,7 +10,9 @@
         </span>
       </div>
 
-      <ul class="teachers__list teachers-list">
+      <ul
+        v-show="popularTeachers.length > 0 || popularTeachersLoading"
+        class="teachers__list teachers-list">
         <li
           is="vTeacherBlock"
           v-for="teacher in popularTeachers"
@@ -25,6 +29,21 @@
         class="spinner-wrapper">
         <vLoad color="v-gray"/>
       </div>
+
+      <div
+        v-show="popularTeachers.length === 0 && !popularTeachersLoading"
+        class="teachers__empty-list teachers-empty-list">
+        <h2 class="teachers-empty-list__title"> (>_&lt;) </h2>
+        <p class="teachers-empty-list__description">No Popular Teachers Found...</p>
+      </div>
+    </div>
+
+    <div class="teachers__search teachers-search">
+      <h2 class="teachers-search__title">Find Teacher as Quick as Possible!</h2>
+      <input
+        v-model="params.search"
+        class="teachers-search__input"
+        type="text">
     </div>
 
     <div class="teachers">
@@ -34,7 +53,9 @@
         </span>
       </div>
 
-      <ul class="teachers__list teachers-list">
+      <ul
+        v-show="teachers.length > 0 || teachersLoading"
+        class="teachers__list teachers-list">
         <li
           is="vTeacherBlock"
           v-for="teacher in teachers"
@@ -47,11 +68,25 @@
       </ul>
 
       <div
+        v-show="teachers.length === 0 && !teachersLoading"
+        class="teachers__empty-list teachers-empty-list">
+        <h2 class="teachers-empty-list__title"> (>_&lt;) </h2>
+        <p class="teachers-empty-list__description">No Teachers Found...</p>
+      </div>
+
+      <div
         v-show="teachersLoading"
         class="spinner-wrapper">
         <vLoad color="v-gray"/>
       </div>
     </div>
+
+    <button
+      v-if="loadMoreBtnShow && !teachersLoading"
+      class="teachers__btn teachers__btn--center"
+      @click="loadMore">
+      Load More
+    </button>
 
   </div>
 </template>
@@ -72,14 +107,25 @@ export default {
     return {
       popularTeachersLoading: true,
       teachersLoading: true,
+      loadMoreBtnShow: true,
 
       popularTeachers: [],
       teachers: [],
 
       params: {
-        limit: 20,
+        search: '',
+        limit: 6,
         offset: 0
       }
+    }
+  },
+
+  watch: {
+    'params.search': function () {
+      this.teachers.length = 0
+      this.params.limit = 6
+      this.params.offset = 0
+      this.fetchTeachers()
     }
   },
 
@@ -116,6 +162,7 @@ export default {
       }).then(result => {
         this.teachers = this.teachers.concat(result.data.results)
         this.teachersLoading = false
+        this.loadMoreBtnShow = !!result.data.next
       }).catch(error => {
         console.log(error)
         this.teachersLoading = false
