@@ -1,7 +1,11 @@
 <template lang="html">
-  <li class="teachers-list-item">
+  <li class="subjects-list-item">
     <a :href="subject.url">
-      SUBJECT
+      <div
+        :style="`background-image: url(${imageSrc})`"
+        class="subjects-list-item__text">
+        {{ subject.name }}
+      </div>
     </a>
   </li>
 </template>
@@ -17,6 +21,12 @@ export default {
     defaultImg: {
       type: String,
       required: true
+    }
+  },
+
+  data() {
+    return {
+      imageSrc: this.subject.image_url || this.defaultImg,
     }
   }
 }

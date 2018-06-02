@@ -1,14 +1,27 @@
 <template>
-  <div style="min-height: 568px">
+  <div
+    class="subjects"
+    style="min-height: 568px">
 
-    <ul class="teachers__list teachers-list">
+    <div class="teachers__search teachers-search">
+      <h2 class="teachers-search__title">What Subject are you Looking for...?</h2>
+      <input
+        :placeholder="gettext('Write to search here...')"
+        v-model="params.search"
+        class="teachers-search__input"
+        type="text">
+    </div>
+
+    <ul
+      v-show="subjects.length > 0 || isLoading"
+      class="subjects__list subjects-list">
       <li
         is="vSubjectBlock"
         v-for="subject in subjects"
         :key="subject.url"
         :subject="subject"
         :default-img="`${staticUrl}test`"
-        class="teachers-list__item teachers-list-item">
+        class="subjects-list__item subjects-list-item">
         {{ subject.name }}
       </li>
     </ul>
@@ -18,6 +31,22 @@
       class="spinner-wrapper">
       <vLoad color="v-gray"/>
     </div>
+
+    <div
+      v-show="subjects.length === 0 && !isLoading"
+      class="subjects__empty-list subjects-empty-list">
+      <h2 class="subjects-empty-list__title"> (>_&lt;) </h2>
+      <p class="subjects-empty-list__description">
+        No Subjects Found...
+      </p>
+    </div>
+
+    <button
+      v-if="loadMoreBtnShow && !isLoading"
+      class="subjects__btn subjects__btn--center"
+      @click="loadMore">
+      Load More
+    </button>
 
   </div>
 </template>
@@ -37,12 +66,24 @@ export default {
   data() {
     return {
       isLoading: true,
+      loadMoreBtnShow: true,
 
       subjects: [],
+
       params: {
-        limit: 20,
+        search: '',
+        limit: 6,
         offset: 0
       }
+    }
+  },
+
+  watch: {
+    'params.search': function () {
+      this.subjects.length = 0
+      this.params.limit = 6
+      this.params.offset = 0
+      this.fetchSubjects()
     }
   },
 
@@ -59,10 +100,16 @@ export default {
       }).then(result => {
         this.subjects = result.data.results
         this.isLoading = false
+        this.loadMoreBtnShow = !!result.data.next
       }).catch(error => {
         console.log(error)
         this.isLoading = false
       })
+    },
+
+    loadMore() {
+      this.params.offset += this.params.limit
+      this.fetchSubjects()
     }
   }
 }

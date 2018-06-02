@@ -33,14 +33,19 @@
       <div
         v-show="popularTeachers.length === 0 && !popularTeachersLoading"
         class="teachers__empty-list teachers-empty-list">
-        <h2 class="teachers-empty-list__title"> (>_&lt;) </h2>
-        <p class="teachers-empty-list__description">No Popular Teachers Found...</p>
+        <h2 class="teachers-empty-list__title"> (;-;) </h2>
+        <p
+          style="margin-bottom: 25px;"
+          class="teachers-empty-list__description">
+          No Popular Teachers Found...
+        </p>
       </div>
     </div>
 
     <div class="teachers__search teachers-search">
       <h2 class="teachers-search__title">Find Teacher as Quick as Possible!</h2>
       <input
+        :placeholder="gettext('Write to search here...')"
         v-model="params.search"
         class="teachers-search__input"
         type="text">
@@ -70,7 +75,7 @@
       <div
         v-show="teachers.length === 0 && !teachersLoading"
         class="teachers__empty-list teachers-empty-list">
-        <h2 class="teachers-empty-list__title"> (>_&lt;) </h2>
+        <h2 class="teachers-empty-list__title"> \(o_o)/ </h2>
         <p class="teachers-empty-list__description">No Teachers Found...</p>
       </div>
 
