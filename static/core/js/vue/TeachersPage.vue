@@ -20,10 +20,10 @@
         </li>
       </ul>
 
-      <div class="spinner-wrapper">
-        <vLoad
-          v-if="popularTeachersLoading"
-          color="v-gray"/>
+      <div
+        v-if="popularTeachersLoading"
+        class="spinner-wrapper">
+        <vLoad color="v-gray"/>
       </div>
     </div>
 
@@ -46,10 +46,10 @@
         </li>
       </ul>
 
-      <div class="spinner-wrapper">
-        <vLoad
-          v-show="teachersLoading"
-          color="v-gray"/>
+      <div
+        v-show="teachersLoading"
+        class="spinner-wrapper">
+        <vLoad color="v-gray"/>
       </div>
     </div>
 
@@ -70,7 +70,6 @@ export default {
 
   data() {
     return {
-      staticUrl: window.static,
       popularTeachersLoading: true,
       teachersLoading: true,
 

@@ -391,7 +391,7 @@ class StudentListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Student
-        fields = ('url', 'user')
+        fields = ('url', 'image_url', 'user')
 
 
 class TeacherGroupListSerializer(serializers.ModelSerializer):
@@ -410,7 +410,7 @@ class TeacherListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Teacher
-        fields = ('url', 'user')
+        fields = ('url', 'user', 'image_url')
 
 
 class SubjectListSerializer(serializers.HyperlinkedModelSerializer):
@@ -418,7 +418,7 @@ class SubjectListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Subject
-        fields = ('url', 'name')
+        fields = ('url', 'name', 'image_url')
 
 
 class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
@@ -427,7 +427,7 @@ class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.School
-        fields = ('url', 'name', 'address', 'creator')
+        fields = ('url', 'name', 'address', 'image_url', 'creator')
 
 
 class TeacherGroupItemSerializer(serializers.ModelSerializer):
@@ -454,7 +454,7 @@ class StudentDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Student
-        fields = ('user', 'teachers')
+        fields = ('user', 'image_url', 'teachers')
 
 
 class SubjectDetailsSerializer(serializers.ModelSerializer):
@@ -462,7 +462,7 @@ class SubjectDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Subject
-        fields = ('name', 'teachers')
+        fields = ('name', 'image_url', 'teachers')
         extra_kwargs = {
             'name': {'read_only': True},
         }
@@ -476,7 +476,7 @@ class TeacherDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Teacher
-        fields = ('user', 'students', 'subjects', 'groups')
+        fields = ('user', 'image_url', 'students', 'subjects', 'groups')
 
 
 class TeacherGroupDetailsSerializer(serializers.ModelSerializer):
@@ -498,7 +498,7 @@ class SchoolDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.School
-        fields = ('name', 'address', 'creator', 'teachers')
+        fields = ('name', 'address', 'image_url', 'creator', 'teachers')
         extra_kwargs = {
             'name': {'read_only': True},
             'address': {'read_only': True},

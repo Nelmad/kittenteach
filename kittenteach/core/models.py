@@ -11,6 +11,7 @@ User = get_user_model()
 class School(models.Model):
     name = models.CharField(max_length=255, unique=True)
     address = models.TextField(blank=True)
+    image_url = models.TextField(blank=True)
     creator = models.ForeignKey('Teacher', related_name='created_schools', null=True, on_delete=SET_NULL)
 
     class Meta:
@@ -19,6 +20,7 @@ class School(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    image_url = models.TextField(blank=True)
     creator = models.ForeignKey('Teacher', related_name='created_subjects', null=True, on_delete=SET_NULL)
 
     class Meta:
@@ -27,6 +29,7 @@ class Subject(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=PROTECT)
+    image_url = models.TextField(blank=True)
 
     class Meta:
         db_table = 'students'
@@ -38,6 +41,7 @@ class Teacher(models.Model):
     subjects = models.ManyToManyField(Subject, related_name='teachers', blank=True)
     schools = models.ManyToManyField(School, related_name='teachers', blank=True)
     address = models.TextField(blank=True)
+    image_url = models.TextField(blank=True)
 
     class Meta:
         db_table = 'teachers'
