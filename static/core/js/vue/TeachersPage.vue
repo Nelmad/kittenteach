@@ -14,13 +14,17 @@
           v-for="teacher in popularTeachers"
           :key="teacher.url"
           :teacher="teacher"
+          :default-img="`${staticUrl}core/img/portrait/teacher-portrait.svg`"
           class="teachers-list__item teachers-list-item">
           {{ teacher.user.first_name }} {{ teacher.user.last_name }}
         </li>
       </ul>
-      <vLoad
-        v-if="popularTeachersLoading"
-        color="v-gray"/>
+
+      <div class="spinner-wrapper">
+        <vLoad
+          v-if="popularTeachersLoading"
+          color="v-gray"/>
+      </div>
     </div>
 
     <div class="teachers">
@@ -36,13 +40,17 @@
           v-for="teacher in teachers"
           :key="teacher.url"
           :teacher="teacher"
+          :default-img="`${staticUrl}core/img/portrait/teacher-portrait.svg`"
           class="teachers-list__item">
           {{ teacher.user.first_name }} {{ teacher.user.last_name }}
         </li>
       </ul>
-      <vLoad
-        v-show="teachersLoading"
-        color="v-gray"/>
+
+      <div class="spinner-wrapper">
+        <vLoad
+          v-show="teachersLoading"
+          color="v-gray"/>
+      </div>
     </div>
 
   </div>
@@ -62,6 +70,7 @@ export default {
 
   data() {
     return {
+      staticUrl: window.static,
       popularTeachersLoading: true,
       teachersLoading: true,
 
@@ -86,7 +95,7 @@ export default {
       this.popularTeachersLoading = true
       let params = {
         limit: 3,
-        offset: 0
+        offset: 5
       }
 
       axios.get('/api/teachers', {

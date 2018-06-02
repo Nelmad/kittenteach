@@ -31,7 +31,6 @@
     list-style: none;
 
     width: 32%;
-    height: 250px;
     margin: 7px 0;
 
     a {
@@ -40,23 +39,39 @@
       justify-content: space-between;
 
       width: 100%;
-      height: 100%;
-
-      //background-color: #cdd5d8;
-      background-color: #FFFFFF;
-      text-decoration: none;
-
-      &:hover {
-        background-color: #E5E5E5;
-      }
     }
   }
 }
 
 .teachers-list-item {
+  background-color: #FFFFFF;
+  border: 1px solid #e6e6e6a1;
+  border-radius: 3px;
+
+  .teachers-list-item__content {
+    padding: 25px 0;
+
+    img {
+      height: 150px;
+    }
+  }
+
   .teachers-list-item__description {
-    background-color: #ECF1F1;
+    background-color: #ECF1F169;
+    padding: 10px;
     //height: 100%;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      box-shadow: 5px 5px 9px 0 #4443431A;
+      
+      .teachers-list-item__description {
+        //color: #ce3f3fe0;
+      }
+    }
   }
 }
 
@@ -78,7 +93,7 @@
 
   &.teachers-title-block--primary {
     .teachers-title-block__text {
-      background-color: #ab4949;
+      background-color: #ce3f3fe0;
     }
 
   }
