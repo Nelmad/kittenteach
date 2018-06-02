@@ -2,6 +2,12 @@
   <div style="min-height: 568px">
 
     <div class="teachers teachers--popular">
+      <div class="teachers__title-block teachers-title-block teachers-title-block--primary">
+        <span class="teachers-title-block__text">
+          The Most Popular Teachers
+        </span>
+      </div>
+
       <ul class="teachers__list teachers-list">
         <li
           is="vTeacherBlock"
@@ -18,6 +24,12 @@
     </div>
 
     <div class="teachers">
+      <div class="teachers__title-block teachers-title-block">
+        <span class="teachers-title-block__text">
+          Choose your Teacher and Get Started
+        </span>
+      </div>
+
       <ul class="teachers__list teachers-list">
         <li
           is="vTeacherBlock"

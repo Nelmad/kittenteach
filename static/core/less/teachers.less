@@ -1,13 +1,16 @@
 .teachers {
 
   &.teachers--popular {
-    margin: 40px 0 35px 0;
-    border-bottom: 1px solid #b7b7b77d;
+    margin: 40px 0 50px 0;
     padding-bottom: 15px;
   }
 
   .teachers__list {
 
+  }
+
+  .teachers__title-block {
+    margin-bottom: 20px;
   }
 }
 
@@ -28,23 +31,58 @@
     list-style: none;
 
     width: 32%;
-    height: 200px;
+    height: 250px;
     margin: 7px 0;
 
     a {
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       width: 100%;
       height: 100%;
 
-      background-color: #607980;
+      //background-color: #cdd5d8;
+      background-color: #FFFFFF;
       text-decoration: none;
+
+      &:hover {
+        background-color: #E5E5E5;
+      }
     }
   }
 }
 
 .teachers-list-item {
   .teachers-list-item__description {
+    background-color: #ECF1F1;
+    //height: 100%;
+  }
+}
+
+.teachers-title-block {
+  background-color: #ecf1f1;
+  height: 50px;
+
+  .teachers-title-block__text {
+    display: inline-block;
+    line-height: 50px;
+    font-weight: 300;
+
+    padding: 0 20px;
+    height: 100%;
+
+    background-color: #00979d;
+    color: #FFFFFF;
+  }
+
+  &.teachers-title-block--primary {
+    .teachers-title-block__text {
+      background-color: #ab4949;
+    }
 
   }
+  //#ab4949
+
+  //#496dab
 }

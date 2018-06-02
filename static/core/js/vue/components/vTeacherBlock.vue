@@ -2,10 +2,10 @@
   <li class="teachers-list-item">
     <a :href="teacher.url">
       link
+      <div class="teachers-list-item__description">
+        {{ teacher.user.first_name }} {{ teacher.user.last_name }}
+      </div>
     </a>
-    <div class="teachers-list-item__description">
-      {{ teacher.user.first_name }} {{ teacher.user.last_name }}
-    </div>
   </li>
 </template>
 
