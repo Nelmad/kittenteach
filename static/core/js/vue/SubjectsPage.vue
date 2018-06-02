@@ -3,12 +3,12 @@
     class="subjects"
     style="min-height: 568px">
 
-    <div class="teachers__search teachers-search">
-      <h2 class="teachers-search__title">What Subject are you Looking for...?</h2>
+    <div class="subjects__search subjects-search">
+      <h2 class="subjects-search__title">What Subject are you Looking for...?</h2>
       <input
         :placeholder="gettext('Write to search here...')"
         v-model="params.search"
-        class="teachers-search__input"
+        class="subjects-search__input"
         type="text">
     </div>
 

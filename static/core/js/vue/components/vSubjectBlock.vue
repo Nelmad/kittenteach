@@ -3,8 +3,9 @@
     <a :href="subject.url">
       <div
         :style="`background-image: url(${imageSrc})`"
-        class="subjects-list-item__text">
-        {{ subject.name }}
+        class="subjects-list-item__image darken-image"/>
+      <div class="subjects-list-item__text-container">
+        <span class="subjects-list-item__text">{{ subject.name }}</span>
       </div>
     </a>
   </li>
