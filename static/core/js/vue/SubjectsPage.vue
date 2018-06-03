@@ -20,7 +20,7 @@
         v-for="subject in subjects"
         :key="subject.url"
         :subject="subject"
-        :default-img="`${staticUrl}test`"
+        :default-img="`${staticUrl}images/temp/subjects/default.jpg`"
         class="subjects-list__item subjects-list-item">
         {{ subject.name }}
       </li>
@@ -35,7 +35,7 @@
     <div
       v-show="subjects.length === 0 && !isLoading"
       class="subjects__empty-list subjects-empty-list">
-      <h2 class="subjects-empty-list__title"> (>_&lt;) </h2>
+      <h2 class="subjects-empty-list__title">(>_&lt;)</h2>
       <p class="subjects-empty-list__description">
         No Subjects Found...
       </p>

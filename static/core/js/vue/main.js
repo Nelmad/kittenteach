@@ -2,6 +2,7 @@ import Vue from 'vue'
 import HomePage from './HomePage.vue'
 import TeachersPage from './TeachersPage.vue'
 import SubjectsPage from './SubjectsPage.vue'
+import SchoolsPage from './SchoolsPage.vue'
 import LoginPage from './LoginPage.vue'
 import AccountPage from './AccountPage.vue'
 import QuickSearchPage from './QuickSearchPage.vue'
@@ -33,6 +34,14 @@ window.onload = function () {
       el: '#v-subjects-page',
       components: {SubjectsPage},
       template: '<SubjectsPage/>'
+    })
+  }
+
+  if (document.querySelector('#v-schools-page')) {
+    new Vue({
+      el: '#v-schools-page',
+      components: {SchoolsPage},
+      template: '<SchoolsPage/>'
     })
   }
 

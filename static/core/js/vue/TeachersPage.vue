@@ -35,7 +35,7 @@
         class="teachers__empty-list teachers-empty-list">
         <h2 class="teachers-empty-list__title"> (;-;) </h2>
         <p
-          style="margin-bottom: 25px;"
+          style="margin-bottom: 40px;"
           class="teachers-empty-list__description">
           No Popular Teachers Found...
         </p>
@@ -75,7 +75,7 @@
       <div
         v-show="teachers.length === 0 && !teachersLoading"
         class="teachers__empty-list teachers-empty-list">
-        <h2 class="teachers-empty-list__title"> \(o_o)/ </h2>
+        <h2 class="teachers-empty-list__title">\(o_o)/</h2>
         <p class="teachers-empty-list__description">No Teachers Found...</p>
       </div>
 
