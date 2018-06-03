@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
 
 
@@ -23,7 +24,9 @@ def dashboard(request):
 
 
 def login(request):
-    # TODO redirect if authenticated
+    if request.user.is_authenticated:
+        return redirect('account')
+
     template = loader.get_template('core/login.html')
     context = {
         'title': 'Start using KittenTeach',

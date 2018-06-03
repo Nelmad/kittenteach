@@ -212,6 +212,7 @@
 
 <script>
 import axios from 'axios'
+import { capitalizeFirstLetter, getParameterByName } from './utils.js'
 
 export default {
   name: 'LoginPage',
@@ -252,7 +253,7 @@ export default {
         if (this.registration.step == 1) {
           return 'Choose your role'
         } else if (this.registration.step == 2) {
-          return `Create a Kitten-${this.capitalizeFirstLetter(this.registration.role)}`
+          return `Create a Kitten-${capitalizeFirstLetter(this.registration.role)}`
         }
       } else {
         return 'Log in to KittenTeach'
@@ -261,6 +262,8 @@ export default {
   },
 
   created() {
+    localStorage.removeItem('token');
+
     switch (window.location.hash) {
     case '#/auth':
       break
@@ -357,11 +360,17 @@ export default {
       }).then(result => {
         this.isLoading = false
         this.errorMessages.length = 0
-        console.log(result)
-        // this.results = res.data // TODO
+        localStorage.setItem('token', result.data.token);
 
         this.login.email = ''
         this.login.password = ''
+
+        let next = getParameterByName('next')
+        if (next) {
+          window.location.href = next
+        } else {
+          window.location.href = '/account/'
+        }
       }).catch(error => {
         let errorData = error.response.data
         this.isLoading = false
@@ -399,12 +408,6 @@ export default {
 
         this.forgot.email = ''
       })
-    },
-
-    // TODO move to helpers
-    capitalizeFirstLetter(string) {
-      console.log(string)
-      return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
 }
