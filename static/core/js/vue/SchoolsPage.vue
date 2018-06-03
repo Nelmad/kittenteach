@@ -87,8 +87,13 @@ export default {
   },
 
   computed: {
-    imagesToChoose: function () {
-      return this.defaultImages.slice()
+    imagesToChoose: {
+      get: function() {
+        return this.defaultImages.slice()
+      },
+      set: function (newValue) {
+        this.defaultImages = newValue;
+      }
     }
   },
 
