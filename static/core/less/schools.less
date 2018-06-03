@@ -93,8 +93,7 @@
 
   .schools-list-item__description {
     min-width: 200px;
-    padding-left: 15px;
-    padding-top: 15px;
+    padding: 15px 10px 15px 15px;
 
     border-radius: 3px 0 0 3px;
     //background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
@@ -113,10 +112,22 @@
     font-size: 15px;
     font-weight: 200;
     letter-spacing: 1px;
+
+    a {
+      display: inline;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .schools-list-item__rating {
-    display: inline-block;
+    margin: 0 1px;
+
+    path {
+      fill: #FFD83D;
+    }
   }
 
   .schools-list-item__image {

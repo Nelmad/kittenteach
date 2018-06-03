@@ -1,21 +1,47 @@
 <template lang="html">
   <li class="schools-list-item">
     <a :href="school.url">
+      <div class="schools-list-item__description">
+        <div class="schools-list-item__title">{{ school.name }}</div>
+        <div class="schools-list-item__text">Rating:
+          <FontAwesomeIcon
+            v-for="index in school.rating"
+            :key="index"
+            class="schools-list-item__rating"
+            icon="star"/>
+        </div>
+        <div
+          v-if="school.address"
+          class="schools-list-item__text">
+          Address:
+          <a
+            :href="`https://www.google.ru/maps/search/${school.address}`"
+            target="_blank">
+            {{ school.address }}
+          </a>
+        </div>
+      </div>
       <img
         :src="imageSrc"
+        class="schools-list-item__image"
         alt="School picture"
       >
-      <!--<div class="schools-list-item__image"/>-->
-      <div class="schools-list-item__text-container">
-        <span class="schools-list-item__text">{{ school.name }}</span>
-      </div>
     </a>
   </li>
 </template>
 
 <script>
+import fontawesome from '@fortawesome/fontawesome'
+import faStar from '@fortawesome/fontawesome-free-solid/faStar'
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+
+fontawesome.library.add(faStar);
+
 export default {
   name: 'VSchoolBlock',
+  components: {
+    FontAwesomeIcon
+  },
   props: {
     school: {
       type: Object,
