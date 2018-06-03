@@ -338,6 +338,49 @@ class LessonTemplateCreateView(generics.CreateAPIView):
             return super().create(request, *args, **kwargs)
 
 
+# class CurrentUserView(generics.RetrieveAPIView):
+#     rest_permissions = [rest_permissions.IsAuthenticated]
+#
+#     def get_object(self):
+#         try:
+#             return self.request.user.teacher
+#         except models.Teacher.DoesNotExist:
+#             raise Http404
+#
+#     def get_serializer_class(self):
+#         try:
+#             teacher = self.request.user.teacher
+#         except models.Teacher.DoesNotExist:
+#             pass
+#         else:
+#             return ''
+#
+#         try:
+#             studernt = self.request.user.student
+#         except models.Student.DoesNotExist:
+#             pass
+#         else:
+#             return serializers.
+
+
+@api_view(['GET'])
+@permission_classes((rest_permissions.IsAuthenticated,))
+def current_user_details(request):
+    user = request.user
+
+    try:
+        profile = user.teacher
+        serializer = serializers.TeacherDetailsSerializer
+    except Exception:
+        profile = user.student
+        serializer = serializers.StudentDetailsSerializer
+
+    return Response({
+        'email': user.email,
+        'profile': serializer(profile).data
+    })
+
+
 @api_view(['POST'])
 @permission_classes((rest_permissions.AllowAny,))
 def reset_password(request):

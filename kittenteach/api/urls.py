@@ -6,6 +6,7 @@ urlpatterns = [
     # auth
     re_path(r'^auth/?$', views.ObtainAuthToken.as_view(), name='token-auth'),
     re_path(r'^reset-password/?$', views.reset_password, name='reset-password'),
+    re_path(r'^current-user-details/?$', views.current_user_details, name='current-user-details'),
 
     # students
     re_path(r'^students/?$', views.StudentListView.as_view(), name='students-list'),

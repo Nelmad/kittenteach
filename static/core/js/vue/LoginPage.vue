@@ -262,7 +262,8 @@ export default {
   },
 
   created() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
+    axios.defaults.headers.common['Authorization'] = null
 
     switch (window.location.hash) {
     case '#/auth':
@@ -360,7 +361,10 @@ export default {
       }).then(result => {
         this.isLoading = false
         this.errorMessages.length = 0
-        localStorage.setItem('token', result.data.token);
+
+        let token = result.data.token
+        localStorage.setItem('token', token);
+        axios.defaults.headers.common['Authorization'] = `Token ${token}`
 
         this.login.email = ''
         this.login.password = ''

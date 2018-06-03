@@ -131,8 +131,8 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         new_user = UserCreateSerializer.create(UserCreateSerializer(), validated_data=user_data)
-        student = models.Teacher.objects.create(user=new_user)
-        return student
+        teacher = models.Teacher.objects.create(user=new_user)
+        return teacher
 
 
 class SubjectCreateSerializer(serializers.ModelSerializer):
