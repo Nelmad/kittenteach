@@ -76,6 +76,7 @@ def account(request):
     context = {
         'show_header': True,
         'show_footer': True,
+        'init_js_script': 'Account',
         'title': 'KittenTeach: My Account'
     }
 
