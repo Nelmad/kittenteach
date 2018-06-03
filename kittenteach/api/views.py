@@ -380,7 +380,7 @@ def current_user_details(request):
     return Response({
         'email': user.email,
         'role': role,
-        'profile': serializer(profile).data
+        'profile': serializer(profile, context={'request': request}).data
     })
 
 

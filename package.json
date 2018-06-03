@@ -21,7 +21,8 @@
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",
     "transform-runtime": "0.0.0",
-    "vue": "^2.5.13"
+    "vue": "^2.5.13",
+    "vue-schedule": "^2.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

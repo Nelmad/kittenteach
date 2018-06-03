@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Schedule from 'vue-schedule'
 import HomePage from './HomePage.vue'
 import TeachersPage from './TeachersPage.vue'
 import SubjectsPage from './SubjectsPage.vue'
@@ -9,6 +10,7 @@ import QuickSearchPage from './QuickSearchPage.vue'
 
 
 window.onload = function () {
+  Vue.use(Schedule)
   Vue.prototype.staticUrl = window.static
   Vue.prototype.gettext = function(text) {return text} // TODO gettext
   Vue.prototype.$eventBus = new Vue() // Global event bus
