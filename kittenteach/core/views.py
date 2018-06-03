@@ -76,7 +76,7 @@ def account(request):
     context = {
         'show_header': True,
         'show_footer': True,
-        'title': 'KittenTeach: '
+        'title': 'KittenTeach: My Account'
     }
 
     return HttpResponse(template.render(context, request))

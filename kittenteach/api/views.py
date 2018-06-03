@@ -370,13 +370,16 @@ def current_user_details(request):
 
     try:
         profile = user.teacher
+        role = 'teacher'
         serializer = serializers.TeacherDetailsSerializer
     except Exception:
         profile = user.student
+        role = 'student'
         serializer = serializers.StudentDetailsSerializer
 
     return Response({
         'email': user.email,
+        'role': role,
         'profile': serializer(profile).data
     })
 
