@@ -41,7 +41,7 @@ export default {
   methods: {
     navChangeHandler(sectionIndex) {
       this.currentSection = sectionIndex
-      this.$emit('onAccountNavChange', this.currentSection)
+      this.$eventBus.$emit('onAccountNavChange', this.currentSection)
     }
   }
 }

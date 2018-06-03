@@ -5,13 +5,11 @@
       :image="imageUrl"
       :role="role"
       class="account__header account-header"/>
+    <vAccountNavigation
+      :sections="sections"
+      class="account__navigation account-navigation"/>
     <div class="account__body">
-      <vAccountNavigation
-        :sections="sections"
-        class="account__navigation account-navigation"/>
-      <div>
-        BODY
-      </div>
+      BODY
     </div>
   </div>
 </template>
@@ -31,7 +29,7 @@ export default {
   data() {
     return {
       isLoading: false, // TODO
-      sections: ['management', 'privacy', 'settings'],
+      sections: ['management', 'settings'],
 
       email: '',
       role: '',
@@ -43,6 +41,7 @@ export default {
     userName: function () {
       return this.profile ? `${this.profile.user.first_name} ${this.profile.user.last_name}` : ''
     },
+
     imageUrl: function () {
       return this.profile ? this.profile.image_url : ''
     }
@@ -52,12 +51,16 @@ export default {
     let token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Token ${token}`
 
-    this.getCurrentUserDetails()
+    this.getCurrentUserDetails().then(() => {
+      let item = this.role === 'teacher' ? 'my students': 'my teachers'
+      let index = 1
+      this.sections.splice(index, 0, item)
+    })
   },
 
   methods: {
-    getCurrentUserDetails() {
-      axios.get('/api/current-user-details')
+    async getCurrentUserDetails() {
+      await axios.get('/api/current-user-details')
         .then(result => {
           let data = result.data
           this.email = data.email

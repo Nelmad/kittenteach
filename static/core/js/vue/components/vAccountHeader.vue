@@ -34,7 +34,7 @@ export default {
 
   computed: {
     defaultImage: function () {
-      return `${this.staticUrl}core/img/portrait/${this.role}-portrait.svg`
+      return this.role ? `${this.staticUrl}core/img/portrait/${this.role}-portrait.svg` : ''
     },
     imageSrc: function () {
       return this.image || this.defaultImage
