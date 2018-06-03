@@ -427,7 +427,7 @@ class SchoolListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.School
-        fields = ('url', 'name', 'address', 'image_url', 'creator')
+        fields = ('url', 'name', 'address', 'rating', 'image_url', 'creator')
 
 
 class TeacherGroupItemSerializer(serializers.ModelSerializer):
@@ -498,7 +498,7 @@ class SchoolDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.School
-        fields = ('name', 'address', 'image_url', 'creator', 'teachers')
+        fields = ('name', 'address', 'rating', 'image_url', 'creator', 'teachers')
         extra_kwargs = {
             'name': {'read_only': True},
             'address': {'read_only': True},

@@ -124,13 +124,20 @@
                 </div>
                 <input class="header-controls__search-input header-search__input" type="text" placeholder="search">
             </div>
-            <div class="header-controls__btn header-controls__btn--margin">
-                {% if user.is_authenticated %}
+
+            {% if user.is_authenticated %}
+                <div class="header-controls__btn">
+                    <a href="{% url 'account' %}"><span class="header-controls__text">my account</span></a>
+                </div>
+                <div class="header-controls__btn header-controls__btn--margin">
                     <a href="{% url 'logout' %}"><span class="header-controls__text">log out</span></a>
-                {% else %}
+                    {#                    <a href="{% url 'login' %}"><span class="header-controls__text">sign in</span></a>#}
+                </div>
+            {% else %}
+                <div class="header-controls__btn header-controls__btn--margin">
                     <a href="{% url 'login' %}"><span class="header-controls__text">sign in</span></a>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </nav>
 </header>

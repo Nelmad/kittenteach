@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import CASCADE, SET_NULL, PROTECT
 from django.db.models.signals import post_save
@@ -12,6 +13,7 @@ class School(models.Model):
     name = models.CharField(max_length=255, unique=True)
     address = models.TextField(blank=True)
     image_url = models.TextField(blank=True)
+    rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]     )
     creator = models.ForeignKey('Teacher', related_name='created_schools', null=True, on_delete=SET_NULL)
 
     class Meta:
