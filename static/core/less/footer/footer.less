@@ -1,6 +1,10 @@
 @footer-bg-color: #00979D;
 @footer-color: #FFFFFF;
 
+@footer-account-bg-color: #EBEAE8;
+@footer-account-color: #8C8274;
+@footer-account-dark-color: #55534F;
+
 @footer-transition: .2s;
 
 .footer {
@@ -85,5 +89,71 @@
 
   .footer__links {
 
+  }
+
+  &.footer--account {
+    background-color: @footer-account-bg-color;
+    color: @footer-account-color;
+
+    .footer-links__text {
+      color: @footer-account-color;
+
+      &:hover {
+        color: @footer-account-color;
+        text-decoration: underline;
+      }
+    }
+
+    .footer__btn {
+      color: #FFFFFF;
+
+      &.footer__btn--primary {
+        background-color: @footer-account-color;
+        border-bottom-color: @footer-account-dark-color;
+      }
+    }
+
+    .footer-go-top {
+      .footer-go-top__arrow {
+        background-color: @footer-account-color;
+      }
+      &:hover {
+        .footer-go-top__arrow {
+          background-color: #D7A53B;
+        }
+      }
+    }
+
+    .socials__link {
+      svg path {
+        fill: @footer-account-color;
+      }
+
+      &:hover {
+        svg path {
+          fill: #FFFFFF;
+        }
+      }
+    }
+
+    .subscribe-form .subscribe-form__input {
+      color: @footer-account-color;
+
+      &::placeholder {
+        color: @footer-account-color;
+      }
+      &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: @footer-account-color;
+      }
+      &::-moz-placeholder { /* Firefox 19+ */
+        color: @footer-account-color;
+      }
+      &:-ms-input-placeholder { /* IE 10+ */
+        color: @footer-account-color;
+      }
+      &:-moz-placeholder { /* Firefox 18- */
+        color: @footer-account-color;
+      }
+    }
   }
 }

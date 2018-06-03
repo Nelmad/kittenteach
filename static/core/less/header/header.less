@@ -10,6 +10,9 @@
 @header-account-bg-color: #EBEAE8;
 @header-account-color: #765D46;
 
+@header-account-secondary-bg-color: #FFFFFF;
+@header-account-secondary-color: #55534F;
+
 @background-color-transition: background-color .3s;
 
 .header {
@@ -262,6 +265,78 @@
 
       .header-menu__text {
         color: @header-account-color;
+      }
+    }
+  }
+
+  &.header--account-secondary {
+    background-color: @header-account-secondary-bg-color;
+    border-bottom: 1px solid #E3E1DD;
+
+    .header__controls {
+      background-color: @header-account-secondary-bg-color;
+
+      .header-controls__search {
+        .header-controls__search-image {
+          svg path {
+            fill: @header-account-secondary-color;
+          }
+        }
+
+        .header-controls__search-input {
+          background: none;
+          border: 1px solid #E4E3E0;
+          border-radius: 3px;
+          color: @header-account-secondary-color;
+
+          &::placeholder {
+            color: @header-account-secondary-color;
+          }
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: @header-account-secondary-color;
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: @header-account-secondary-color;
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: @header-account-secondary-color;
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: @header-account-secondary-color;
+          }
+        }
+      }
+
+      .header-controls__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+
+        &.header-controls__btn--primary {
+          background-color: #D7A53B;
+
+          .header-controls__text {
+            color: #FFFFFF;
+          }
+        }
+      }
+
+      .header-controls__text {
+        color: @header-account-secondary-color;
+      }
+    }
+
+    .header__menu {
+      background-color: @header-account-secondary-bg-color;
+
+      .header-menu__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+      }
+
+      .header-menu__text {
+        color: @header-account-secondary-color;
       }
     }
   }
