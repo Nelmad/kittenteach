@@ -9,11 +9,21 @@
       :sections="sections"
       class="account__navigation account-navigation"/>
     <div class="account__body">
+
       <Schedule
+        v-if="!scheduleLoading"
         :time-ground="['09:00', '18:00']"
         :week-ground="['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']"
         :color="scheduleColors"
-        :task-detail="taskDetail"/>
+        :task-detail="displaySchedule"/>
+
+      <div
+        v-else
+        style="margin-top: 50px;"
+        class="spinner-wrapper">
+        <vLoad color="v-brown"/>
+      </div>
+
     </div>
   </div>
 </template>
@@ -22,12 +32,14 @@
 import axios from 'axios'
 import vAccountHeader from './components/vAccountHeader.vue'
 import vAccountNavigation from './components/vAccountNavigation.vue'
+import vLoad from './components/vLoad.vue'
 
 export default {
   name: 'AccountPage',
   components: {
     vAccountHeader,
-    vAccountNavigation
+    vAccountNavigation,
+    vLoad
   },
 
   data() {
@@ -40,73 +52,8 @@ export default {
       role: '',
       profile: null,
 
-      taskDetail: [
-        [
-          {
-            dateStart: '09:30',
-            dateEnd: '10:30',
-            title: 'Metting',
-            detail: 'Metting (German: Mettingen) is a commune in the Moselle department in Grand Est in north-eastern France.'
-          },
-          {
-            dateStart: '11:30',
-            dateEnd: '13:50',
-            title: 'Metting',
-            detail: 'Metting (German: Mettingen) is a commune in the Moselle department in Grand Est in north-eastern France.'
-          }
-
-        ],
-        [
-          {
-            dateStart: '10:30',
-            dateEnd: '12:00',
-            title: 'Metting',
-          },
-          {
-            dateStart: '12:30',
-            dateEnd: '14:50',
-            title: 'Metting',
-          }
-
-        ],
-        [
-          {
-            dateStart: '12:30',
-            dateEnd: '13:30',
-            title: 'Metting',
-          },
-          {
-            dateStart: '15:30',
-            dateEnd: '16:50',
-            title: 'Metting',
-          }
-
-        ],
-        [
-          {
-            dateStart: '09:50',
-            dateEnd: '10:50',
-            title: 'Metting',
-          },
-          {
-            dateStart: '11:30',
-            dateEnd: '13:50',
-            title: 'Metting',
-          }
-
-        ],
-        [
-          {
-            dateStart: '12:30',
-            dateEnd: '13:30',
-            title: 'Metting',
-          },
-          {
-            dateStart: '14:30',
-            dateEnd: '15:50',
-            title: 'Metting',
-          }
-        ]],
+      scheduleLoading: true,
+      displaySchedule: [[], [], [], [], []],
       scheduleColors: [
         '#d7a53b',
         '#765d46',
@@ -139,7 +86,37 @@ export default {
       this.sections.splice(index, 0, item)
     })
 
-    this.getSchedule()
+    this.getSchedule().then(() => {
+      this.schedule.forEach(value => {
+        let group = value.group
+
+        let time = value.time
+        let timeDelIndex = time.indexOf(':')
+
+        if (timeDelIndex === -1) {
+          return true
+        }
+        let startHours = parseInt(time.slice(0, timeDelIndex))
+        let endHours = startHours + 1
+
+        let dateStart = time.slice(0, time.lastIndexOf(':'))
+        let dateEnd = endHours + time.slice(timeDelIndex, time.lastIndexOf(':'))
+
+        let detail = 'Students: ' + group.students.map((item) => {
+          return item.user.first_name + ' ' + item.user.last_name
+        }).join(', ')
+
+        let displayScheduleItem = {
+          dateStart: dateStart,
+          dateEnd: dateEnd,
+          title: `${group.name} [${group.subject.name}]`,
+          detail: detail
+        }
+
+        this.displaySchedule[value.weekday].push(displayScheduleItem)
+      })
+      this.scheduleLoading = false
+    })
   },
 
   methods: {

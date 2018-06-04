@@ -25,7 +25,8 @@ export default {
       colors: {
         'v-dark-green': '#005C5F',
         'v-green': '#00979D',
-        'v-gray': '#737373'
+        'v-gray': '#737373',
+        'v-brown': '#d7a53b'
       }
     }
   },
