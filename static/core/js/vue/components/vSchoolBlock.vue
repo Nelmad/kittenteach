@@ -16,7 +16,8 @@
           Address:
           <a
             :href="`https://www.google.ru/maps/search/${school.address}`"
-            target="_blank">
+            target="_blank"
+            @click.prevent="schoolAddressHandler">
             {{ school.address }}
           </a>
         </div>
@@ -56,6 +57,12 @@ export default {
   data() {
     return {
       imageSrc: this.school.image_url || this.defaultImg,
+    }
+  },
+
+  methods: {
+    schoolAddressHandler() {
+      this.$eventBus.$emit('onUrl', `https://maps.google.com/maps?q=${encodeURIComponent(this.school.address)}&output=embed`)
     }
   }
 }

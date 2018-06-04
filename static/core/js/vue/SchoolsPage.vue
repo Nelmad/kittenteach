@@ -48,6 +48,21 @@
       Load More
     </button>
 
+    <div
+      v-show="iframeSrc"
+      class="schools__map-modal schools-map-modal"
+      @click="closeMapModal">
+      <vLoad
+        v-show="isIframeLoading || iframeSrc === ''"
+        class="schools-map-modal__spinner"
+        color="#005C5F"/>
+
+      <iframe
+        :src="iframeSrc"
+        frameborder="0"
+        @load="isIframeLoading = false"/>
+    </div>
+
   </div>
 </template>
 
@@ -68,6 +83,9 @@ export default {
     return {
       isLoading: true,
       loadMoreBtnShow: true,
+
+      isIframeLoading: true,
+      iframeSrc: '',
 
       schools: [],
       defaultImages: [
@@ -109,6 +127,9 @@ export default {
   created() {
     // this.imagesToChoose = this.defaultImages.slice();
     this.fetchSchools()
+    this.$eventBus.$on('onUrl', (url) => {
+      this.iframeSrc = url
+    })
   },
 
   methods: {
@@ -141,6 +162,11 @@ export default {
       let imagePath = this.imagesToChoose.splice(index, 1)[0];
 
       return this.staticUrl + imagePath
+    },
+
+    closeMapModal() {
+      this.iframeSrc = ''
+      this.isIframeLoading = true
     }
   }
 }
