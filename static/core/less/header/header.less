@@ -4,12 +4,28 @@
 @header-bg-color-hover: #7FCBCD;
 @header-logo-width: 230px;
 
+@header-main-bg-color: #DFF4F6;
+@header-main-color: #607980;
+
+@header-account-bg-color: #EBEAE8;
+@header-account-color: #765D46;
+
+@header-account-secondary-bg-color: #FFFFFF;
+@header-account-secondary-color: #55534F;
+
+@background-color-transition: background-color .3s;
+
 .header {
+  position: fixed;
+  z-index: 100;
+
   display: flex;
   height: 120px;
-  padding: 0;
+  width: 100%;
+  padding: 0 15px;
 
   background-color: @header-bg-color;
+  transition: @background-color-transition;
 
   font-family: "Roboto", sans-serif;
   font-size: 14px;
@@ -26,7 +42,7 @@
     overflow: hidden;
 
     &:hover {
-      background-color: @header-bg-color-hover;
+      //background-color: @header-bg-color-hover;
     }
 
     a {
@@ -39,6 +55,72 @@
       img {
         width: 100%;
         height: 100%;
+      }
+    }
+  }
+
+  .header__logo-svg {
+    .st0 {
+      stroke-width: 5px;
+      stroke-miterlimit: 10;
+    }
+    .st1 {
+      fill: none;
+      stroke-width: 8px;
+      stroke-miterlimit: 10;
+    }
+    .st2 {
+      stroke-miterlimit: 10;
+    }
+    .st3 {
+      fill: none;
+    }
+
+    &.header__logo-svg--white {
+      .st0 {
+        fill: #FFFFFF;
+        stroke: #FFFFFF;
+      }
+      .st1 {
+        stroke: #FFFFFF;
+      }
+      .st2 {
+        stroke: #FFFFFF;
+      }
+      .bg {
+        fill: #FFFFFF;
+      }
+    }
+
+    &.header__logo-svg--dark {
+      .st0 {
+        fill: #607980;
+        stroke: #607980;
+      }
+      .st1 {
+        stroke: #607980;
+      }
+      .st2 {
+        stroke: #607980;
+      }
+      .bg {
+        fill: #607980;
+      }
+    }
+
+    &.header__logo-svg--brown {
+      .st0 {
+        fill: @header-account-color;
+        stroke: @header-account-color;
+      }
+      .st1 {
+        stroke: @header-account-color;
+      }
+      .st2 {
+        stroke: @header-account-color;
+      }
+      .bg {
+        fill: @header-account-color;
       }
     }
   }
@@ -57,9 +139,205 @@
     align-self: center;
     align-items: center;
     justify-content: center;
+    transition: @background-color-transition;
   }
 
   .header__controls {
+    transition: @background-color-transition;
     //margin-right: 15px;
+  }
+
+  &.header--main {
+    background-color: @header-main-bg-color;
+
+    .header__controls {
+      background-color: @header-main-bg-color;
+
+      .header-controls__search {
+        .header-controls__search-image {
+          svg path {
+            fill: @header-main-color;
+          }
+        }
+
+        .header-controls__search-input {
+          background-color: #60798021;
+          color: @header-main-color;
+
+          &::placeholder {
+            color: @header-main-color;
+          }
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: @header-main-color;
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: @header-main-color;
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: @header-main-color;
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: @header-main-color;
+          }
+        }
+      }
+
+      .header-controls__btn {
+        &:hover {
+          background-color: #60798021;
+        }
+      }
+
+      .header-controls__text {
+        color: @header-main-color;
+      }
+    }
+
+    .header__menu {
+      background-color: @header-main-bg-color;
+
+      .header-menu__btn {
+        &:hover {
+          background-color: #60798021;
+        }
+      }
+
+      .header-menu__text {
+        color: @header-main-color;
+      }
+    }
+  }
+
+  &.header--account {
+    background-color: @header-account-bg-color;
+
+    .header__controls {
+      background-color: @header-account-bg-color;
+
+      .header-controls__search {
+        .header-controls__search-image {
+          svg path {
+            fill: @header-account-color;
+          }
+        }
+
+        .header-controls__search-input {
+          background-color: #60798021;
+          color: @header-account-color;
+
+          &::placeholder {
+            color: @header-account-color;
+          }
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: @header-account-color;
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: @header-account-color;
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: @header-account-color;
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: @header-account-color;
+          }
+        }
+      }
+
+      .header-controls__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+      }
+
+      .header-controls__text {
+        color: @header-account-color;
+      }
+    }
+
+    .header__menu {
+      background-color: @header-account-bg-color;
+
+      .header-menu__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+      }
+
+      .header-menu__text {
+        color: @header-account-color;
+      }
+    }
+  }
+
+  &.header--account-secondary {
+    background-color: @header-account-secondary-bg-color;
+    border-bottom: 1px solid #E3E1DD;
+
+    .header__controls {
+      background-color: @header-account-secondary-bg-color;
+
+      .header-controls__search {
+        .header-controls__search-image {
+          svg path {
+            fill: @header-account-secondary-color;
+          }
+        }
+
+        .header-controls__search-input {
+          background: none;
+          border: 1px solid #E4E3E0;
+          border-radius: 3px;
+          color: @header-account-secondary-color;
+
+          &::placeholder {
+            color: @header-account-secondary-color;
+          }
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: @header-account-secondary-color;
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: @header-account-secondary-color;
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: @header-account-secondary-color;
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: @header-account-secondary-color;
+          }
+        }
+      }
+
+      .header-controls__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+
+        &.header-controls__btn--primary {
+          background-color: #D7A53B;
+
+          .header-controls__text {
+            color: #FFFFFF;
+          }
+        }
+      }
+
+      .header-controls__text {
+        color: @header-account-secondary-color;
+      }
+    }
+
+    .header__menu {
+      background-color: @header-account-secondary-bg-color;
+
+      .header-menu__btn {
+        &:hover {
+          background-color: #80756021;
+        }
+      }
+
+      .header-menu__text {
+        color: @header-account-secondary-color;
+      }
+    }
   }
 }

@@ -12,10 +12,20 @@
 @import "./footer/footer-go-top";
 
 @import "./container";
+@import "./spinner";
 @import "./login";
 @import "./registration";
+@import "./teachers";
+@import "./subjects";
+@import "./schools";
 @import "./temp";
+@import "./schedule";
 
+@import "./account/account";
+@import "./account/account-header";
+@import "./account/account-navigation";
+
+@import "./errors/error-page";
 @import "./errors/error";
 @import "./subscribe-form";
 @import "./socials";
@@ -26,4 +36,14 @@ body {
   color: #374146;
   letter-spacing: 1px;
   line-height: 25px;
+}
+
+.darken-image:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
 }

@@ -1,10 +1,11 @@
 from django.contrib import auth
 from django.contrib.auth import user_logged_in
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from rest_framework import generics, permissions as rest_permissions
 from rest_framework import filters as rest_filters
 from rest_framework.authtoken import models as authtoken_models
 from rest_framework.authtoken import views as authtoken_views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters import rest_framework as d_filters
 
@@ -337,3 +338,53 @@ class LessonTemplateCreateView(generics.CreateAPIView):
             return super().create(request, *args, **kwargs)
 
 
+# class CurrentUserView(generics.RetrieveAPIView):
+#     rest_permissions = [rest_permissions.IsAuthenticated]
+#
+#     def get_object(self):
+#         try:
+#             return self.request.user.teacher
+#         except models.Teacher.DoesNotExist:
+#             raise Http404
+#
+#     def get_serializer_class(self):
+#         try:
+#             teacher = self.request.user.teacher
+#         except models.Teacher.DoesNotExist:
+#             pass
+#         else:
+#             return ''
+#
+#         try:
+#             studernt = self.request.user.student
+#         except models.Student.DoesNotExist:
+#             pass
+#         else:
+#             return serializers.
+
+
+@api_view(['GET'])
+@permission_classes((rest_permissions.IsAuthenticated,))
+def current_user_details(request):
+    user = request.user
+
+    try:
+        profile = user.teacher
+        role = 'teacher'
+        serializer = serializers.TeacherDetailsSerializer
+    except Exception:
+        profile = user.student
+        role = 'student'
+        serializer = serializers.StudentDetailsSerializer
+
+    return Response({
+        'email': user.email,
+        'role': role,
+        'profile': serializer(profile, context={'request': request}).data
+    })
+
+
+@api_view(['POST'])
+@permission_classes((rest_permissions.AllowAny,))
+def reset_password(request):
+    return JsonResponse({"message": "Sorry, this functionality is not available yet"}, status=500)

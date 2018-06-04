@@ -21,6 +21,7 @@ function initialize() {
     // init header
     var quickSearch = $('#quick-search');
     var quickSearchInput = quickSearch.find('.header-search__input');
+    var $goTop = $('#goTop');
 
     quickSearch.on('click', function (e) {
         var $target = $(e.target);
@@ -37,7 +38,13 @@ function initialize() {
     });
 
     quickSearchInput.on('focusout', function (e) {
-        quickSearch.removeClass('header-controls__search--active');
+        if (!$(this).val()) {
+            quickSearch.removeClass('header-controls__search--active');
+        }
+    });
+
+    $goTop.on('click', function (e) {
+        $('html, body').animate({scrollTop:0}, 'fast');
     })
 }
 

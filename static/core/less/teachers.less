@@ -1,0 +1,199 @@
+.teachers {
+
+  &.teachers--popular {
+    margin: 40px 0 50px 0;
+    padding-bottom: 15px;
+  }
+
+  .teachers__list {
+
+  }
+
+  .teachers__title-block {
+    margin-bottom: 20px;
+  }
+
+  .teachers__search {
+
+  }
+
+  .teachers__btn {
+    display: block;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+
+    color: white;
+    background-color: #00979d;
+    border-radius: 3px;
+
+    padding: 5px;
+    width: 200px;
+    height: 55px;
+
+    border: none;
+
+    &.teachers__btn--center {
+      margin: 30px auto 130px
+    }
+  }
+
+  .teachers__empty-list {
+
+  }
+
+  .spinner-wrapper {
+    height: 250px;
+  }
+}
+
+.teachers-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  .teachers-list__item {
+    display: flex;
+    flex-direction: column;
+
+    list-style: none;
+
+    width: 32%;
+    margin: 7px 0;
+
+    a {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.teachers-list-item {
+  background-color: #FFFFFF;
+  border: 1px solid #e6e6e6a1;
+  border-radius: 3px;
+
+  .teachers-list-item__content {
+    padding: 25px 0;
+  }
+
+  .teachers-list-item__image {
+    &.teachers-list-item__image--custom {
+
+    }
+
+    &.teachers-list-item__image--default {
+      height: 150px;
+    }
+  }
+
+  .teachers-list-item__description {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+
+    background-color: #ECF1F169;
+    padding: 10px;
+    //height: 100%;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      box-shadow: 5px 5px 9px 0 #4443431A;
+
+      .teachers-list-item__description {
+        //color: #ce3f3fe0;
+      }
+    }
+  }
+}
+
+.teachers-title-block {
+  background-color: #ecf1f1;
+  height: 50px;
+
+  .teachers-title-block__text {
+    display: inline-block;
+    line-height: 50px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;  // TODO REMOVE ?
+
+    padding: 0 20px;
+    height: 100%;
+
+    background-color: #00979d;
+    color: #FFFFFF;
+  }
+
+  &.teachers-title-block--primary {
+    .teachers-title-block__text {
+      background-color: #ce3f3fe0;
+    }
+
+  }
+  //#ab4949
+
+  //#496dab
+}
+
+.teachers-search {
+  margin: 30px 0;
+  background-color: #ecf1f1;
+  padding: 12px;
+
+  .teachers-search__title {
+    font-family: "Roboto", sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #797979;
+  }
+
+  .teachers-search__input {
+    display: block;
+    font-size: 16px;
+
+    padding: 6px 8px;
+    width: 100%;
+    height: 36px;
+
+    border: 1px solid #C7C7C7;
+    border-radius: 3px;
+
+    outline: none;
+  }
+}
+
+.teachers-empty-list {
+  color: #737373;
+  text-align: center;
+
+  .teachers-empty-list__title {
+    font-size: 115px;
+    font-weight: 400;
+    line-height: 115px;
+    letter-spacing: 20px;
+
+    margin: 50px 0 40px;
+  }
+
+  .teachers-empty-list__description {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 3px;
+
+    margin-bottom: 40px;
+  }
+}

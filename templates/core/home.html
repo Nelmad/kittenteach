@@ -1,12 +1,28 @@
 {% extends "core/layout.html" %}
 
+{% load staticfiles %}
+
 {% block content %}
-    <section class="container">
-        <div class="temp temp__home-block temp__home-promo">
+    <div class="container container--full-width">
+        <section class="temp temp__home-block temp__home-block--main">
+            <h1 class="temp temp__home-title">Simple, elegant, free way to&nbsp;make smart&nbsp;education come true</h1>
 
-        </div>
+            <div class="temp temp__row temp__row--center">
+                <a href="{% url 'login' %}" class="temp temp__home-btn temp__home-btn--main">Try It Now</a>
+            </div>
 
-        <div id="v-home-page">
-        </div>
-    </section>
+            <div class="temp temp__row temp__row--pb25">
+                <img class="temp temp__main-image" src="{% static 'core/img/main.svg' %}" alt="Picturesque landscape with school and bus">
+            </div>
+        </section>
+        {#Simple, elegant, free way to&nbsp;stay in touch with students#}
+        <section>
+            <div class="temp temp__home-mini-block temp__home-promo" style="height: 400px">
+
+            </div>
+        </section>
+
+{#        <div id="v-home-page">#}
+{#        </div>#}
+    </div>
 {% endblock %}

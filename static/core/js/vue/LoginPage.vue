@@ -1,7 +1,19 @@
 <template lang="html">
-  <div style="margin-top: 100px">
-    <p style="text-align: center">{{ results }}</p>
+  <div :style="{ marginTop: `${marginTop}px` }">
     <h2 class="login-title">{{ pageTitle }}</h2>
+
+    <div
+      v-if="errorMessages && errorMessages.length > 0"
+      class="login-error error">
+      <ul class="error__list error-list error-list--tooltip">
+        <li
+          v-for="(errorMessage, index) in errorMessages"
+          :key="index"
+          class="error-list__item">
+          {{ errorMessage }}
+        </li>
+      </ul>
+    </div>
 
     <div
       v-if="registration.show"
@@ -34,62 +46,105 @@
       </div>
 
       <div
-        v-else
+        v-else-if="registration.step == 2"
         class="registration__form-wrapper">
 
         <form
           class="registration__form"
           action="#">
-          <div v-if="registration.step == 2">
-            <div class="registration__row">
-              <input
-                :placeholder="gettext('Email')"
-                v-model="registration.email"
-                type="text"
-              >
-            </div>
-            <div class="registration__row">
-              <input
-                :placeholder="gettext('Password')"
-                v-model="registration.password"
-                type="password"
-              >
-            </div>
+          <div class="registration__row registration__row--mb5">
+            <input
+              :placeholder="gettext('Email')"
+              v-model="registration.email"
+              class="registration__input"
+              type="text"
+            >
+          </div>
+          <div class="registration__row registration__row--mb5">
+            <input
+              :placeholder="gettext('Password')"
+              v-model="registration.password"
+              class="registration__input"
+              type="password"
+            >
+          </div>
+          <div class="registration__row registration__row--mb5">
+            <input
+              :placeholder="gettext('First Name')"
+              v-model="registration.firstName"
+              class="registration__input"
+              type="text"
+            >
+          </div>
+          <div class="registration__row registration__row--mb10">
+            <input
+              :placeholder="gettext('Last Name')"
+              v-model="registration.lastName"
+              class="registration__input"
+              type="text"
+            >
           </div>
 
-          <div v-if="registration.step == 3">
-            <div class="registration__row">
-              <input
-                :placeholder="gettext('First Name')"
-                v-model="registration.firstName"
-                type="text">
-            </div>
-            <div class="registration__row">
-              <input
-                :placeholder="gettext('Last Name')"
-                v-model="registration.lastName"
-                type="text">
-            </div>
-          </div>
-
-          <div class="registration__row">
+          <div class="registration__row registration__row--mb8">
             <button
               type="button"
-              class="registration__btn registration__btn--primary"
+              class="registration__btn"
               @click="registrationHandler">
-              {{ registrationButtonText }}
+              Create Account
             </button>
           </div>
         </form>
 
       </div>
 
-      <div class="registration__row registration__row--center">
-        <p>I wanna
+      <div class="registration__row">
+        <p class="registration__text registration__text--middle">I wanna
           <a
             href="javascript:"
-            @click="switchLogin"
-          >use an existing account</a>.
+            @click="switchLogin">
+            use an existing account.
+          </a>
+        </p>
+      </div>
+
+    </div>
+
+    <div
+      v-else-if="forgot.show"
+      class="login">
+
+      <div class="login__row login__row--mb14 ">
+        <p class="login__text">Enter your email address below and we'll send you a link to reset your password.</p>
+      </div>
+
+      <form
+        class="login__form"
+        action="#">
+        <div class="login__row login__row--mb10">
+          <input
+            :placeholder="gettext('Email Address')"
+            v-model="forgot.email"
+            class="login__input"
+            type="text"
+          >
+        </div>
+        <div class="login__row login__row--mb14">
+          <button
+            type="button"
+            class="login__btn"
+            @click="forgotPasswordHandler">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <div class="login__row">
+        <p class="login__text login__text--middle">Nope, take me
+          <a
+            href="javascript:"
+            @click="switchLogin">
+            back to Login.
+          </a>
         </p>
       </div>
 
@@ -99,43 +154,54 @@
       v-else
       class="login">
 
-      <div class="login__row">
-        <input
-          :placeholder="gettext('Email')"
-          v-model="login.email"
-          type="text"
-          name="email">
-      </div>
-      <div class="login__row">
-        <input
-          :placeholder="gettext('Password')"
-          v-model="login.password"
-          type="password"
-          name="password">
-      </div>
+      <form
+        class="login__form"
+        action="#">
+        <div class="login__row login__row--mb5">
+          <input
+            :placeholder="gettext('Email')"
+            v-model="login.email"
+            class="login__input"
+            type="text"
+            name="email"
+          >
+        </div>
+        <div class="login__row login__row--mb10">
+          <input
+            :placeholder="gettext('Password')"
+            v-model="login.password"
+            class="login__input"
+            type="password"
+            name="password"
+          >
+        </div>
 
-      <div class="login__row">
-        <button
-          type="button"
-          @click="loginHandler">
-          Log In
-        </button>
-      </div>
+        <div class="login__row login__row--mb8">
+          <button
+            type="button"
+            class="login__btn"
+            @click="loginHandler">
+            Log In
+          </button>
+        </div>
+      </form>
 
-      <div class="login__row">
-        <p>I forgot
+      <div class="login__row login__row--mb10">
+        <p class="login__text login__text--small">I forgot
           <a
             href="javascript:"
-            @click="forgotPasswordHandler"
-          >my password</a>.
+            @click="switchForgotPassword">
+            my password.
+          </a>
         </p>
       </div>
       <div class="login__row">
-        <p>I don't have a
+        <p class="login__text login__text--middle">I don't have a
           <a
             href="javascript:"
-            @click="switchRegistration"
-          >KittenTeach account</a>.
+            @click="switchRegistration">
+            KittenTeach account.
+          </a>
         </p>
       </div>
 
@@ -146,12 +212,14 @@
 
 <script>
 import axios from 'axios'
+import { capitalizeFirstLetter, getParameterByName } from './utils.js'
 
 export default {
   name: 'LoginPage',
 
   data() {
     return {
+      staticUrl: window.static,
       registration: {
         show: false,
         role: '',
@@ -161,25 +229,21 @@ export default {
         firstName: '',
         lastName: ''
       },
+      forgot: {
+        show: false,
+        email: ''
+      },
       login: {
         email: '',
         password: ''
       },
       isLoading: false,
-      staticUrl: window.static,
-      results: '' // TODO for test
+      marginTop: 170,
+      errorMessages: []
     }
   },
 
   computed: {
-    registrationButtonText: function () {
-      if (this.registration.step == 2) {
-        return 'Next'
-      } else if (this.registration.step == 3) {
-        return 'Sign Up'
-      }
-    },
-
     pageTitle: function () {
       if (this.isLoading) { // TODO spinner
         return 'Loading...'
@@ -189,9 +253,7 @@ export default {
         if (this.registration.step == 1) {
           return 'Choose your role'
         } else if (this.registration.step == 2) {
-          return `Create a Kitten-${this.capitalizeFirstLetter(this.registration.role)}`
-        } else if (this.registration.step == 3) {
-          return 'One more minute...'
+          return `Create a Kitten-${capitalizeFirstLetter(this.registration.role)}`
         }
       } else {
         return 'Log in to KittenTeach'
@@ -199,33 +261,60 @@ export default {
     }
   },
 
+  created() {
+    localStorage.removeItem('token')
+    axios.defaults.headers.common['Authorization'] = null
+
+    switch (window.location.hash) {
+    case '#/auth':
+      break
+    case '#/signup':
+      this.switchRegistration()
+      break
+    case '#/forgot':
+      this.switchForgotPassword()
+      break
+    default:
+      this.switchLogin()
+    }
+  },
+
   methods: {
-    forgotPasswordHandler() {
-      console.log('forgot password')
+    switchLogin() {
+      history.pushState(null, null, '#/auth');
+      this.errorMessages.length = 0
+      this.forgot.show = false
+      this.registration.show = false
+      this.marginTop = 170
     },
 
     switchRegistration() {
-      this.results = ''
+      history.pushState(null, null, '#/signup');
+      this.errorMessages.length = 0
+      this.forgot.show = false
       this.registration.show = true
       this.registration.step = 1
+      this.marginTop = 120
     },
 
-    switchLogin() {
-      this.results = ''
+    switchForgotPassword() {
+      history.pushState(null, null, '#/forgot');
+      this.errorMessages.length = 0
+      this.forgot.show = true
       this.registration.show = false
     },
 
     chooseRegistrationRole(role) {
       this.registration.role = role
       this.registration.step = 2
+      this.marginTop = 170
     },
 
     registrationHandler() {
       if (this.registration.step == 2) {
-        this.registration.step = 3
-        // TODO check if email valid and unique
-      } else if (this.registration.step == 3) {
-        let url = `/api/${this.registration.role}s/create`
+        let role = this.registration.role.toLocaleLowerCase()
+        let url = `/api/${role}s/create`
+
         this.isLoading = true
 
         axios.post(url, {
@@ -235,9 +324,11 @@ export default {
             first_name: this.registration.firstName,
             last_name: this.registration.lastName
           }
-        }).then(res => {
+        }).then(result => {
           this.isLoading = false
-          this.results = res.data
+          this.errorMessages.length = 0
+          console.log(result)
+          // this.results = res.data
 
           this.switchLogin()
 
@@ -245,10 +336,14 @@ export default {
           this.registration.password = ''
           this.registration.firstName = ''
           this.registration.lastName = ''
-        }).catch((error) => {
+        }).catch(error => {
+          let errorData = error.response.data
           this.isLoading = false
-          if (error.response) {
-            this.results = error.response.data
+
+          if (errorData) {
+            this.errorMessages = Object.values(errorData['user']).map(e => e[0])
+          } else {
+            this.errorMessages = ['Something went wrong...']
           }
 
           this.registration.password = ''
@@ -263,26 +358,60 @@ export default {
       axios.post('/api/auth', {
         email: this.login.email,
         password: this.login.password
-      }).then(res => {
+      }).then(result => {
         this.isLoading = false
-        this.results = res.data
+        this.errorMessages.length = 0
+
+        let token = result.data.token
+        localStorage.setItem('token', token);
+        axios.defaults.headers.common['Authorization'] = `Token ${token}`
 
         this.login.email = ''
         this.login.password = ''
-      }).catch((error) => {
+
+        let next = getParameterByName('next')
+        if (next) {
+          window.location.href = next
+        } else {
+          window.location.href = '/account/'
+        }
+      }).catch(error => {
+        let errorData = error.response.data
         this.isLoading = false
-        if (error.response) {
-          this.results = error.response.data
+
+        if (errorData) {
+          this.errorMessages = Object.values(errorData).map(e => e[0])
+        } else {
+          this.errorMessages = ['Something went wrong...']
         }
 
         this.login.password = ''
       })
     },
 
-    // TODO move to helpers
-    capitalizeFirstLetter(string) {
-      console.log(string)
-      return string.charAt(0).toUpperCase() + string.slice(1);
+    forgotPasswordHandler() {
+      this.isLoading = true
+
+      axios.post('/api/reset-password', {
+
+      }).then(result => {
+        this.isLoading = false
+        this.errorMessages.length = 0
+        console.log(result)
+
+        this.forgot.email = ''
+      }).catch(error => {
+        let errorData = error.response.data
+        this.isLoading = false
+
+        if (errorData) {
+          this.errorMessages = [errorData.message]
+        } else {
+          this.errorMessages = ['Something went wrong...']
+        }
+
+        this.forgot.email = ''
+      })
     }
   }
 }
