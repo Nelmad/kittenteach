@@ -3,7 +3,3 @@ if (typeof jQuery === "undefined") {
 }
 
 $.KittenTeach = {};
-
-$.KittenTeach.utils = {
-
-};

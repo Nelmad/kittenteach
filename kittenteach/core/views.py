@@ -18,11 +18,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-@login_required
-def dashboard(request):
-    pass
-
-
 def login(request):
     if request.user.is_authenticated:
         return redirect('account')
