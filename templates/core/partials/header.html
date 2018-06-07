@@ -1,10 +1,11 @@
 {% load staticfiles %}
 
-<header class="header">
+<header class="header {% if header_style.header_modifier %} header--{{ header_style.header_modifier }} {% endif %}">
     <div class="header__logo">
         <a href="/">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                 viewBox="0 0 374 181" xml:space="preserve" class="header__logo-svg header__logo-svg--white">
+                 viewBox="0 0 374 181" xml:space="preserve"
+                 class="header__logo-svg {% if header_style.logo_modifier %} header__logo-svg--{{ header_style.logo_modifier }} {% else %} header__logo-svg--white {% endif %}">
             <g id="Layer_2" class="bg">
                 <path class="st1" d="M31.2,98.1C28.7,96,19.6,45.8,45.7,13.1c2.8-0.7,34.3-3.1,66.3,53.3c8.3-5.9,76.3-41.6,156.4-0.6
                     c4.9-7.8,24.7-53.9,68-53.5c-0.3-1.1,22.6,15.8,11.4,85.8"/>

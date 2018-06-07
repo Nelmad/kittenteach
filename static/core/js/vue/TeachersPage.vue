@@ -46,9 +46,11 @@
       <h2 class="teachers-search__title">Find Teacher as Quick as Possible!</h2>
       <input
         :placeholder="gettext('Write to search here...')"
-        v-model="params.search"
+        :value="params.search"
         class="teachers-search__input"
-        type="text">
+        type="text"
+        @input="$event.target.value == '' && (params.search = $event.target.value)"
+        @keyup.enter="params.search = $event.target.value">
     </div>
 
     <div class="teachers">

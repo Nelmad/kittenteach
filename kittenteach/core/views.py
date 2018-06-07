@@ -12,7 +12,11 @@ def index(request):
         'title': 'KittenTeach - Smart Education',
         'show_header': True,
         'show_footer': True,
-        'init_js_script': 'Home'
+        'init_js_script': 'Home',
+        'header_style': {
+            'header_modifier': 'main',
+            'logo_modifier': 'dark'
+        }
     }
 
     return HttpResponse(template.render(context, request))
@@ -72,7 +76,14 @@ def account(request):
         'show_header': True,
         'show_footer': True,
         'init_js_script': 'Account',
-        'title': 'KittenTeach: My Account'
+        'title': 'KittenTeach: My Account',
+        'header_style': {
+            'header_modifier': 'account',
+            'logo_modifier': 'brown'
+        },
+        'footer_style': {
+            'footer_modifier': 'account'
+        }
     }
 
     return HttpResponse(template.render(context, request))

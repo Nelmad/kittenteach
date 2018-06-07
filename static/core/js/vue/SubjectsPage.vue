@@ -7,9 +7,11 @@
       <h2 class="subjects-search__title">What Subject are you Looking for...?</h2>
       <input
         :placeholder="gettext('Write to search here...')"
-        v-model="params.search"
+        :value="params.search"
         class="subjects-search__input"
-        type="text">
+        type="text"
+        @input="$event.target.value == '' && (params.search = $event.target.value)"
+        @keyup.enter="params.search = $event.target.value">
     </div>
 
     <ul
