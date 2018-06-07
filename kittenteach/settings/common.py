@@ -169,7 +169,8 @@ def get_frontend_settings(minify):
     if minify:
         frontend_settings = {
             "client_js": [
-                '/core/build/app.min.js'
+                '/core/build/app.min.js',
+                '/core/dist/core.min.js'
             ],
             "client_css": [
                 '/core/dist/core.min.css'

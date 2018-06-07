@@ -51,7 +51,8 @@
     </button>
 
     <div
-      v-show="iframeSrc"
+      ref="iframeMap"
+      style="display: none;"
       class="schools__map-modal schools-map-modal"
       @click="closeMapModal">
       <vLoad
@@ -123,6 +124,15 @@ export default {
       this.params.limit = 6
       this.params.offset = 0
       this.fetchSchools()
+    },
+    'iframeSrc': function (val) {
+      if (val) {
+        $(this.$refs.iframeMap).fadeIn()
+        $(document.body).css({overflow: 'hidden'})
+      } else {
+        $(this.$refs.iframeMap).fadeOut()
+        $(document.body).css({overflow: 'auto'})
+      }
     }
   },
 
