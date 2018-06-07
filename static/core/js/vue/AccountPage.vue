@@ -12,7 +12,7 @@
 
       <Schedule
         v-if="!scheduleLoading"
-        :time-ground="['09:00', '18:00']"
+        :time-ground="timeGround"
         :week-ground="['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']"
         :color="scheduleColors"
         :task-detail="displaySchedule"/>
@@ -53,6 +53,7 @@ export default {
       profile: null,
 
       scheduleLoading: true,
+      timeGroundObj: [10, 13],
       displaySchedule: [[], [], [], [], []],
       scheduleColors: [
         '#d7a53b',
@@ -67,6 +68,10 @@ export default {
   },
 
   computed: {
+    timeGround: function () {
+      return this.timeGroundObj.map(item => `${item}:00`)
+    },
+
     userName: function () {
       return this.profile ? `${this.profile.user.first_name} ${this.profile.user.last_name}` : ''
     },
@@ -98,6 +103,14 @@ export default {
         }
         let startHours = parseInt(time.slice(0, timeDelIndex))
         let endHours = startHours + 1
+
+        if (startHours < this.timeGroundObj[0]) {
+          this.timeGroundObj[0] = startHours
+        }
+
+        if (endHours > this.timeGroundObj[1]) {
+          this.timeGroundObj[1] = endHours + 1
+        }
 
         let dateStart = time.slice(0, time.lastIndexOf(':'))
         let dateEnd = endHours + time.slice(timeDelIndex, time.lastIndexOf(':'))

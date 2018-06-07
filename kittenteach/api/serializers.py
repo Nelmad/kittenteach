@@ -251,7 +251,7 @@ class TeacherSafeUpdateSerializer(serializers.ModelSerializer):  # TODO Base cla
 class TeacherGroupSafeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Group
-        fields = ('students',)
+        fields = ('students', 'name')
 
     def update(self, instance, validated_data):  # TODO update from My Students, not from all existing
         raise_errors_on_nested_writes('update', self, validated_data)
